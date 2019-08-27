@@ -1,1 +1,0 @@
-# scorpionmanace.github.io
