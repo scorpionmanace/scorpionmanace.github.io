@@ -6,13 +6,7 @@ export default defineConfig({
   plugins: [
     react({
       // Enable faster refresh and optimize for production
-      fastRefresh: true,
-      babel: {
-        plugins: [
-          // Remove unnecessary React propTypes in production
-          ['babel-plugin-transform-react-remove-prop-types', { removeImport: true }]
-        ]
-      }
+      fastRefresh: true
     })
   ],
   base: './', // Important for GitHub Pages - relative paths
