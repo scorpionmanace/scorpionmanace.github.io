@@ -18,8 +18,9 @@ export default defineConfig({
   },
 
   build: {
-    // Enable source maps for debugging in production
-    sourcemap: true,
+    // Disable sourcemaps for production to prevent sourcemap resolution errors
+    // Source maps are generated for debugging but cause warnings in production
+    sourcemap: false,
     outDir: 'dist',
 
     // Optimize build output

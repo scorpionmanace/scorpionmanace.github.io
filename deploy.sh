@@ -41,7 +41,7 @@ git add -A
 git commit -m 'deploy'
 
 # For user/organization GitHub Pages (like scorpionmanace.github.io)
-git push -f git@github.com:scorpionmanace/scorpionmanace.github.io.git code-master:master
+git push -f git@github.com:scorpionmanace/scorpionmanace.github.io.git main:main
 
 # Alternative: push to gh-pages branch if that's how you have it configured
 # git push -f git@github.com:scorpionmanace/scorpionmanace.github.io.git main:gh-pages
