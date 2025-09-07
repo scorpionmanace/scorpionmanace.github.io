@@ -1,7 +1,9 @@
 export function register() {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if (import.meta.env.PROD && 'serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register(`${process.env.PUBLIC_URL}/service-worker.js`).then(registration => {
+      const basePath = import.meta.env.BASE_URL || '/';
+      const swScript = basePath + 'service-worker.js';
+      navigator.serviceWorker.register(swScript).then(registration => {
         console.log(
           "App is being served from cache by a service worker.\n" +
             "For more details, visit https://goo.gl/AFskqB"

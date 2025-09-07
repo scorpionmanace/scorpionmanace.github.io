@@ -1,46 +1,47 @@
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
+import { Box, Text, Flex, useBreakpointValue } from '@chakra-ui/react';
 import logo from '../assets/logo.svg';
-import { useHeaderStyles } from './Header/hook/useHeaderStyles';
 
 const Header: React.FC = () => {
-  const { headerStyles } = useHeaderStyles();
+  const logoSize = useBreakpointValue({ base: '30px', md: '40px' });
+  const titleSize = useBreakpointValue({ base: '1.2rem', md: '1.5rem' });
+  const padding = useBreakpointValue({ base: '1rem', md: '1rem 2rem' });
+
   return (
-    <header style={{
-      background: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-      padding: '1rem 2rem',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      position: 'sticky',
-      top: 0,
-      zIndex: 1000
-    }}>
+    <Box
+      as="header"
+      bg="linear-gradient(135deg, #2c3e50 0%, #34495e 100%)"
+      boxShadow="0 4px 12px rgba(0,0,0,0.15)"
+      p={padding}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    >
       {/* Centered Logo/Branding */}
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Flex alignItems="center">
         <ReactRouterLink to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
           <img
             src={logo}
             alt="Logo"
             style={{
-              width: '40px',
-              height: '40px',
-              marginRight: '12px'
+              width: logoSize,
+              height: logoSize,
+              marginRight: useBreakpointValue({ base: '12px', md: '16px' })
             }}
           />
-          <span style={{
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            color: 'white',
-            textDecoration: 'none'
-          }}>
+          <Text
+            fontSize={titleSize}
+            fontWeight="bold"
+            color="white"
+            textDecoration="none"
+          >
             Karan Khare
-          </span>
+          </Text>
         </ReactRouterLink>
-      </div>
-    </header>
+      </Flex>
+    </Box>
   );
 };
 

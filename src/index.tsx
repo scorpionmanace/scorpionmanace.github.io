@@ -1,9 +1,12 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react';
 import App from './App';
 import * as serviceWorker from './registerServiceWorker';
 import './index.css';
+
+const system = createSystem(defaultConfig);
 
 const container = document.getElementById('root');
 if (!container) {
@@ -15,9 +18,11 @@ if (!container) {
   try {
     root.render(
       <React.StrictMode>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <ChakraProvider value={system}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ChakraProvider>
       </React.StrictMode>
     );
     console.log('React app rendered successfully');

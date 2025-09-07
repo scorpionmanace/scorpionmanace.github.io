@@ -8,7 +8,9 @@ import Footer from './components/Footer';
 const Home = React.lazy(() => import('./views/Home'));
 const About = React.lazy(() => import('./views/About'));
 const JSONParserView = React.lazy(() => import('./views/JSONParserView'));
+const ColorPickerView = React.lazy(() => import('./views/ColorPickerView'));
 const Tools = React.lazy(() => import('./views/Tools'));
+const ChakraUIView = React.lazy(() => import('./views/ChakraUIView'));
 
 const App: React.FC = () => {
   return (
@@ -48,7 +50,9 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/json-parser" element={<JSONParserView />} />
+            <Route path="/color-picker" element={<ColorPickerView />} />
             <Route path="/tools" element={<Tools />} />
+            <Route path="/chakra-ui" element={<ChakraUIView />} />
           </Routes>
         </Suspense>
       </main>

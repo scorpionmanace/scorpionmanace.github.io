@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box, Text, Heading } from '@chakra-ui/react';
 
 interface ToolsHeaderProps {
   title: string;
@@ -6,32 +7,28 @@ interface ToolsHeaderProps {
 }
 
 const ToolsHeader: React.FC<ToolsHeaderProps> = ({ title, subtitle }) => {
-  const headerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    marginBottom: '50px',
-  };
-
-  const titleStyle: React.CSSProperties = {
-    fontSize: '2.8rem',
-    fontWeight: 'bold',
-    color: '#2d3748',
-    marginBottom: '20px',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  };
-
-  const subtitleStyle: React.CSSProperties = {
-    fontSize: '1.3rem',
-    color: '#4a5568',
-    maxWidth: '600px',
-    margin: '0 auto',
-    lineHeight: '1.6',
-  };
-
   return (
-    <div style={headerStyle}>
-      <h1 style={titleStyle}>{title}</h1>
-      <p style={subtitleStyle}>{subtitle}</p>
-    </div>
+    <Box textAlign="center" mb={{ base: 10, md: 12 }}>
+      <Heading
+        as="h1"
+        size={{ base: 'xl', md: '2xl' }}
+        color="#2d3748"
+        mb={{ base: 4, md: 5 }}
+        fontWeight="bold"
+        fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      >
+        {title}
+      </Heading>
+      <Text
+        fontSize={{ base: 'lg', md: 'xl' }}
+        color="#4a5568"
+        maxW="600px"
+        mx="auto"
+        lineHeight="1.6"
+      >
+        {subtitle}
+      </Text>
+    </Box>
   );
 };
 

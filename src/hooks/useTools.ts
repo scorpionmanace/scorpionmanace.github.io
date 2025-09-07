@@ -1,13 +1,7 @@
 import { useMemo } from 'react';
+import { Tool } from '../types';
 
-export interface Tool {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  route: string;
-  category: string;
-}
+export type { Tool };
 
 export const useTools = () => {
   const tools: Tool[] = useMemo(() => [
@@ -38,9 +32,17 @@ export const useTools = () => {
     {
       id: 'color-picker',
       name: 'Color Picker',
-      description: 'Pick, analyze, and generate color palettes for your projects.',
+      description: 'Pick, analyze, and generate color palettes for your projects with CSV and Figma exports.',
       icon: '🎨',
-      route: '#',
+      route: '/color-picker',
+      category: 'Design Tools'
+    },
+    {
+      id: 'chakra-ui',
+      name: 'Chakra UI Demo',
+      description: 'Interactive demonstration of Chakra UI components with Tailwind CSS styling.',
+      icon: '🧩',
+      route: '/chakra-ui',
       category: 'Design Tools'
     },
     {

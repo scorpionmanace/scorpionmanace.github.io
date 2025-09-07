@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '@chakra-ui/react';
 
 interface BackButtonProps {
   to: string;
@@ -7,34 +8,22 @@ interface BackButtonProps {
 }
 
 const BackButton: React.FC<BackButtonProps> = ({ to, text }) => {
-  const buttonStyle: React.CSSProperties = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '8px',
-    backgroundColor: '#4a5568',
-    color: 'white',
-    padding: '12px 24px',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontSize: '1rem',
-    fontWeight: '500',
-    transition: 'all 0.3s ease',
-  };
-
   return (
-    <Link
-      to={to}
-      style={buttonStyle}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = '#2d3748';
-        e.currentTarget.style.transform = 'translateY(-2px)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = '#4a5568';
-        e.currentTarget.style.transform = 'translateY(0)';
-      }}
-    >
-      ← {text}
+    <Link to={to}>
+      <Button
+        bg="#4a5568"
+        color="white"
+        px={{ base: 4, md: 6 }}
+        py={{ base: 3, md: 4 }}
+        borderRadius="md"
+        fontSize={{ base: 'sm', md: 'md' }}
+        fontWeight="500"
+        _hover={{ bg: '#2d3748', transform: 'translateY(-2px)' }}
+        transition="all 0.3s ease"
+      >
+        <span style={{ fontSize: '1.2em', marginRight: '4px' }}>←</span>
+        {text}
+      </Button>
     </Link>
   );
 };

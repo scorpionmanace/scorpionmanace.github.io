@@ -11,9 +11,6 @@ const SubHeader: React.FC = () => {
       justifyContent: 'center',
       alignItems: 'center',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      position: 'sticky',
-      top: '85px', // Height of main header (adjusted for simplified header)
-      zIndex: 500,
       boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
     }}>
       {/* Navigation centered */}

@@ -1,25 +1,28 @@
 import React from 'react';
 import ToolCard from './ToolCard';
 import { Tool } from '../hooks/useTools';
+import { Box, useBreakpointValue } from '@chakra-ui/react';
 
 interface ToolGridProps {
   tools: Tool[];
 }
 
 const ToolGrid: React.FC<ToolGridProps> = ({ tools }) => {
-  const gridStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-    gap: '30px',
-    padding: '0 20px',
-  };
+  const gridTemplateColumns = useBreakpointValue({ base: '1fr', md: '1fr 1fr', lg: '1fr 1fr 1fr' });
+  const gap = useBreakpointValue({ base: '24px', md: '32px' });
 
   return (
-    <div style={gridStyle}>
-      {tools.map((tool) => (
-        <ToolCard key={tool.id} tool={tool} />
-      ))}
-    </div>
+    <Box px={{ base: 4, md: 6 }}>
+      <Box
+        display="grid"
+        gridTemplateColumns={gridTemplateColumns}
+        gap={gap}
+      >
+        {tools.map((tool) => (
+          <ToolCard key={tool.id} tool={tool} />
+        ))}
+      </Box>
+    </Box>
   );
 };
 

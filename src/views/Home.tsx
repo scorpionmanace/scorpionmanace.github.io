@@ -1,144 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Box,
+  Text,
+  Heading,
+  Button,
+  SimpleGrid,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 
 const Home: React.FC = () => {
-  const bannerStyle: React.CSSProperties = {
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    color: 'white',
-    padding: '80px 20px',
-    textAlign: 'center',
-    position: 'relative',
-    overflow: 'hidden',
-  };
-
-  const bannerContainerStyle: React.CSSProperties = {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    position: 'relative',
-    zIndex: 1,
-  };
-
-  const floatingIconsStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    pointerEvents: 'none',
-    opacity: 0.1,
-  };
-
-  const icon1Style: React.CSSProperties = {
-    position: 'absolute',
-    top: '10%',
-    left: '10%',
-    fontSize: '48px',
-    transform: 'rotate(15deg)',
-    animation: 'float 6s ease-in-out infinite',
-  };
-
-  const icon2Style: React.CSSProperties = {
-    position: 'absolute',
-    top: '20%',
-    right: '15%',
-    fontSize: '36px',
-    transform: 'rotate(-10deg)',
-    animation: 'float 8s ease-in-out infinite reverse',
-  };
-
-  const icon3Style: React.CSSProperties = {
-    position: 'absolute',
-    bottom: '15%',
-    left: '15%',
-    fontSize: '42px',
-    transform: 'rotate(25deg)',
-    animation: 'float 7s ease-in-out infinite',
-  };
-
-  const icon4Style: React.CSSProperties = {
-    position: 'absolute',
-    bottom: '10%',
-    right: '10%',
-    fontSize: '38px',
-    transform: 'rotate(-20deg)',
-    animation: 'float 9s ease-in-out infinite reverse',
-  };
-
-  const titleStyle: React.CSSProperties = {
-    fontSize: '3.5rem',
-    fontWeight: 'bold',
-    marginBottom: '20px',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  };
-
-  const subtitleStyle: React.CSSProperties = {
-    fontSize: '1.4rem',
-    marginBottom: '30px',
-    opacity: 0.9,
-    maxWidth: '600px',
-    margin: '0 auto 30px',
-    lineHeight: '1.6',
-  };
-
-  const buttonStyle: React.CSSProperties = {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    border: '2px solid white',
-    color: 'white',
-    padding: '15px 40px',
-    fontSize: '1.2rem',
-    fontWeight: 'bold',
-    borderRadius: '50px',
-    cursor: 'pointer',
-    textDecoration: 'none',
-    display: 'inline-block',
-    transition: 'all 0.3s ease',
-    backdropFilter: 'blur(10px)',
-  };
-
-  const gridStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '30px',
-    maxWidth: '1200px',
-    margin: '50px auto 0',
-    padding: '0 20px',
-    alignItems: 'stretch',
-  };
-
-  const featureCardStyle: React.CSSProperties = {
-    backgroundColor: 'white',
-    padding: '30px',
-    borderRadius: '12px',
-    textAlign: 'center',
-    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-    minHeight: '280px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-
-  const featureIconStyle: React.CSSProperties = {
-    fontSize: '3rem',
-    marginBottom: '20px',
-    display: 'block',
-  };
-
-  const featureTitleStyle: React.CSSProperties = {
-    fontSize: '1.3rem',
-    fontWeight: 'bold',
-    marginBottom: '15px',
-    color: '#333',
-  };
-
-  const featureDescStyle: React.CSSProperties = {
-    color: '#666',
-    lineHeight: '1.5',
-  };
+  const titleSize = useBreakpointValue({ base: '2.5rem', md: '3.5rem' });
+  const subtitleSize = useBreakpointValue({ base: '1.1rem', md: '1.4rem' });
+  const bannerPadding = useBreakpointValue({ base: '60px 20px', md: '80px 20px' });
+  const gridTemplateColumns = useBreakpointValue({ base: '1fr', md: 'repeat(auto-fit, minmax(250px, 1fr))' });
+  const iconSize = useBreakpointValue({ base: '2rem', md: '3rem' });
+  const cardPadding = useBreakpointValue({ base: 6, md: 8 });
 
   return (
-    <div style={{ flex: 1 }}>
+    <Box flex={1}>
       {/* Floating Animation Keyframes */}
       <style>{`
         @keyframes float {
@@ -153,110 +33,243 @@ const Home: React.FC = () => {
       `}</style>
 
       {/* Hero Banner Section */}
-      <section style={bannerStyle}>
-        <div style={floatingIconsStyle}>
-          <div style={icon1Style}>📱</div>
-          <div style={icon2Style}>🎮</div>
-          <div style={icon3Style}>🛠️</div>
-          <div style={icon4Style}>⚡</div>
-        </div>
-        <div style={bannerContainerStyle}>
-          <h1 style={titleStyle}>Welcome to App Portfolio</h1>
-          <p style={subtitleStyle}>
+      <Box
+        as="section"
+        bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+        color="white"
+        p={bannerPadding}
+        textAlign="center"
+        position="relative"
+        overflow="hidden"
+      >
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          pointerEvents="none"
+          opacity={0.1}
+        >
+          <Text
+            position="absolute"
+            top="10%"
+            left="10%"
+            fontSize="3rem"
+            transform="rotate(15deg)"
+            animation="float 6s ease-in-out infinite"
+          >
+            📱
+          </Text>
+          <Text
+            position="absolute"
+            top="20%"
+            right="15%"
+            fontSize="2.25rem"
+            transform="rotate(-10deg)"
+            animation="float 8s ease-in-out infinite reverse"
+          >
+            🎮
+          </Text>
+          <Text
+            position="absolute"
+            bottom="15%"
+            left="15%"
+            fontSize="2.625rem"
+            transform="rotate(25deg)"
+            animation="float 7s ease-in-out infinite"
+          >
+            🛠️
+          </Text>
+          <Text
+            position="absolute"
+            bottom="10%"
+            right="10%"
+            fontSize="2.375rem"
+            transform="rotate(-20deg)"
+            animation="float 9s ease-in-out infinite reverse"
+          >
+            ⚡
+          </Text>
+        </Box>
+        <Box maxW="1200px" mx="auto" position="relative" zIndex={1}>
+          <Heading
+            fontSize={titleSize}
+            fontWeight="bold"
+            mb={5}
+            fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          >
+            Welcome to App Portfolio
+          </Heading>
+          <Text
+            fontSize={subtitleSize}
+            mb={8}
+            maxW="600px"
+            mx="auto"
+            lineHeight="1.6"
+          >
             Discover a collection of innovative applications, engaging games, and powerful development tools.
             From JSON parsing utilities to interactive experiences, explore our suite of modern web applications
             built with cutting-edge technologies.
-          </p>
-          <Link
-            to="/json-parser"
-            style={buttonStyle}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            Explore Tools →
+          </Text>
+          <Link to="/json-parser">
+            <Button
+              bg="rgba(255, 255, 255, 0.2)"
+              border="2px solid white"
+              color="white"
+              px={{ base: 8, md: 10 }}
+              py={{ base: 3, md: 4 }}
+              fontSize={{ base: 'md', md: 'lg' }}
+              fontWeight="bold"
+              borderRadius="full"
+              _hover={{
+                bg: "rgba(255, 255, 255, 0.3)",
+                transform: "translateY(-2px)"
+              }}
+              transition="all 0.3s ease"
+              backdropFilter="blur(10px)"
+            >
+              Explore Tools →
+            </Button>
           </Link>
-        </div>
-      </section>
+        </Box>
+      </Box>
 
       {/* Features Grid Section */}
-      <section style={{ padding: '60px 20px', backgroundColor: '#f8f9fa' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h2 style={{
-            textAlign: 'center',
-            fontSize: '2.5rem',
-            marginBottom: '50px',
-            color: '#333',
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-          }}>
+      <Box as="section" py={{ base: 16, md: 20 }} px={5} bg="#f8f9fa">
+        <Box maxW="1200px" mx="auto">
+          <Heading
+            as="h2"
+            textAlign="center"
+            fontSize={{ base: '2rem', md: '2.5rem' }}
+            mb={{ base: 12, md: 16 }}
+            color="#333"
+            fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          >
             What You Can Do
-          </h2>
-          <div style={gridStyle}>
+          </Heading>
+          <Box
+            display="grid"
+            gridTemplateColumns={gridTemplateColumns}
+            gap={{ base: 8, md: 10 }}
+            alignItems="stretch"
+          >
             <Link
               to="/tools"
-              className="feature-card-link"
-              style={{
-                textDecoration: 'none',
-                color: 'inherit',
-              }}
+              style={{ textDecoration: 'none', color: 'inherit' }}
             >
-              <div
+              <Box
                 className="feature-card"
-                style={featureCardStyle}
+                bg="white"
+                p={cardPadding}
+                borderRadius="lg"
+                boxShadow="0 10px 30px rgba(0, 0, 0, 0.1)"
+                _hover={{
+                  transform: "translateY(-5px)",
+                  boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)"
+                }}
+                transition="all 0.3s ease"
+                minH="280px"
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
               >
-                <span style={featureIconStyle}>🔧</span>
-                <h3 style={featureTitleStyle}>Development Tools</h3>
-                <p style={featureDescStyle}>
+                <Text fontSize={iconSize} mb={5}>🔧</Text>
+                <Heading as="h3" size="md" color="#333" mb={4}>
+                  Development Tools
+                </Heading>
+                <Text color="#666" lineHeight="1.5">
                   Powerful utilities for developers including JSON parsing, validation tools,
                   and code formatters to streamline your workflow.
-                </p>
-              </div>
+                </Text>
+              </Box>
             </Link>
 
-            <div
+            <Box
               className="feature-card"
-              style={featureCardStyle}
+              bg="white"
+              p={cardPadding}
+              borderRadius="lg"
+              boxShadow="0 10px 30px rgba(0, 0, 0, 0.1)"
+              _hover={{
+                transform: "translateY(-5px)",
+                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)"
+              }}
+              transition="all 0.3s ease"
+              minH="280px"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
             >
-              <span style={featureIconStyle}>🎯</span>
-              <h3 style={featureTitleStyle}>Interactive Applications</h3>
-              <p style={featureDescStyle}>
+              <Text fontSize={iconSize} mb={5}>🎯</Text>
+              <Heading as="h3" size="md" color="#333" mb={4}>
+                Interactive Applications
+              </Heading>
+              <Text color="#666" lineHeight="1.5">
                 Modern web applications with responsive design, real-time validation,
                 and intuitive user interfaces for enhanced productivity.
-              </p>
-            </div>
+              </Text>
+            </Box>
 
-            <div
+            <Box
               className="feature-card"
-              style={featureCardStyle}
+              bg="white"
+              p={cardPadding}
+              borderRadius="lg"
+              boxShadow="0 10px 30px rgba(0, 0, 0, 0.1)"
+              _hover={{
+                transform: "translateY(-5px)",
+                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)"
+              }}
+              transition="all 0.3s ease"
+              minH="280px"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
             >
-              <span style={featureIconStyle}>🚀</span>
-              <h3 style={featureTitleStyle}>Performance Optimized</h3>
-              <p style={featureDescStyle}>
+              <Text fontSize={iconSize} mb={5}>🚀</Text>
+              <Heading as="h3" size="md" color="#333" mb={4}>
+                Performance Optimized
+              </Heading>
+              <Text color="#666" lineHeight="1.5">
                 Built with modern frameworks and optimized for speed, ensuring
                 fast load times and smooth user experiences across all devices.
-              </p>
-            </div>
+              </Text>
+            </Box>
 
-            <div
+            <Box
               className="feature-card"
-              style={featureCardStyle}
+              bg="white"
+              p={cardPadding}
+              borderRadius="lg"
+              boxShadow="0 10px 30px rgba(0, 0, 0, 0.1)"
+              _hover={{
+                transform: "translateY(-5px)",
+                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)"
+              }}
+              transition="all 0.3s ease"
+              minH="280px"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
             >
-              <span style={featureIconStyle}>📊</span>
-              <h3 style={featureTitleStyle}>Data Processing</h3>
-              <p style={featureDescStyle}>
+              <Text fontSize={iconSize} mb={5}>📊</Text>
+              <Heading as="h3" size="md" color="#333" mb={4}>
+                Data Processing
+              </Heading>
+              <Text color="#666" lineHeight="1.5">
                 Advanced data processing capabilities with JSON validation,
                 formatting, and transformation tools for efficient data handling.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+              </Text>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
