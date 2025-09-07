@@ -40,10 +40,10 @@ git remote add origin git@github.com:scorpionmanace.github.io.git
 git add -A
 git commit -m 'deploy'
 
-# if you are deploying to https://<USERNAME>.github.io
-git push -f git@github.com:scorpionmanace.github.io.git main:code-master
+# For user/organization GitHub Pages (like scorpionmanace.github.io)
+git push -f git@github.com:scorpionmanace/scorpionmanace.github.io.git code-master:master
 
-# if you are deploying to https://<USERNAME>.github.io/<REPO>
-# git push -f git@github.com:scorpionmanace.github.io.git master:gh-pages
+# Alternative: push to gh-pages branch if that's how you have it configured
+# git push -f git@github.com:scorpionmanace/scorpionmanace.github.io.git main:gh-pages
 
 cd -
