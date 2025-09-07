@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import logo from '../assets/logo.svg';
+import { useHeaderStyles } from './Header/hook/useHeaderStyles';
 
 const Header: React.FC = () => {
+  const { headerStyles } = useHeaderStyles();
   return (
     <header style={{
       background: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)',
