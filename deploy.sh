@@ -12,8 +12,13 @@ cd dist
 # if you are deploying to a custom domain
 # echo 'www.example.com' > CNAME
 
+# Clean up any existing git repository
+rm -rf .git
+
+# Initialize fresh git repository
 git init
 git remote add origin git@github.com:scorpionmanace/scorpionmanace.github.io.git
+
 git add -A
 git commit -m 'deploy'
 
