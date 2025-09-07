@@ -12,7 +12,7 @@ export default defineConfig({
           // Split vendor libraries
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
-          ui: ['@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion'],
+          ui: ['@emotion/react', '@emotion/styled', 'framer-motion'],
           pdf: ['jspdf', 'html2canvas'],
         },
         // Improve chunk names for GitHub Pages
