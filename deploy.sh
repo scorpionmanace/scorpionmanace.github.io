@@ -4,7 +4,7 @@
 set -e
 
 # build
-yarn  build --mode production
+npm run build
 
 # navigate into the build output directory
 cd dist
@@ -17,7 +17,7 @@ git add -A
 git commit -m 'deploy'
 
 # if you are deploying to https://<USERNAME>.github.io
-git push -f git@github.com:scorpionmanace/scorpionmanace.github.io.git master
+git push -f git@github.com:scorpionmanace/scorpionmanace.github.io.git code-master
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:scorpionmanace/scorpionmanace.github.io.git master:gh-pages
