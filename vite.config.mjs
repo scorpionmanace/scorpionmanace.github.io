@@ -9,7 +9,7 @@ export default defineConfig({
       fastRefresh: true
     })
   ],
-  base: './', // Important for GitHub Pages - relative paths
+  base: '/', // Changed for GitHub Pages deployment
 
   // Optimize dependencies for better tree shaking
   optimizeDeps: {
