@@ -1,23 +1,17 @@
 import React from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
 import Home from './views/Home';
 import About from './views/About';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="app-bar">
-        <span className="headline">React MATERIAL DESIGN</span>
-        <nav>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <main className="content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </main>
+    <div>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
     </div>
   );
 };

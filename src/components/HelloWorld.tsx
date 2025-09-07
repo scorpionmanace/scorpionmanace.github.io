@@ -21,7 +21,7 @@ const HelloWorld: React.FC = () => {
   return (
     <div className="container">
       <div>
-        <img src={logo} className="logo" alt="logo" />
+        <img src={logo} className="logo" alt="logo" style={{ width: '150px', height: '150px' }} />
       </div>
       <div>
         <h1>Welcome to React</h1>
@@ -32,26 +32,32 @@ const HelloWorld: React.FC = () => {
       </div>
       <div>
         <h2>What's next?</h2>
-        <div>
-          { whatsNext.map((next, i) => (
-            <a key={i} href={next.href} target="_blank" rel="noopener noreferrer">{next.text}</a>
-          )) }
+        <div className="grid">
+          {whatsNext.map((next, i) => (
+            <a key={i} href={next.href} target="_blank" rel="noopener noreferrer" className="button blue">
+              {next.text}
+            </a>
+          ))}
         </div>
       </div>
       <div>
         <h2>Important Links</h2>
-        <div>
-          { importantLinks.map((link, i) => (
-            <a key={i} href={link.href} target="_blank" rel="noopener noreferrer">{link.text}</a>
-          )) }
+        <div className="grid">
+          {importantLinks.map((link, i) => (
+            <a key={i} href={link.href} target="_blank" rel="noopener noreferrer" className="button green">
+              {link.text}
+            </a>
+          ))}
         </div>
       </div>
       <div>
         <h2>Ecosystem</h2>
-        <div>
-          { ecosystem.map((eco, i) => (
-            <a key={i} href={eco.href} target="_blank" rel="noopener noreferrer">{eco.text}</a>
-          )) }
+        <div className="grid">
+          {ecosystem.map((eco, i) => (
+            <a key={i} href={eco.href} target="_blank" rel="noopener noreferrer" className="button purple">
+              {eco.text}
+            </a>
+          ))}
         </div>
       </div>
     </div>
