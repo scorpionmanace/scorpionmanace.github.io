@@ -1,10 +1,1 @@
-module.exports = {
-  "presets": [
-    [
-      "@vue/app",
-      {
-        "useBuiltIns": "entry"
-      }
-    ]
-  ]
-}
+ BABEL NOT NEEDED FOR VITE
