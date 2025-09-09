@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
+import path from 'path'
 
 export default defineConfig({
   plugins: [
@@ -11,9 +12,19 @@ export default defineConfig({
   ],
   base: '/', // Changed for GitHub Pages deployment
 
+  // Add aliasing for consistent React module resolution
+  resolve: {
+    alias: {
+      'react': path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+      'react-is': path.resolve(__dirname, './node_modules/react-is'),
+      'hoist-non-react-statics': path.resolve(__dirname, './node_modules/hoist-non-react-statics')
+    }
+  },
+
   // Optimize dependencies for better tree shaking
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', '@chakra-ui/react'],
+    include: ['react', 'react-dom', 'react-router-dom', '@chakra-ui/react', 'react-is', 'hoist-non-react-statics'],
     exclude: ['@chakra-ui/test-utils']
   },
 
@@ -23,64 +34,24 @@ export default defineConfig({
     sourcemap: false,
     outDir: 'dist',
 
-    // Optimize build output
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console logs in production
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug']
-      }
-    },
+    // Try without minification to isolate the issue
+    minify: false,
 
     rollupOptions: {
       // Tree shake unused exports
       treeshake: true,
       output: {
-        // Improve chunk splitting for better caching
+        // Simplified chunking to avoid loading order issues
         manualChunks: (id) => {
-          // React core
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
-            return 'react-vendor'
-          }
-
-          // React Router
-          if (id.includes('react-router')) {
-            return 'router'
-          }
-
-          // Chakra UI core
-          if (id.includes('@chakra-ui/react') ||
-              id.includes('@chakra-ui/system') ||
-              id.includes('@chakra-ui/hooks')) {
-            return 'chakra-core'
-          }
-
-          // Chakra UI utilities
-          if (id.includes('@chakra-ui/components') ||
-              id.includes('@chakra-ui/theme') ||
-              id.includes('@emotion')) {
-            return 'chakra-utils'
-          }
-
-          // PDF generation libraries
-          if (id.includes('jspdf') || id.includes('html2canvas') || id.includes('dompurify')) {
-            return 'pdf'
-          }
-
-          // Animation libraries
-          if (id.includes('framer-motion')) {
-            return 'animation'
-          }
-
-          // Large utility libraries
-          if (id.includes('date-fns') || id.includes('lodash')) {
-            return 'utils'
-          }
-
-          // JSON parsing utilities
-          if (id.includes('json')) {
-            return 'json-utils'
+          // Bundle all React-related dependencies together
+          if (id.includes('node_modules/react') ||
+              id.includes('node_modules/react-dom') ||
+              id.includes('node_modules/react-is') ||
+              id.includes('node_modules/hoist-non-react-statics') ||
+              id.includes('@chakra-ui') ||
+              id.includes('@emotion') ||
+              id.includes('react-router')) {
+            return 'vendor'
           }
         },
 
