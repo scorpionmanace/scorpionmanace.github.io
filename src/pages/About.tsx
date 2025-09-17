@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PDFExportButton from '../components/PDFExportButton';
 
 import resumeData from '../data/resume.json';
@@ -7,6 +7,7 @@ import { usePxToRem } from '../hooks/usePxToRem';
 const About: React.FC = () => {
   const { personal, experience, technicalSkills, education, publications } = resumeData;
   const { pxToRem, pxToRemBatch } = usePxToRem();
+  const [revealed, setRevealed] = useState({ email: false, phone: false, linkedin: false });
 
   // Pre-calculate common px values for consistent rem usage
   const [
@@ -56,10 +57,27 @@ const About: React.FC = () => {
             }}></div>
             <h1 style={{ fontSize: '3rem', margin: '0 0 20px 0', color: '#2d3748', fontWeight: 'bold' }}>Karan Khare</h1>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '20px', fontSize: '1.1rem' }}>
-              <a href="mailto:karan53@msn.com" style={{ color: '#4285F4', textDecoration: 'none', fontWeight: '500' }}>📧 karan53@msn.com</a>
-              <span>📱 (408) 796-9335</span>
-              <a href="https://www.linkedin.com/in/karankhare/" target="_blank" rel="noopener noreferrer" style={{ color: '#4285F4', textDecoration: 'none', fontWeight: '500' }}>
-                🔗 LinkedIn
+              <a
+                href="mailto:karan53@msn.com"
+                onClick={(e) => { if (!revealed.email) { e.preventDefault(); setRevealed(prev => ({ ...prev, email: true })); } }}
+                style={{ color: '#4285F4', textDecoration: 'none', fontWeight: '500', cursor: revealed.email ? 'pointer' : 'pointer' }}
+              >
+                📧 {revealed.email ? 'karan53@msn.com' : 'karan53@*******'}
+              </a>
+              <span
+                onClick={() => setRevealed(prev => ({ ...prev, phone: true }))}
+                style={{ cursor: revealed.phone ? 'default' : 'pointer', fontWeight: '500' }}
+              >
+                📱 {revealed.phone ? '(408) 796-9335' : '(*** *** ****)'}
+              </span>
+              <a
+                href="https://www.linkedin.com/in/karankhare/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => { if (!revealed.linkedin) { e.preventDefault(); setRevealed(prev => ({ ...prev, linkedin: true })); } }}
+                style={{ color: '#4285F4', textDecoration: 'none', fontWeight: '500', cursor: revealed.linkedin ? 'pointer' : 'pointer' }}
+              >
+                🔗 {revealed.linkedin ? 'LinkedIn' : '••••••••••••'}
               </a>
             </div>
             <p style={{ fontSize: '1.2rem', lineHeight: '1.6', color: '#4a5568', fontStyle: 'italic', margin: '0' }}>

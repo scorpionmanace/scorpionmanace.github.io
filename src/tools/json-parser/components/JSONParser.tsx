@@ -1,6 +1,7 @@
 import React from 'react';
 import { useJSONParser } from '../hooks/useJSONParser';
-import { useWindowWidth } from '../hooks/useWindowWidth';
+import { usePxToRem } from '../../../hooks/usePxToRem';
+import { useWindowWidth } from '../../../hooks/useWindowWidth';
 
 const JSONParser: React.FC = () => {
   const {
