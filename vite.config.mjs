@@ -12,13 +12,26 @@ export default defineConfig({
   ],
   base: '/', // Changed for GitHub Pages deployment
 
-  // Add aliasing for consistent React module resolution
+  // Add aliasing for consistent module resolution and cleaner imports
   resolve: {
     alias: {
+      // React ecosystem aliases
       'react': path.resolve(__dirname, './node_modules/react'),
       'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
       'react-is': path.resolve(__dirname, './node_modules/react-is'),
-      'hoist-non-react-statics': path.resolve(__dirname, './node_modules/hoist-non-react-statics')
+      'hoist-non-react-statics': path.resolve(__dirname, './node_modules/hoist-non-react-statics'),
+
+      // Project structure aliases for cleaner imports
+      '@': path.resolve(__dirname, './src'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@core': path.resolve(__dirname, './src/core'),
+      '@constants': path.resolve(__dirname, './src/constants'),
+      '@types': path.resolve(__dirname, './src/types'),
+      '@data': path.resolve(__dirname, './src/data'),
+      '@styles': path.resolve(__dirname, './src/styles'),
+      '@assets': path.resolve(__dirname, './src/assets')
     }
   },
 

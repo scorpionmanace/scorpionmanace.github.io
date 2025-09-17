@@ -1,0 +1,32 @@
+{
+  "languages": [
+    {
+      "key": "javascript",
+      "name": "JavaScript",
+      "extension": ".js",
+      "sample": "function greetUser(name) {\n  console.log('Hello, ' + name + '!');\n  return true;\n}\n\n// Arrow function\nconst square = (x) => x * x;\n\n// Array operations\nconst numbers = [1, 2, 3, 4, 5];\nconst evenNumbers = numbers.filter(n => n % 2 === 0);\nconst squaredNumbers = evenNumbers.map(square);",
+      "formatter": "javascript"
+    },
+    {
+      "key": "typescript",
+      "name": "TypeScript",
+      "extension": ".ts",
+      "sample": "interface User {\n  id: number;\n  name: string;\n  email: string;\n  isActive: boolean;\n}\n\nclass UserService {\n  private users: User[] = [];\n\n  async addUser(user: User): Promise<boolean> {\n    try {\n      // Validate user data\n      if (!user.name || !user.email) {\n        throw new Error('Name and email are required');\n      }\n\n      // Check for duplicate email\n      const existingUser = this.users.find(u => u.email === user.email);\n      if (existingUser) {\n        return false;\n      }\n\n      this.users.push({\n        ...user,\n        id: this.users.length + 1,\n        isActive: user.isActive ?? true\n      });\n\n      return true;\n    } catch (error) {\n      console.error('Failed to add user:', error);\n      return false;\n    }\n  }\n}\n\nconst userService = new UserService();",
+      "formatter": "typescript"
+    },
+    {
+      "key": "python",
+      "name": "Python",
+      "extension": ".py",
+      "sample": "import json\nfrom typing import List, Dict, Optional\n\nclass StudentManager:\n    def __init__(self):\n        self.students: List[Dict] = []\n\n    def add_student(self, name: str, age: int, grade: str) -> bool:\n        \"\"\"Add a new student to the system.\"\"\"\n        try:\n            student = {\n                'id': len(self.students) + 1,\n                'name': name,\n                'age': age,\n                'grade': grade,\n                'active': True\n            }\n            self.students.append(student)\n            return True\n        except Exception as e:\n            print(f\"Error adding student: {e}\")\n            return False\n\n    def get_students_by_grade(self, grade: str) -> List[Dict]:\n        \"\"\"Get all students in a specific grade.\"\"\"\n        return [s for s in self.students if s['grade'] == grade]\n\n    def save_to_json(self, filename: str) -> None:\n        \"\"\"Save students to JSON file.\"\"\"\n        with open(filename, 'w') as f:\n            json.dump(self.students, f, indent=4)\n\ndef main() -> None:\n    manager = StudentManager()\n\n    # Add some students\n    students_data = [\n        ('Alice Johnson', 16, '10th'),\n        ('Bob Smith', 17, '11th'),\n        ('Carol Davis', 15, '9th'),\n        ('David Wilson', 17, '11th')\n    ]\n\n    for name, age, grade in students_data:\n        manager.add_student(name, age, grade)\n\n    # Get all 11th graders\n    grade_11_students = manager.get_students_by_grade('11th')\n    print(f\"Grade 11 students: {len(grade_11_students)}\")\n\nif __name__ == '__main__':\n    main()",
+      "formatter": "python"
+    },
+    {
+      "key": "java",
+      "name": "Java",
+      "extension": ".java",
+      "sample": "import java.util.List;\nimport java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.Map;\n\npublic class UserManagementSystem {\n    private Map<String, User> users;\n    private int nextId;\n\n    public UserManagementSystem() {\n        this.users = new HashMap<>();\n        this.nextId = 1;\n    }\n\n    public static class User {\n        private final int id;\n        private final String name;\n        private final String email;\n        private boolean active;\n\n        public User(int id, String name, String email) {\n            this.id = id;\n            this.name = name;\n            this.email = email;\n            this.active = true;\n        }\n\n        // Getters and setters\n        public int getId() { return id; }\n        public String getName() { return name; }\n        public String getEmail() { return email; }\n        public boolean isActive() { return active; }\n        public void setActive(boolean active) { this.active = active; }\n\n        @Override\n        public String toString() {\n            return String.format(\"User{id=%d, name='%s', email='%s', active=%b}\",\n                               id, name, email, active);\n        }\n    }\n\n    public User createUser(String name, String email) {\n        if (name == null || email == null) {\n            throw new IllegalArgumentException(\"Name and email cannot be null\");\n        }\n\n        // Check for duplicate email\n        for (User user : users.values()) {\n            if (user.getEmail().equals(email)) {\n                throw new IllegalStateException(\"Email already exists: \" + email);\n            }\n        }\n\n        int userId = nextId++;\n        User newUser = new User(userId, name, email);\n        users.put(email, newUser);\n\n        return newUser;\n    }\n\n    public List<User> getActiveUsers() {\n        List<User> activeUsers = new ArrayList<>();\n        for (User user : users.values()) {\n            if (user.isActive()) {\n                activeUsers.add(user);\n            }\n        }\n        return activeUsers;\n    }\n\n    public static void main(String[] args) {\n        UserManagementSystem system = new UserManagementSystem();\n\n        try {\n            User user1 = system.createUser(\"John Doe\", \"john.doe@example.com\");\n            User user2 = system.createUser(\"Jane Smith\", \"jane.smith@example.com\");\n\n            System.out.println(\"Created users:\");\n            System.out.println(user1);\n            System.out.println(user2);\n\n            List<User> activeUsers = system.getActiveUsers();\n            System.out.println(\"\\nActive users count: \" + activeUsers.size());\n\n        } catch (Exception e) {\n            System.err.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
+      "formatter": "java"
+    }
+  ]
+}
