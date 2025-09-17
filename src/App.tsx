@@ -2,8 +2,9 @@ import React, { Suspense, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import SubHeader from './components/SubHeader';
+import Breadcrumbs from './components/Breadcrumbs';
 import Footer from './components/Footer';
-import { useCacheVersion } from './hooks/useCacheVersion';
+import { useCacheVersion } from '@core/hooks/useCacheVersion';
 
 // Advanced service worker registration with cache busting
 const registerServiceWorker = async () => {
@@ -89,6 +90,7 @@ const ColorPickerView = React.lazy(() => import('./views/ColorPickerView'));
 const Tools = React.lazy(() => import('./views/Tools'));
 const ChakraUIView = React.lazy(() => import('./views/ChakraUIView'));
 const CodeFormatter = React.lazy(() => import('./components/CodeFormatter'));
+const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
 
 const App: React.FC = () => {
   // Register service worker for advanced cache busting
@@ -106,6 +108,7 @@ const App: React.FC = () => {
     }}>
       <Header />
       <SubHeader />
+      <Breadcrumbs />
 
       <main style={{
         flex: 1,
@@ -137,6 +140,7 @@ const App: React.FC = () => {
             <Route path="/json-parser" element={<JSONParserView />} />
             <Route path="/color-picker" element={<ColorPickerView />} />
             <Route path="/code-formatter" element={<CodeFormatter />} />
+            <Route path="/code-playground" element={<CodePlayground />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/chakra-ui" element={<ChakraUIView />} />
           </Routes>

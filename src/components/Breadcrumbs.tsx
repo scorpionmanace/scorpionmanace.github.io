@@ -1,102 +1,160 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, Text, Flex, useBreakpointValue } from '@chakra-ui/react';
+import { usePxToRem } from '@core/hooks/usePxToRem';
 
-interface BreadcrumbItem {
-  label: string;
-  path: string;
-}
-
-const routeLabels: Record<string, string> = {
+// Route to breadcrumb label mapping
+const ROUTE_LABELS: Record<string, string> = {
   '/': 'Home',
   '/about': 'About',
   '/tools': 'Development Tools',
-  '/json-parser': 'JSON Parser'
+  '/json-parser': 'JSON Parser',
+  '/color-picker': 'Color Picker',
+  '/code-formatter': 'Code Formatter',
+  '/code-playground': 'Code Playground',
+  '/chakra-ui': 'Chakra UI Demo',
+  '/data-converter': 'Data Converter',
+  '/text-utils': 'Text Utilities',
+  '/api-tester': 'API Tester'
 };
 
-const skipBreadcrumbRoutes = ['/'];
+// Routes to skip breadcrumb display
+const SKIP_BREADCRUMB_ROUTES = ['/'];
 
 const Breadcrumbs: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const { pxToRem } = usePxToRem();
 
-  // Don't show breadcrumbs on root/home routes
-  if (skipBreadcrumbRoutes.includes(currentPath)) {
+  // Don't show breadcrumbs on routes specified to skip
+  const shouldShowBreadcrumbs = useMemo(() => {
+    return !SKIP_BREADCRUMB_ROUTES.includes(currentPath);
+  }, [currentPath]);
+
+  // Define hierarchical relationships for tool routes
+  const TOOL_ROUTES = [
+    '/json-parser',
+    '/color-picker',
+    '/code-formatter',
+    '/code-playground',
+    '/chakra-ui'
+  ];
+
+  // Generate breadcrumb items from current path
+  const breadcrumbs = useMemo(() => {
+    if (currentPath === '/') return [];
+
+    const breadcrumbItems: { label: string; path: string; isActive: boolean }[] = [
+      { label: 'Home', path: '/', isActive: false }
+    ];
+
+    // Check if current route is a tool route that should show hierarchy
+    const isToolRoute = TOOL_ROUTES.includes(currentPath);
+
+    if (isToolRoute && currentPath !== '/tools') {
+      // Add "Development Tools" to the hierarchy
+      breadcrumbItems.push({
+        label: 'Development Tools',
+        path: '/tools',
+        isActive: false
+      });
+    }
+
+    // Add the current route
+    const isActive = true;
+    const label = ROUTE_LABELS[currentPath] ||
+                 currentPath.replace(/^\//, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+    breadcrumbItems.push({
+      label,
+      path: '',
+      isActive
+    });
+
+    return breadcrumbItems;
+  }, [currentPath]);
+
+  if (!shouldShowBreadcrumbs || breadcrumbs.length === 0) {
     return null;
   }
 
-  const buildBreadcrumbs = (): BreadcrumbItem[] => {
-    const breadcrumbs: BreadcrumbItem[] = [];
-    const pathSegments = currentPath.split('/').filter(Boolean);
-
-    // Always start with Home
-    breadcrumbs.push({ label: 'Home', path: '/' });
-
-    let accumulatedPath = '';
-    pathSegments.forEach((segment, index) => {
-      let accumulatedPath = '';
-      pathSegments.forEach((segment, index) => {
-        accumulatedPath += `/${segment}`;
-        const label = routeLabels[accumulatedPath] || segment.charAt(0).toUpperCase() + segment.slice(1);
-        breadcrumbs.push({ label, path: accumulatedPath });
-      });
-    });
-
-    return breadcrumbs;
-  };
-
-  const breadcrumbs = buildBreadcrumbs();
-
-  const py = useBreakpointValue({ base: 4, md: 6 });
-  const fontSize = useBreakpointValue({ base: 'sm', md: 'md' });
-  const paddingX = useBreakpointValue({ base: 2, md: 4 });
-  const margin = useBreakpointValue({ base: 2, md: 4 });
-
   return (
-    <Box as="nav" py={py} px={{ base: 4, md: 6 }}>
-      <Flex align="center" wrap="wrap">
+    <nav
+      aria-label="Breadcrumb"
+      style={{
+        padding: `${pxToRem(16)} ${pxToRem(24)}`,
+        backgroundColor: '#f8fafc',
+        borderBottom: '1px solid #e2e8f0'
+      }}
+    >
+      <ol
+        style={{
+          display: 'flex',
+          listStyle: 'none',
+          padding: 0,
+          margin: '0 auto',
+          alignItems: 'center',
+          fontSize: pxToRem(14),
+          maxWidth: pxToRem(1200)
+        }}
+      >
         {breadcrumbs.map((breadcrumb, index) => (
-          <React.Fragment key={breadcrumb.path}>
-            <Flex align="center">
-              {index < breadcrumbs.length - 1 ? (
-                <Link to={breadcrumb.path} style={{ color: '#3182ce', textDecoration: 'none' }}>
-                  <Text
-                    display="inline-block"
-                    px={paddingX}
-                    py={1}
-                    borderRadius="sm"
-                    _hover={{ bg: '#edf2f7' }}
-                    transition="all 0.2s ease"
-                    fontSize={fontSize}
-                  >
-                    {breadcrumb.label}
-                  </Text>
-                </Link>
-              ) : (
-                <Text
-                  fontSize={fontSize}
-                  color="#2d3748"
-                  fontWeight="500"
-                  px={paddingX}
-                  py={1}
-                >
-                  {breadcrumb.label}
-                </Text>
-              )}
-            </Flex>
-            {index < breadcrumbs.length - 1 && (
-              <Text
-                mx={margin}
-                color="#a0aec0"
-                fontSize={fontSize}
+          <li key={breadcrumb.path || breadcrumb.label} style={{ display: 'flex', alignItems: 'center' }}>
+            {index > 0 && (
+              <span
+                style={{
+                  margin: `0 ${pxToRem(8)}`,
+                  color: '#94a3b8',
+                  fontSize: pxToRem(12),
+                  userSelect: 'none'
+                }}
+                aria-hidden="true"
               >
-                /
-              </Text>
+                ›
+              </span>
             )}
-          </React.Fragment>
+
+            {breadcrumb.isActive ? (
+              <span
+                style={{
+                  color: '#1e293b',
+                  fontWeight: '600',
+                  padding: `${pxToRem(6)} ${pxToRem(12)}`,
+                  borderRadius: pxToRem(6),
+                  backgroundColor: '#f1f5f9',
+                  cursor: 'default'
+                }}
+                aria-current="page"
+              >
+                {breadcrumb.label}
+              </span>
+            ) : (
+              <Link
+                to={breadcrumb.path}
+                style={{
+                  color: '#3b82f6',
+                  textDecoration: 'none',
+                  padding: `${pxToRem(6)} ${pxToRem(12)}`,
+                  borderRadius: pxToRem(6),
+                  fontWeight: '500',
+                  transition: 'all 0.2s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#eff6ff';
+                  e.currentTarget.style.textDecoration = 'underline';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.textDecoration = 'none';
+                }}
+              >
+                {breadcrumb.label}
+              </Link>
+            )}
+          </li>
         ))}
-      </Flex>
-    </Box>
+      </ol>
+    </nav>
   );
 };
 

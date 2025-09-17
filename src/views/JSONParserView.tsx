@@ -1,5 +1,5 @@
 import React from 'react';
-import Breadcrumbs from '../components/Breadcrumbs';
+
 
 const JSONParserView: React.FC = () => {
   return (
@@ -16,7 +16,6 @@ const JSONParserView: React.FC = () => {
         padding: '1.875rem',
         boxShadow: '0 0.625rem 1.875rem rgba(0, 0, 0, 0.1)'
       }}>
-        <Breadcrumbs />
         <JSONParser />
       </div>
     </div>

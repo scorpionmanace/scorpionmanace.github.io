@@ -2,7 +2,7 @@ import React from 'react';
 import { useTools } from '../hooks/useTools';
 import ToolsHeader from '../components/ToolsHeader';
 import ToolGrid from '../components/ToolGrid';
-import Breadcrumbs from '../components/Breadcrumbs';
+
 
 const Tools: React.FC = () => {
   const { tools } = useTools();
@@ -48,8 +48,6 @@ const Tools: React.FC = () => {
       `}</style>
 
       <div style={contentStyle}>
-        <Breadcrumbs />
-
         <ToolsHeader
           title="Development Tools"
           subtitle="Explore our comprehensive collection of web development tools designed to streamline your workflow and boost productivity."

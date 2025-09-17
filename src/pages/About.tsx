@@ -1,6 +1,6 @@
 import React from 'react';
 import PDFExportButton from '../components/PDFExportButton';
-import Breadcrumbs from '../components/Breadcrumbs';
+
 import resumeData from '../data/resume.json';
 import { usePxToRem } from '../hooks/usePxToRem';
 
@@ -34,7 +34,6 @@ const About: React.FC = () => {
         margin: '0 auto',
         padding: containerPadding
       }}>
-        <Breadcrumbs />
         <PDFExportButton />
         <div className="about-content">
           {/* Header Section */}

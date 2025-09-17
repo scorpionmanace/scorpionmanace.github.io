@@ -46,6 +46,14 @@ export const useTools = () => {
       category: 'Design Tools'
     },
     {
+      id: 'code-playground',
+      name: 'Code Playground',
+      description: 'Run HTML, CSS, and JavaScript code interactively with real-time output rendering.',
+      icon: '🎮',
+      route: '/code-playground',
+      category: 'Development Tools'
+    },
+    {
       id: 'text-utils',
       name: 'Text Utilities',
       description: 'Collection of text processing tools including formatting, validation, and transformations.',
