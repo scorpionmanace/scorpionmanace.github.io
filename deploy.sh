@@ -12,23 +12,11 @@ cd dist
 # Create .nojekyll to disable Jekyll processing
 echo "" > .nojekyll
 
-# Create _headers file to force correct MIME types for GitHub Pages
-cat > _headers << 'EOF'
-/assets/*.js
-  Content-Type: application/javascript
+# Create 404.html that serves the main app (for client-side routing)
+cp index.html 404.html
 
-/assets/*.css
-  Content-Type: text/css
-
-/assets/*.wasm
-  Content-Type: application/wasm
-
-/assets/*.woff
-  Content-Type: font/woff
-
-/assets/*.woff2
-  Content-Type: font/woff2
-EOF
+# Note: GitHub Pages doesn't support custom headers via _headers file
+# MIME types should be handled by GitHub Pages based on file extensions
 
 # Clean up any existing git repository
 rm -rf .git
