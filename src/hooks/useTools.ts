@@ -18,7 +18,7 @@ export const useTools = () => {
       name: 'Code Formatter',
       description: 'Format and beautify your code across multiple programming languages.',
       icon: '💻',
-      route: '#',
+      route: '/code-formatter',
       category: 'Development Tools'
     },
     {
