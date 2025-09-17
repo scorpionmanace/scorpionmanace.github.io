@@ -2,9 +2,24 @@ import React from 'react';
 import PDFExportButton from '../components/PDFExportButton';
 import Breadcrumbs from '../components/Breadcrumbs';
 import resumeData from '../data/resume.json';
+import { usePxToRem } from '../hooks/usePxToRem';
 
 const About: React.FC = () => {
   const { personal, experience, technicalSkills, education, publications } = resumeData;
+  const { pxToRem, pxToRemBatch } = usePxToRem();
+
+  // Pre-calculate common px values for consistent rem usage
+  const [
+    containerPadding, sectionRadius, sectionPadding, sectionMarginBottom,
+    headerHeight, titleMarginBottom, contactMarginBottom, contentMarginBottom,
+    subtitleSize, borderRadius, marginBottom, paddingHorizontal,
+    fontSizeNormal, marginTop, gapSmall, legendItemSize, skillGap
+  ] = pxToRemBatch([
+    20, 20, 30, 30, // containerPadding, sectionRadius, sectionPadding, sectionMarginBottom
+    6, 20, 20, 30,   // headerHeight, titleMarginBottom, contactMarginBottom, contentMarginBottom
+    5, 20, 30, 20,   // subtitleSize, borderRadius, marginBottom, paddingHorizontal
+    15, 30, 8, 20,   // fontSizeNormal, marginTop, gapSmall, legendItemSize, skillGap
+  ]) as string[];
 
   return (
     <div style={{
@@ -15,9 +30,9 @@ const About: React.FC = () => {
       width: '100%'
     }}>
       <div style={{
-        maxWidth: '1000px',
+        maxWidth: pxToRem(1000),
         margin: '0 auto',
-        padding: '20px'
+        padding: containerPadding
       }}>
         <Breadcrumbs />
         <PDFExportButton />

@@ -8,13 +8,13 @@ const Tools: React.FC = () => {
   const { tools } = useTools();
 
   const containerStyle: React.CSSProperties = {
-    padding: '60px 20px',
+    padding: '3.75rem 1.25rem',
     background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
     flex: 1,
   };
 
   const contentStyle: React.CSSProperties = {
-    maxWidth: '1200px',
+    maxWidth: '75rem',
     margin: '0 auto',
   };
 
@@ -32,7 +32,7 @@ const Tools: React.FC = () => {
           top: 0;
           left: 0;
           right: 0;
-          height: 4px;
+          height: 0.25rem;
           background: linear-gradient(90deg, #667eea, #764ba2);
           transform: scaleX(0);
           transition: transform 0.3s ease;

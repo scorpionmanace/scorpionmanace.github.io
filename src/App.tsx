@@ -1,8 +1,85 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import SubHeader from './components/SubHeader';
 import Footer from './components/Footer';
+import { useCacheVersion } from './hooks/useCacheVersion';
+
+// Advanced service worker registration with cache busting
+const registerServiceWorker = async () => {
+  if ('serviceWorker' in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register('/service-worker.js', {
+        scope: '/'
+      });
+
+      console.log('[SW] Service worker registered successfully:', registration);
+
+      registration.addEventListener('updatefound', () => {
+        console.log('[SW] New service worker found, installing...');
+        const newWorker = registration.installing!;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed') {
+            if (navigator.serviceWorker.controller) {
+              console.log('[SW] New version available! Refresh page to activate.');
+              // Optional: Show user notification about update
+              showUpdateNotification();
+            } else {
+              console.log('[SW] Service worker installed for the first time');
+            }
+          }
+        });
+      });
+
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      });
+
+    } catch (error) {
+      console.error('[SW] Service worker registration failed:', error);
+    }
+  }
+};
+
+const showUpdateNotification = () => {
+  // Create a simple notification element
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: #2ecc71;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    z-index: 10000;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  `;
+  notification.innerHTML = '⚡ App updated! Click to refresh';
+
+  notification.onclick = () => {
+    navigator.serviceWorker.controller?.postMessage({ type: 'SKIP_WAITING' });
+    notification.style.opacity = '0';
+    setTimeout(() => notification.remove(), 300);
+  };
+
+  // Auto-remove after 10 seconds
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.style.opacity = '0';
+      setTimeout(() => notification.remove(), 300);
+    }
+  }, 10000);
+
+  document.body.appendChild(notification);
+};
 
 // Lazy load components for better code splitting
 const Home = React.lazy(() => import('./views/Home'));
@@ -13,6 +90,13 @@ const Tools = React.lazy(() => import('./views/Tools'));
 const ChakraUIView = React.lazy(() => import('./views/ChakraUIView'));
 
 const App: React.FC = () => {
+  // Register service worker for advanced cache busting
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      registerServiceWorker();
+    }
+  }, []);
+
   return (
     <div style={{
       minHeight: '100vh',

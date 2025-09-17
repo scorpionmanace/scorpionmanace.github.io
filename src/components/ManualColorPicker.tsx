@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Color } from '../hooks/useColorPicker';
+import { usePxToRem } from '../hooks/usePxToRem';
 
 interface ManualColorPickerProps {
   colors: Color[];
@@ -14,9 +15,24 @@ const ManualColorPicker: React.FC<ManualColorPickerProps> = ({
   onRemoveColor,
   onCreatePalette,
 }) => {
+  const { pxToRem, pxToRemBatch } = usePxToRem();
+
   const [hexInput, setHexInput] = useState('#');
   const [paletteName, setPaletteName] = useState('');
   const [rgbInput, setRgbInput] = useState({ r: 255, g: 107, b: 107 });
+
+  // Convert commonly used px values to rem for consistent spacing
+  const [
+    marginTop, containerPadding, gapSpacing, marginBottom,
+    borderRadius, boxShadowInset,
+    titleSize, titleMarginBottom,
+    inputWidth, buttonWidth, inputHeight
+  ] = pxToRemBatch([
+    40, 25, 20, 30, // marginTop, containerPadding, gapSpacing, marginBottom
+    16, 4,           // borderRadius, boxShadowInset
+    24, 20,          // titleSize, titleMarginBottom
+    120, 100, 40     // inputWidth, buttonWidth, inputHeight
+  ]) as string[];
 
   const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
     if (!hex.startsWith('#') || hex.length !== 7) return null;
@@ -106,17 +122,17 @@ const ManualColorPicker: React.FC<ManualColorPickerProps> = ({
 
   return (
     <div style={{
-      marginTop: '40px',
-      padding: '25px',
+      marginTop: marginTop,
+      padding: containerPadding,
       backgroundColor: 'white',
-      borderRadius: '16px',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+      borderRadius: borderRadius,
+      boxShadow: `0 ${boxShadowInset} 0.75rem rgba(0,0,0,0.1)`,
     }}>
       <h3 style={{
-        fontSize: '1.5rem',
+        fontSize: titleSize,
         fontWeight: 'bold',
         color: '#2c3e50',
-        marginBottom: '20px',
+        marginBottom: titleMarginBottom,
         textAlign: 'center',
       }}>
         🎨 Manual Color Picker
@@ -157,10 +173,10 @@ const ManualColorPicker: React.FC<ManualColorPickerProps> = ({
               onChange={(e) => handleHexInputChange(e.target.value)}
               title="Click to open color picker or paste hex value"
               style={{
-                width: '120px',
-                height: '40px',
-                border: '2px solid #dee2e6',
-                borderRadius: '8px',
+                width: inputWidth,
+                height: inputHeight,
+                border: `0.125rem solid #dee2e6`,
+                borderRadius: `0.5rem`,
                 cursor: 'pointer',
                 background: hexInput.startsWith('#') && hexInput.length === 7 ? hexInput : '#FF6B6B',
                 color: '#fff',
@@ -169,8 +185,8 @@ const ManualColorPicker: React.FC<ManualColorPickerProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '8px 12px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                padding: pxToRem(8) + ' ' + pxToRem(12),
+                boxShadow: `0 ${pxToRem(2)} ${pxToRem(4)} rgba(0,0,0,0.1)`,
               }}
             />
 

@@ -4,17 +4,17 @@ import Breadcrumbs from '../components/Breadcrumbs';
 const JSONParserView: React.FC = () => {
   return (
     <div style={{
-      padding: '20px',
+      padding: '1.25rem',
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       minHeight: '100vh'
     }}>
       <div style={{
-        maxWidth: '1200px',
+        maxWidth: '75rem',
         margin: '0 auto',
         background: 'white',
-        borderRadius: '16px',
-        padding: '30px',
-        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
+        borderRadius: '1rem',
+        padding: '1.875rem',
+        boxShadow: '0 0.625rem 1.875rem rgba(0, 0, 0, 0.1)'
       }}>
         <Breadcrumbs />
         <JSONParser />
