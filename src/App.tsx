@@ -4,7 +4,6 @@ import Header from './components/Header';
 import SubHeader from './components/SubHeader';
 import Breadcrumbs from './components/Breadcrumbs';
 import Footer from './components/Footer';
-import { useCacheVersion } from '@core/hooks/useCacheVersion';
 
 // Advanced service worker registration with cache busting
 const registerServiceWorker = async () => {
@@ -84,8 +83,8 @@ const showUpdateNotification = () => {
 
 // Lazy load components for better code splitting
 const Home = React.lazy(() => import('./views/Home'));
-const About = React.lazy(() => import('./views/About'));
-const JSONParserView = React.lazy(() => import('./views/JSONParserView'));
+const About = React.lazy(() => import('./pages/About'));
+const JSONParserView = React.lazy(() => import('./tools/json-parser/components/JSONParserView'));
 const ColorPickerView = React.lazy(() => import('./views/ColorPickerView'));
 const Tools = React.lazy(() => import('./views/Tools'));
 const ChakraUIView = React.lazy(() => import('./views/ChakraUIView'));

@@ -57,19 +57,23 @@ const About: React.FC = () => {
             }}></div>
             <h1 style={{ fontSize: '3rem', margin: '0 0 20px 0', color: '#2d3748', fontWeight: 'bold' }}>Karan Khare</h1>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '20px', fontSize: '1.1rem' }}>
-              <a
+              {/* Masked Email - Commented out for privacy */}
+              {/* <a
                 href="mailto:karan53@msn.com"
                 onClick={(e) => { if (!revealed.email) { e.preventDefault(); setRevealed(prev => ({ ...prev, email: true })); } }}
                 style={{ color: '#4285F4', textDecoration: 'none', fontWeight: '500', cursor: revealed.email ? 'pointer' : 'pointer' }}
               >
                 📧 {revealed.email ? 'karan53@msn.com' : 'karan53@*******'}
-              </a>
-              <span
+              </a> */}
+
+              {/* Masked Phone - Commented out for privacy */}
+              {/* <span
                 onClick={() => setRevealed(prev => ({ ...prev, phone: true }))}
                 style={{ cursor: revealed.phone ? 'default' : 'pointer', fontWeight: '500' }}
               >
                 📱 {revealed.phone ? '(408) 796-9335' : '(*** *** ****)'}
-              </span>
+              </span> */}
+
               <a
                 href="https://www.linkedin.com/in/karankhare/"
                 target="_blank"
