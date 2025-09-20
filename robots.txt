@@ -1,0 +1,41 @@
+User-agent: *
+Allow: /
+
+# Allow all main pages
+Allow: /
+Allow: /about
+Allow: /tools
+Allow: /json-parser
+Allow: /color-picker
+Allow: /code-formatter
+Allow: /code-playground
+Allow: /data-converter
+Allow: /api-tester
+Allow: /chakra-ui
+
+# Block admin/cache/private areas and build/directories
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.env
+Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /.git/
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://scorpionmanace.github.io/sitemap.xml
+
+# Host directive for multi-domain sites (optional)
+Host: https://scorpionmanace.github.io/
+
+# Specific instructions for major crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
