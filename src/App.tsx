@@ -104,15 +104,32 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors flex flex-col">
-        <Header />
-        <SubHeader />
-        <Breadcrumbs />
+        <header role="banner">
+          <Header />
+        </header>
 
-        <main className="flex-1 flex flex-col">
+        <nav aria-label="Secondary navigation" role="navigation">
+          <SubHeader />
+        </nav>
+
+        <nav aria-label="Breadcrumb navigation" role="navigation">
+          <Breadcrumbs />
+        </nav>
+
+        <main
+          id="main-content"
+          className="flex-1 flex flex-col"
+          role="main"
+        >
           <Suspense fallback={
-            <div className="flex-1 flex items-center justify-center min-h-[400px] dark:bg-gray-900">
-              <div className="p-8 bg-white dark:bg-gray-800 border rounded-lg shadow-lg text-center transition-colors">
-                Loading...
+            <div
+              className="flex-1 flex items-center justify-center min-h-[400px] dark:bg-gray-900"
+              aria-live="polite"
+              aria-label="Loading application content"
+            >
+              <div className="p-8 bg-white dark:bg-gray-800 border rounded-lg shadow-lg text-center transition-colors" role="status">
+                <div className="sr-only">Loading Karan Khare's development portfolio and tools...</div>
+                <span aria-hidden="true">Loading...</span>
               </div>
             </div>
           }>
@@ -130,7 +147,9 @@ const App: React.FC = () => {
           </Suspense>
         </main>
 
-        <Footer />
+        <footer role="contentinfo">
+          <Footer />
+        </footer>
       </div>
     </ThemeProvider>
   );

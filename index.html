@@ -1,17 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <meta name="app-version" content="v1.0.0">
-    <link rel="icon" href="favicon.ico">
-    <title>Karan Khare - Portfolio</title>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <!-- SEO Meta Tags -->
+    <title>Karan Khare - Developer Portfolio & Web Tools Hub | Full-Stack Developer</title>
+    <meta name="description" content="Discover Karan Khare's web development portfolio featuring innovative tools, modern applications, dark mode, and development utilities. Explore JSON parsing, code formatting, color picker, and data conversion tools.">
+    <meta name="keywords" content="web developer, portfolio, javascript, react, typescript, json parser, code formatter, color picker, data converter, web tools, developer portfolio, full-stack developer">
+    <meta name="author" content="Karan Khare">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://scorpionmanace.github.io/">
+
+    <!-- Performance Optimization -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/favicon.ico">
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Karan Khare - Developer Portfolio & Web Tools Hub">
+    <meta property="og:description" content="Explore innovative web tools, modern applications with dark mode support, and full-stack development portfolio">
+    <meta property="og:image" content="https://scorpionmanace.github.io/og-image.png">
+    <meta property="og:url" content="https://scorpionmanace.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Double K's Hub">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Karan Khare - Developer Portfolio & Web Tools Hub">
+    <meta name="twitter:description" content="Discover innovative web tools, modern applications with dark mode, and development utilities">
+    <meta name="twitter:image" content="https://scorpionmanace.github.io/twitter-card.png">
+    <meta name="twitter:creator" content="@yourtwitterhandle">
+    <meta name="twitter:site" content="@yourtwitterhandle">
+
+    <!-- Additional SEO and Performance Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="application-name" content="Double K's Hub">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Karan Khare Portfolio">
+
+    <!-- Security and Cache Headers -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Cache-Control" content="max-age=31536000, immutable">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Karan Khare",
+      "jobTitle": "Full-Stack Developer",
+      "url": "https://scorpionmanace.github.io/",
+      "sameAs": [
+        "https://github.com/scorpionmanace"
+      ],
+      "knowsAbout": [
+        "Web Development",
+        "JavaScript",
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Web Tools",
+        "JSON Parser",
+        "Code Formatting"
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Full-Stack Developer",
+        "occupationLocation": {
+          "@type": "Country",
+          "name": "India"
+        }
+      }
+    }
+    </script>
+
+    <!-- Web Tool Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Double K's Hub",
+      "description": "Web development tools and portfolio by Karan Khare",
+      "url": "https://scorpionmanace.github.io/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "JSON Parser",
+        "Code Formatter",
+        "Color Picker",
+        "Data Converter",
+        "Dark Mode Support"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Karan Khare",
+        "url": "https://github.com/scorpionmanace"
+      },
+      "datePublished": "2024-01-01"
+    }
+    </script>
+
+    <!-- Font Loading Optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   </head>
   <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md">
+      Skip to main content
+    </a>
+
     <div id="root"></div>
     <script type="module" src="./src/index.tsx"></script>
+
+    <!-- Performance Monitoring (Optional) -->
+    <script>
+      // Minimal performance tracking
+      window.addEventListener('load', () => {
+        if ('performance' in window && 'getEntriesByType' in window.performance) {
+          const navigation = performance.getEntriesByType('navigation')[0];
+          if (navigation && window.gtag) {
+            window.gtag('event', 'page_load_time', {
+              event_category: 'performance',
+              event_label: 'LCP',
+              value: Math.round(navigation.loadEventEnd - navigation.loadEventStart)
+            });
+          }
+        }
+      });
+    </script>
   </body>
 </html>
