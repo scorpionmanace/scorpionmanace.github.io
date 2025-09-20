@@ -44,7 +44,8 @@ const Breadcrumbs: React.FC = () => {
     '/code-formatter',
     '/code-playground',
     '/chakra-ui',
-    '/data-converter'
+    '/data-converter',
+    '/api-tester'
   ];
 
   // Generate breadcrumb items from current path
