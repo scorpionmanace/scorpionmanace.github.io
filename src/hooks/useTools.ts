@@ -66,7 +66,7 @@ export const useTools = () => {
       name: 'API Tester',
       description: 'Test and validate REST API endpoints with comprehensive request/response handling.',
       icon: '🌐',
-      route: '#',
+      route: '/api-tester',
       category: 'Web Tools'
     }
   ], []);

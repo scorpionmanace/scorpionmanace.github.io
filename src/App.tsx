@@ -92,6 +92,7 @@ const Tools = React.lazy(() => import('./views/Tools'));
 const ChakraUIView = React.lazy(() => import('./views/ChakraUIView'));
 const CodeFormatter = React.lazy(() => import('./components/CodeFormatter'));
 const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
+const APITesterView = React.lazy(() => import('./tools/api-tester/components/APITesterView'));
 
 const App: React.FC = () => {
   // Register service worker for advanced cache busting
@@ -139,6 +140,7 @@ const App: React.FC = () => {
               <Route path="/json-parser" element={<JSONParserView />} />
               <Route path="/color-picker" element={<ColorPickerView />} />
               <Route path="/data-converter" element={<DataConverterView />} />
+              <Route path="/api-tester" element={<APITesterView />} />
               <Route path="/code-formatter" element={<CodeFormatter />} />
               <Route path="/code-playground" element={<CodePlayground />} />
               <Route path="/tools" element={<Tools />} />
