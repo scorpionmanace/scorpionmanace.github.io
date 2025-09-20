@@ -7,6 +7,7 @@ import {
   Button,
   SimpleGrid,
   useBreakpointValue,
+  Badge,
 } from '@chakra-ui/react';
 
 const Home: React.FC = () => {
@@ -136,14 +137,14 @@ const Home: React.FC = () => {
       </Box>
 
       {/* Features Grid Section */}
-      <Box as="section" py={{ base: 16, md: 20 }} px={5} bg="#f8f9fa">
+      <Box as="section" py={{ base: 16, md: 20 }} px={5} bg="gray.50 dark:bg-gray-800">
         <Box maxW="1200px" mx="auto">
           <Heading
             as="h2"
             textAlign="center"
             fontSize={{ base: '2rem', md: '2.5rem' }}
             mb={{ base: 12, md: 16 }}
-            color="#333"
+            className="text-gray-900 dark:text-white"
             fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
           >
             What You Can Do
@@ -160,10 +161,11 @@ const Home: React.FC = () => {
             >
               <Box
                 className="feature-card"
-                bg="white"
+                bg="white dark:bg-gray-700"
+                color="gray.900 dark:text-white"
                 p={cardPadding}
                 borderRadius="lg"
-                boxShadow="0 10px 30px rgba(0, 0, 0, 0.1)"
+                boxShadow="0 10px 30px rgba(0, 0, 0, 0.1) dark:shadow-gray-800"
                 _hover={{
                   transform: "translateY(-5px)",
                   boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)"
@@ -176,10 +178,10 @@ const Home: React.FC = () => {
                 alignItems="center"
               >
                 <Text fontSize={iconSize} mb={5}>🔧</Text>
-                <Heading as="h3" size="md" color="#333" mb={4}>
+                <Heading as="h3" size="md" mb={4}>
                   Development Tools
                 </Heading>
-                <Text color="#666" lineHeight="1.5">
+                <Text lineHeight="1.5" opacity="0.8 dark:opacity-0.7">
                   Powerful utilities for developers including JSON parsing, validation tools,
                   and code formatters to streamline your workflow.
                 </Text>
@@ -188,83 +190,119 @@ const Home: React.FC = () => {
 
             <Box
               className="feature-card"
-              bg="white"
+              bg="white dark:bg-gray-700"
+              color="gray.900 dark:text-white"
               p={cardPadding}
               borderRadius="lg"
-              boxShadow="0 10px 30px rgba(0, 0, 0, 0.1)"
-              _hover={{
-                transform: "translateY(-5px)",
-                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)"
-              }}
+              boxShadow="0 10px 30px rgba(0, 0, 0, 0.1) dark:shadow-gray-800"
               transition="all 0.3s ease"
               minH="280px"
               display="flex"
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
+              position="relative"
+              opacity="0.7"
             >
               <Text fontSize={iconSize} mb={5}>🎯</Text>
-              <Heading as="h3" size="md" color="#333" mb={4}>
+              <Heading as="h3" size="md" mb={4}>
                 Interactive Applications
               </Heading>
-              <Text color="#666" lineHeight="1.5">
+              <Text lineHeight="1.5" opacity="0.6 dark:opacity-0.5">
                 Modern web applications with responsive design, real-time validation,
                 and intuitive user interfaces for enhanced productivity.
               </Text>
+              <Badge
+                position="absolute"
+                top="3"
+                right="3"
+                bg="orange.400 dark:bg-orange-500"
+                color="white"
+                fontSize="sm"
+                px={3}
+                py={1}
+                borderRadius="full"
+              >
+                Coming Soon
+              </Badge>
             </Box>
 
             <Box
               className="feature-card"
-              bg="white"
+              bg="white dark:bg-gray-700"
+              color="gray.900 dark:text-white"
               p={cardPadding}
               borderRadius="lg"
-              boxShadow="0 10px 30px rgba(0, 0, 0, 0.1)"
-              _hover={{
-                transform: "translateY(-5px)",
-                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)"
-              }}
+              boxShadow="0 10px 30px rgba(0, 0, 0, 0.1) dark:shadow-gray-800"
               transition="all 0.3s ease"
               minH="280px"
               display="flex"
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
+              position="relative"
+              opacity="0.7"
             >
               <Text fontSize={iconSize} mb={5}>🚀</Text>
-              <Heading as="h3" size="md" color="#333" mb={4}>
+              <Heading as="h3" size="md" mb={4}>
                 Performance Optimized
               </Heading>
-              <Text color="#666" lineHeight="1.5">
+              <Text lineHeight="1.5" opacity="0.6 dark:opacity-0.5">
                 Built with modern frameworks and optimized for speed, ensuring
                 fast load times and smooth user experiences across all devices.
               </Text>
+              <Badge
+                position="absolute"
+                top="3"
+                right="3"
+                bg="orange.400 dark:bg-orange-500"
+                color="white"
+                fontSize="sm"
+                px={3}
+                py={1}
+                borderRadius="full"
+              >
+                Coming Soon
+              </Badge>
             </Box>
 
             <Box
               className="feature-card"
-              bg="white"
+              bg="white dark:bg-gray-700"
+              color="gray.900 dark:text-white"
               p={cardPadding}
               borderRadius="lg"
-              boxShadow="0 10px 30px rgba(0, 0, 0, 0.1)"
-              _hover={{
-                transform: "translateY(-5px)",
-                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)"
-              }}
+              boxShadow="0 10px 30px rgba(0, 0, 0, 0.1) dark:shadow-gray-800"
               transition="all 0.3s ease"
               minH="280px"
               display="flex"
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
+              position="relative"
+              opacity="0.7"
             >
               <Text fontSize={iconSize} mb={5}>📊</Text>
-              <Heading as="h3" size="md" color="#333" mb={4}>
+              <Heading as="h3" size="md" mb={4}>
                 Data Processing
               </Heading>
-              <Text color="#666" lineHeight="1.5">
+              <Text lineHeight="1.5" opacity="0.6 dark:opacity-0.5">
                 Advanced data processing capabilities with JSON validation,
                 formatting, and transformation tools for efficient data handling.
               </Text>
+              <Badge
+                position="absolute"
+                top="3"
+                right="3"
+                bg="orange.400 dark:bg-orange-500"
+                color="white"
+                fontSize="sm"
+                px={3}
+                py={1}
+                borderRadius="full"
+              >
+                Coming Soon
+              </Badge>
             </Box>
           </Box>
         </Box>

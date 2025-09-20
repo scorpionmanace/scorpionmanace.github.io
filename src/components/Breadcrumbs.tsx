@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { usePxToRem } from '@core/hooks/usePxToRem';
+import { useTheme } from '../contexts/ThemeContext';
 
 // Route to breadcrumb label mapping
 const ROUTE_LABELS: Record<string, string> = {
@@ -24,6 +25,12 @@ const Breadcrumbs: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname;
   const { pxToRem } = usePxToRem();
+  const { currentTheme, isInitialized } = useTheme();
+
+  // Don't render breadcrumbs with proper theme if theme context isn't initialized yet
+  if (!isInitialized) {
+    return null;
+  }
 
   // Don't show breadcrumbs on routes specified to skip
   const shouldShowBreadcrumbs = useMemo(() => {
@@ -78,13 +85,22 @@ const Breadcrumbs: React.FC = () => {
     return null;
   }
 
+  const navBackgroundColor = currentTheme === 'dark' ? 'gray.800' : '#f8fafc';
+  const navBorderColor = currentTheme === 'dark' ? 'gray.700' : '#e2e8f0';
+  const separatorColor = currentTheme === 'dark' ? '#6b7280' : '#94a3b8';
+  const activeTextColor = currentTheme === 'dark' ? '#d1d5db' : '#1e293b';
+  const activeBgColor = currentTheme === 'dark' ? '#374151' : '#f1f5f9';
+  const linkColor = currentTheme === 'dark' ? '#60a5fa' : '#3b82f6';
+  const hoverBgColor = currentTheme === 'dark' ? '#264b7e' : '#eff6ff';
+
   return (
     <nav
       aria-label="Breadcrumb"
       style={{
         padding: `${pxToRem(16)} ${pxToRem(24)}`,
-        backgroundColor: '#f8fafc',
-        borderBottom: '1px solid #e2e8f0'
+        backgroundColor: navBackgroundColor,
+        borderBottom: `1px solid ${navBorderColor}`,
+        transition: 'background-color 0.3s ease, border-color 0.3s ease'
       }}
     >
       <ol
@@ -104,7 +120,7 @@ const Breadcrumbs: React.FC = () => {
               <span
                 style={{
                   margin: `0 ${pxToRem(8)}`,
-                  color: '#94a3b8',
+                  color: separatorColor,
                   fontSize: pxToRem(12),
                   userSelect: 'none'
                 }}
@@ -117,11 +133,11 @@ const Breadcrumbs: React.FC = () => {
             {breadcrumb.isActive ? (
               <span
                 style={{
-                  color: '#1e293b',
+                  color: activeTextColor,
                   fontWeight: '600',
                   padding: `${pxToRem(6)} ${pxToRem(12)}`,
                   borderRadius: pxToRem(6),
-                  backgroundColor: '#f1f5f9',
+                  backgroundColor: activeBgColor,
                   cursor: 'default'
                 }}
                 aria-current="page"
@@ -132,7 +148,7 @@ const Breadcrumbs: React.FC = () => {
               <Link
                 to={breadcrumb.path}
                 style={{
-                  color: '#3b82f6',
+                  color: linkColor,
                   textDecoration: 'none',
                   padding: `${pxToRem(6)} ${pxToRem(12)}`,
                   borderRadius: pxToRem(6),
@@ -141,7 +157,7 @@ const Breadcrumbs: React.FC = () => {
                   cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#eff6ff';
+                  e.currentTarget.style.backgroundColor = hoverBgColor;
                   e.currentTarget.style.textDecoration = 'underline';
                 }}
                 onMouseLeave={(e) => {

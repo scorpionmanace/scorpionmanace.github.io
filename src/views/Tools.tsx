@@ -1,21 +1,28 @@
 import React from 'react';
 import { useTools } from '../hooks/useTools';
+import { useTheme } from '../contexts/ThemeContext';
 import ToolsHeader from '../components/ToolsHeader';
 import ToolGrid from '../components/ToolGrid';
 
 
 const Tools: React.FC = () => {
   const { tools } = useTools();
+  const { currentTheme } = useTheme();
 
   const containerStyle: React.CSSProperties = {
     padding: '3.75rem 1.25rem',
-    background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+    background: currentTheme === 'dark'
+      ? 'linear-gradient(135deg, #1f2937 0%, #111827 100%)'
+      : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
     flex: 1,
+    transition: 'background 0.3s ease',
   };
 
   const contentStyle: React.CSSProperties = {
     maxWidth: '75rem',
     margin: '0 auto',
+    color: currentTheme === 'dark' ? 'white' : 'gray.900',
+    transition: 'color 0.3s ease',
   };
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Text, Badge, useBreakpointValue } from '@chakra-ui/react';
+import { useTheme } from '../contexts/ThemeContext';
 import { Tool } from '../hooks/useTools';
 
 interface ToolCardProps {
@@ -8,6 +9,7 @@ interface ToolCardProps {
 }
 
 const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
+  const { currentTheme } = useTheme();
   const iconSize = useBreakpointValue({ base: '3rem', md: '3.5rem' });
   const titleSize = useBreakpointValue({ base: '1.25rem', md: '1.5rem' });
   const descSize = useBreakpointValue({ base: '0.9rem', md: '1rem' });
@@ -16,6 +18,14 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
 
   const isToolAvailable = tool.route !== '#';
 
+  const cardBg = currentTheme === 'dark' ? 'gray.700' : 'white';
+  const cardBorder = currentTheme === 'dark' ? '1px solid #374151' : '1px solid #e2e8f0';
+  const titleColor = currentTheme === 'dark' ? 'white' : 'gray.900';
+  const textColor = currentTheme === 'dark' ? 'gray.300' : 'gray.600';
+  const linkColor = currentTheme === 'dark' ? '#60a5fa' : '#3182ce';
+  const badgeBg = currentTheme === 'dark' ? 'gray.600' : '#edf2f7';
+  const badgeColor = currentTheme === 'dark' ? 'gray.200' : '#4a5568';
+
   return (
     isToolAvailable ? (
       <Link
@@ -23,11 +33,11 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
         style={{ textDecoration: 'none', color: 'inherit' }}
       >
         <Box
-          bg="white"
+          bg={cardBg}
           borderRadius="lg"
           p={paddingValue}
           boxShadow="0 4px 6px rgba(0, 0, 0, 0.05)"
-          border="1px solid #e2e8f0"
+          border={cardBorder}
           transition="all 0.3s ease"
           cursor="pointer"
           display="block"
@@ -44,8 +54,8 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
             {tool.icon}
           </Text>
           <Badge
-            bg="#edf2f7"
-            color="#4a5568"
+            bg={badgeBg}
+            color={badgeColor}
             px={3}
             py={1}
             borderRadius="full"
@@ -60,14 +70,14 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
           <Text
             fontSize={titleSize}
             fontWeight="bold"
-            color="#2d3748"
+            color={titleColor}
             textAlign="center"
             mb={3}
           >
             {tool.name}
           </Text>
           <Text
-            color="#4a5568"
+            color={textColor}
             fontSize={descSize}
             lineHeight="1.6"
             textAlign="center"
@@ -77,7 +87,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
           </Text>
           <Text
             textAlign="center"
-            color="#3182ce"
+            color={linkColor}
             fontWeight="500"
             fontSize={descSize}
           >
@@ -87,11 +97,11 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       </Link>
     ) : (
       <Box
-        bg="white"
+        bg={cardBg}
         borderRadius="lg"
         p={paddingValue}
         boxShadow="0 4px 6px rgba(0, 0, 0, 0.05)"
-        border="1px solid #e2e8f0"
+        border={cardBorder}
         transition="all 0.3s ease"
         cursor="default"
         display="block"
@@ -108,8 +118,8 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
           {tool.icon}
         </Text>
         <Badge
-          bg="#edf2f7"
-          color="#4a5568"
+          bg={badgeBg}
+          color={badgeColor}
           px={3}
           py={1}
           borderRadius="full"
@@ -124,14 +134,14 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
         <Text
           fontSize={titleSize}
           fontWeight="bold"
-          color="#2d3748"
+          color={titleColor}
           textAlign="center"
           mb={3}
         >
           {tool.name}
         </Text>
         <Text
-          color="#4a5568"
+          color={textColor}
           fontSize={descSize}
           lineHeight="1.6"
           textAlign="center"
@@ -141,7 +151,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
         </Text>
         <Text
           textAlign="center"
-          color="#3182ce"
+          color={linkColor}
           fontWeight="500"
           fontSize={descSize}
         >

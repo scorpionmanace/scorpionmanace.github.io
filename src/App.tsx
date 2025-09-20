@@ -4,6 +4,7 @@ import Header from './components/Header';
 import SubHeader from './components/SubHeader';
 import Breadcrumbs from './components/Breadcrumbs';
 import Footer from './components/Footer';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 // Advanced service worker registration with cache busting
 const registerServiceWorker = async () => {
@@ -101,55 +102,37 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
-      <Header />
-      <SubHeader />
-      <Breadcrumbs />
+    <ThemeProvider>
+      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors flex flex-col">
+        <Header />
+        <SubHeader />
+        <Breadcrumbs />
 
-      <main style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-        <Suspense fallback={
-          <div style={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '400px'
-          }}>
-            <div style={{
-              padding: '2rem',
-              backgroundColor: 'white',
-              borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              textAlign: 'center'
-            }}>
-              Loading...
+        <main className="flex-1 flex flex-col">
+          <Suspense fallback={
+            <div className="flex-1 flex items-center justify-center min-h-[400px] dark:bg-gray-900">
+              <div className="p-8 bg-white dark:bg-gray-800 border rounded-lg shadow-lg text-center transition-colors">
+                Loading...
+              </div>
             </div>
-          </div>
-        }>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/json-parser" element={<JSONParserView />} />
-            <Route path="/color-picker" element={<ColorPickerView />} />
-            <Route path="/data-converter" element={<DataConverterView />} />
-            <Route path="/code-formatter" element={<CodeFormatter />} />
-            <Route path="/code-playground" element={<CodePlayground />} />
-            <Route path="/tools" element={<Tools />} />
-            <Route path="/chakra-ui" element={<ChakraUIView />} />
-          </Routes>
-        </Suspense>
-      </main>
+          }>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/json-parser" element={<JSONParserView />} />
+              <Route path="/color-picker" element={<ColorPickerView />} />
+              <Route path="/data-converter" element={<DataConverterView />} />
+              <Route path="/code-formatter" element={<CodeFormatter />} />
+              <Route path="/code-playground" element={<CodePlayground />} />
+              <Route path="/tools" element={<Tools />} />
+              <Route path="/chakra-ui" element={<ChakraUIView />} />
+            </Routes>
+          </Suspense>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 };
 
