@@ -86,6 +86,7 @@ const Home = React.lazy(() => import('./views/Home'));
 const About = React.lazy(() => import('./pages/About'));
 const JSONParserView = React.lazy(() => import('./tools/json-parser/components/JSONParserView'));
 const ColorPickerView = React.lazy(() => import('./views/ColorPickerView'));
+const DataConverterView = React.lazy(() => import('./tools/data-converter/components/DataConverterView'));
 const Tools = React.lazy(() => import('./views/Tools'));
 const ChakraUIView = React.lazy(() => import('./views/ChakraUIView'));
 const CodeFormatter = React.lazy(() => import('./components/CodeFormatter'));
@@ -138,6 +139,7 @@ const App: React.FC = () => {
             <Route path="/about" element={<About />} />
             <Route path="/json-parser" element={<JSONParserView />} />
             <Route path="/color-picker" element={<ColorPickerView />} />
+            <Route path="/data-converter" element={<DataConverterView />} />
             <Route path="/code-formatter" element={<CodeFormatter />} />
             <Route path="/code-playground" element={<CodePlayground />} />
             <Route path="/tools" element={<Tools />} />

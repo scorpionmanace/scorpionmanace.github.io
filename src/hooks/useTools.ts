@@ -26,7 +26,7 @@ export const useTools = () => {
       name: 'Data Converter',
       description: 'Convert between different data formats including JSON, XML, and CSV.',
       icon: '🔄',
-      route: '#',
+      route: '/data-converter',
       category: 'Data Tools'
     },
     {
