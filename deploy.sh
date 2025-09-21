@@ -23,7 +23,7 @@ rm -rf .git
 
 # Initialize fresh git repository
 git init
-git remote add origin git@github.com:scorpionmanace.github.io.git
+git remote add origin git@github.com:scorpionmanace/scorpionmanace.github.io.git
 
 git add -A
 git commit -m 'deploy'
