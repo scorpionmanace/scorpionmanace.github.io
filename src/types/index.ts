@@ -68,8 +68,10 @@ export interface ResumeData {
     eyebrow: string;
     product: string;
     subtitle: string;
-    url: string;
     summary: string;
+    links: Array<{ label: string; url: string }>;
+    /** Platforms the product ships on. */
+    surfaces: Array<{ name: string; detail: string }>;
     components: string[];
     arc: Array<{
       phase: string;

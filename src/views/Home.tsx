@@ -20,6 +20,8 @@ const STATS = [
 const STACK = [
   'TypeScript',
   'React',
+  'React Native',
+  'Swift',
   'Node.js',
   'GraphQL',
   'AWS',
@@ -65,8 +67,7 @@ const Hero: React.FC = () => (
         >
           I&rsquo;m Karan Khare — a software development leader with 12+ years across storage,
           fintech, autonomous driving, and generative AI. Today I build agentic AI at AWS as a core
-          contributor to Amazon Quick, designing the front-end architecture and growing the teams
-          behind it.
+          contributor to Amazon Quick, shipping it across desktop, mobile, and web.
         </motion.p>
 
         <motion.div variants={riseItem} className="mt-10 flex flex-wrap items-center gap-3">

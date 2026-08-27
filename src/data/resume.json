@@ -4,7 +4,7 @@
     "email": "karan53@msn.com",
     "phone": "(408) 796-9335",
     "linkedin": "https://www.linkedin.com/in/karankhare/",
-    "summary": "Software development leader with 12+ years across storage, fintech, autonomous driving, education, e-commerce, and generative AI. Currently building agentic AI at AWS as a core contributor to Amazon Quick. Track record of growing and mentoring engineering teams while delivering products end to end."
+    "summary": "Software development leader with 12+ years across storage, fintech, autonomous driving, education, e-commerce, and generative AI. Currently building agentic AI at AWS as a core contributor to Amazon Quick, across its desktop, mobile, and web surfaces. Track record of growing and mentoring engineering teams while delivering products end to end."
   },
   "experience": [
     {
@@ -13,6 +13,8 @@
       "period": "August 2024 - Present",
       "achievements": [
         "Core contributor to Amazon Quick (launched as Amazon Quick Suite, October 2025), AWS's agentic AI workspace \u2014 helped take the product from build to delivery",
+        "Building Amazon Quick Desktop for macOS and Windows, an always-on assistant that works against local files and surfaces meeting prep and follow-ups in the background",
+        "Delivering the same agentic experience across surfaces \u2014 iOS, Android, and web \u2014 keeping interaction patterns consistent as capabilities land",
         "Built front-end surfaces for agent-driven research, workflow automation, and no-code app building across the Quick component suite",
         "Spearheaded the development of GenAI features (Q Business) for AWS, focusing on meta-type file development for LLMs",
         "Developed internal tools and libraries (AWS Cloudscape, Q Design Suite, QuickSight LLM Prompt) to improve reusability and maintainability",
@@ -338,8 +340,7 @@
     "eyebrow": "Currently shipping",
     "product": "Amazon Quick",
     "subtitle": "AWS's agentic AI workspace",
-    "url": "https://aws.amazon.com/quick/",
-    "summary": "Amazon Quick turns a question into work that actually gets done \u2014 agents that research across business data and the public web, automate workflows, and assemble no-code apps from a conversation. I've been a heavy contributor on the product and helped deliver it.",
+    "summary": "Amazon Quick turns a question into work that actually gets done \u2014 agents that research across business data and the public web, automate workflows, and assemble no-code apps from a conversation. I'm building it across every surface it ships on: the desktop app, iOS and Android, and the web.",
     "components": [
       "Quick Research",
       "Quick Flows",
@@ -362,7 +363,35 @@
       {
         "phase": "Agentic",
         "period": "2025 \u2013 now",
-        "detail": "Amazon Quick: agents that research, decide, and act across connected systems. Software that takes the next step without being asked twice."
+        "detail": "Amazon Quick: agents that research, decide, and act across connected systems \u2014 shipped to desktop, mobile, and web. Software that takes the next step without being asked twice."
+      }
+    ],
+    "links": [
+      {
+        "label": "Amazon Quick",
+        "url": "https://aws.amazon.com/quick/"
+      },
+      {
+        "label": "Quick Desktop",
+        "url": "https://aws.amazon.com/quick/desktop/"
+      }
+    ],
+    "surfaces": [
+      {
+        "name": "Desktop",
+        "detail": "macOS \u00b7 Windows"
+      },
+      {
+        "name": "iOS",
+        "detail": "Native mobile"
+      },
+      {
+        "name": "Android",
+        "detail": "Native mobile"
+      },
+      {
+        "name": "Web",
+        "detail": "Browser app"
       }
     ]
   }
