@@ -7,55 +7,55 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://scorpionmanace.github.io/about</loc>
+    <loc>https://scorpionmanace.github.io/about/</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://scorpionmanace.github.io/tools</loc>
+    <loc>https://scorpionmanace.github.io/tools/</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://scorpionmanace.github.io/json-parser</loc>
+    <loc>https://scorpionmanace.github.io/json-parser/</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://scorpionmanace.github.io/color-picker</loc>
+    <loc>https://scorpionmanace.github.io/color-picker/</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://scorpionmanace.github.io/data-converter</loc>
+    <loc>https://scorpionmanace.github.io/data-converter/</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://scorpionmanace.github.io/api-tester</loc>
+    <loc>https://scorpionmanace.github.io/api-tester/</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://scorpionmanace.github.io/code-formatter</loc>
+    <loc>https://scorpionmanace.github.io/code-formatter/</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://scorpionmanace.github.io/code-playground</loc>
+    <loc>https://scorpionmanace.github.io/code-playground/</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://scorpionmanace.github.io/component-lab</loc>
+    <loc>https://scorpionmanace.github.io/component-lab/</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

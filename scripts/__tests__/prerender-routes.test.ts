@@ -15,7 +15,7 @@ const prerenderedRoutes = (): string[] => {
 
 const sitemapRoutes = (): string[] =>
   Array.from(read('public/sitemap.xml').matchAll(/<loc>https:\/\/[^/]+\/([^<]*)<\/loc>/g))
-    .map((match) => match[1])
+    .map((match) => match[1].replace(/\/$/, ''))
     .filter(Boolean);
 
 describe('prerendered routes', () => {

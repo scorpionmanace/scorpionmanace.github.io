@@ -40,7 +40,7 @@ for (const route of ROUTES) {
   // Point the canonical link at this route rather than the site root.
   const routeHtml = html.replace(
     /<link rel="canonical" href="https:\/\/scorpionmanace\.github\.io\/">/,
-    `<link rel="canonical" href="https://scorpionmanace.github.io/${route}">`,
+    `<link rel="canonical" href="https://scorpionmanace.github.io/${route}/">`,
   );
 
   writeFileSync(join(dir, 'index.html'), routeHtml);
