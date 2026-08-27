@@ -63,4 +63,18 @@ export interface ResumeData {
     journal?: string;
     year: string;
   }>;
+  /** Featured current work, plus the arc that led to it. */
+  spotlight: {
+    eyebrow: string;
+    product: string;
+    subtitle: string;
+    url: string;
+    summary: string;
+    components: string[];
+    arc: Array<{
+      phase: string;
+      period: string;
+      detail: string;
+    }>;
+  };
 }

@@ -6,7 +6,9 @@ import { Section } from '../components/ui/Section';
 import { Button } from '../components/ui/Button';
 import { ToolCard } from '../components/ui/ToolCard';
 import { Reveal, RevealGroup, RevealItem } from '../components/ui/Reveal';
-import { staggerParent, riseItem } from '../design/motion';
+import { Spotlight } from '../components/Spotlight';
+import { staggerParent, riseItem, ease } from '../design/motion';
+import portrait from '../assets/portrait.jpg';
 
 const STATS = [
   { value: '12+', label: 'Years building for the web' },
@@ -34,7 +36,7 @@ const Hero: React.FC = () => (
   <section className="relative overflow-hidden border-b border-line">
     <div className="grid-bg fade-edges pointer-events-none absolute inset-0" aria-hidden="true" />
 
-    <div className="relative mx-auto w-full max-w-content px-5 pb-20 pt-16 sm:px-8 md:pb-28 md:pt-24">
+    <div className="relative mx-auto grid w-full max-w-content gap-12 px-5 pb-20 pt-16 sm:px-8 md:pb-28 md:pt-24 lg:grid-cols-[1.55fr_1fr] lg:items-center lg:gap-16">
       <motion.div initial="hidden" animate="visible" variants={staggerParent(0.09)}>
         <motion.div variants={riseItem}>
           <span className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-3.5 py-1.5">
@@ -43,14 +45,14 @@ const Hero: React.FC = () => (
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
             </span>
             <span className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-ink-soft">
-              Senior Front-End Engineer · Amazon
+              Building Amazon Quick · AWS
             </span>
           </span>
         </motion.div>
 
         <motion.h1
           variants={riseItem}
-          className="mt-8 max-w-4xl font-display text-[2.75rem] leading-[1.05] tracking-[-0.02em] text-ink sm:text-6xl md:text-7xl"
+          className="mt-8 max-w-3xl font-display text-[2.75rem] leading-[1.05] tracking-[-0.02em] text-ink sm:text-6xl lg:text-[4rem] xl:text-7xl"
         >
           I build interfaces that make
           <span className="text-accent italic"> complex systems </span>
@@ -61,20 +63,46 @@ const Hero: React.FC = () => (
           variants={riseItem}
           className="mt-7 max-w-2xl text-lg leading-relaxed text-muted md:text-xl"
         >
-          I&rsquo;m Karan Khare — an engineering leader with 12+ years across storage, fintech,
-          autonomous driving, and generative AI. I design front-end architecture, grow the teams
-          behind it, and ship the developer tooling that keeps both moving.
+          I&rsquo;m Karan Khare — a software development leader with 12+ years across storage,
+          fintech, autonomous driving, and generative AI. Today I build agentic AI at AWS as a core
+          contributor to Amazon Quick, designing the front-end architecture and growing the teams
+          behind it.
         </motion.p>
 
         <motion.div variants={riseItem} className="mt-10 flex flex-wrap items-center gap-3">
-          <Button to="/tools" size="lg">
-            Explore the tools
+          <Button to="/about" size="lg">
+            See the work
             <span aria-hidden="true">→</span>
           </Button>
-          <Button to="/about" variant="secondary" size="lg">
-            Read the full story
+          <Button to="/tools" variant="secondary" size="lg">
+            Explore the tools
           </Button>
         </motion.div>
+      </motion.div>
+
+      {/* Portrait */}
+      <motion.div
+        className="order-first mx-auto w-full max-w-[17rem] lg:order-none lg:max-w-none"
+        initial={{ opacity: 0, scale: 0.96, y: 16 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.15, ease }}
+      >
+        <div className="relative">
+          <div className="overflow-hidden rounded-[1.75rem] border border-line bg-surface shadow-float">
+            <img
+              src={portrait}
+              alt="Karan Khare"
+              width={760}
+              height={760}
+              className="aspect-square w-full object-cover"
+              fetchPriority="high"
+            />
+          </div>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-3 -right-3 -z-10 h-24 w-24 rounded-full bg-accent/15 blur-2xl"
+          />
+        </div>
       </motion.div>
     </div>
 
@@ -120,6 +148,8 @@ const Home: React.FC = () => {
           ))}
         </RevealGroup>
       </Section>
+
+      <Spotlight tone="surface" />
 
       {/* Tools */}
       <Section

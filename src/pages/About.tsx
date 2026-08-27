@@ -6,7 +6,9 @@ import { Button } from '../components/ui/Button';
 import { PrintResumeButton } from '../components/ui/PrintResumeButton';
 import { Reveal, RevealGroup, RevealItem } from '../components/ui/Reveal';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
+import { Spotlight } from '../components/Spotlight';
 import { ease } from '../design/motion';
+import portraitSmall from '../assets/portrait-sm.jpg';
 import { cn } from '../components/ui/cn';
 
 type SkillLevel = 'expert' | 'proficient' | 'comfortable';
@@ -48,31 +50,42 @@ const About: React.FC = () => {
           >
             <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'About' }]} />
 
-            <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-3xl">
+            <div className="mt-6 flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-10">
+              <img
+                src={portraitSmall}
+                alt={personal.name}
+                width={320}
+                height={320}
+                className="h-28 w-28 shrink-0 rounded-2xl border border-line object-cover shadow-card md:h-36 md:w-36"
+              />
+
+              <div className="min-w-0 flex-1">
                 <h1 className="font-display text-4xl leading-[1.06] tracking-[-0.02em] text-ink md:text-6xl">
                   {personal.name}
                 </h1>
-                <p className="mt-6 text-base leading-relaxed text-muted md:text-lg">
+                <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted md:text-lg">
                   {personal.summary}
                 </p>
-              </div>
 
-              <div className="flex shrink-0 flex-wrap gap-2">
-                <Button href={personal.linkedin}>LinkedIn</Button>
-                <PrintResumeButton />
+                <div className="mt-7 flex flex-wrap gap-2">
+                  <Button href={personal.linkedin}>LinkedIn</Button>
+                  <PrintResumeButton />
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
       </div>
 
+      <Spotlight />
+
       {/* Experience */}
       <Section
-        tone="canvas"
+        tone="surface"
+        divider
         eyebrow="Experience"
         title="Twelve years of shipping"
-        lede="Front-end architecture and engineering leadership across storage, autonomous driving, financial systems, and generative AI."
+        lede="Front-end architecture and engineering leadership across storage, autonomous driving, financial systems, and now agentic AI."
       >
         <RevealGroup as="ul" className="flex flex-col" stagger={0.08}>
           {experience.map((role) => (
@@ -108,7 +121,7 @@ const About: React.FC = () => {
 
       {/* Skills */}
       <Section
-        tone="surface"
+        tone="canvas"
         divider
         eyebrow="Toolkit"
         title="What I work with"
@@ -152,7 +165,7 @@ const About: React.FC = () => {
       </Section>
 
       {/* Education & publications */}
-      <Section tone="canvas" divider eyebrow="Background" title="Education & research">
+      <Section tone="surface" divider eyebrow="Background" title="Education & research">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
             <h3 className="eyebrow">Education</h3>
