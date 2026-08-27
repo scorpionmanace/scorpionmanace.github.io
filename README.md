@@ -62,14 +62,23 @@ Rather than each page inventing its own chrome, three templates cover everything
    the tools index, the home page's featured strip, and the footer.
 2. Build the view and wrap it in `ToolLayout`.
 3. Register the route in `src/App.tsx`.
-4. Add the path to `public/sitemap.xml` and `public/robots.txt`.
+4. Add the path to `public/sitemap.xml`, `public/robots.txt`, and `ROUTES` in
+   `scripts/prerender-routes.mjs`.
 
 ## Deployment
 
 Pushing to `master` runs `.github/workflows/deploy.yml`, which builds and
 publishes `dist/` to GitHub Pages.
 
-Because the app uses `BrowserRouter`, deep links depend on `dist/404.html` —
-GitHub Pages serves it for unknown paths, and it is a copy of `index.html`. The
-`postbuild` script creates it, so it exists for both CI and the manual
-`./deploy.sh` path. Removing that step breaks every URL except `/`.
+Pages is configured to publish the workflow artifact (`build_type: workflow`),
+not the branch contents — pointing it back at a branch would serve the
+unbuilt source `index.html`.
+
+GitHub Pages has no SPA rewrite, so `scripts/prerender-routes.mjs` (wired to
+`postbuild`) writes a real `dist/<route>/index.html` for every known route.
+That matters: the common `404.html` trick renders the page but responds with a
+404 status, which search engines will not index. `404.html` is still emitted as
+the catch-all for unknown paths.
+
+When you add a route, add it to `ROUTES` in that script — a test fails if it
+drifts from `sitemap.xml` or the tool registry.

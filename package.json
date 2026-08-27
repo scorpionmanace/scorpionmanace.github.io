@@ -11,7 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "deploy": "./deploy.sh",
-    "postbuild": "cp dist/index.html dist/404.html && cp -f public/.nojekyll dist/.nojekyll 2>/dev/null || true"
+    "postbuild": "node scripts/prerender-routes.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.23.12",
