@@ -20,6 +20,8 @@ const APITesterView = React.lazy(() => import('./tools/api-tester/components/API
 const CodeFormatter = React.lazy(() => import('./components/CodeFormatter'));
 const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
 const ComponentLabView = React.lazy(() => import('./views/ComponentLabView'));
+const OpenSource = React.lazy(() => import('./views/OpenSource'));
+const TablezGuide = React.lazy(() => import('./views/TablezGuide'));
 const NotFound = React.lazy(() => import('./views/NotFound'));
 
 /** Skeleton shown while a route chunk downloads. */
@@ -70,6 +72,8 @@ const AnimatedRoutes: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/tools" element={<Tools />} />
+            <Route path="/open-source" element={<OpenSource />} />
+            <Route path="/open-source/tablez" element={<TablezGuide />} />
             <Route path="/json-parser" element={<JSONParserView />} />
             <Route path="/color-picker" element={<ColorPickerView />} />
             <Route path="/data-converter" element={<DataConverterView />} />

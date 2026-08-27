@@ -14,19 +14,20 @@
     "postbuild": "node scripts/prerender-routes.mjs"
   },
   "dependencies": {
+    "@scorpionmanace/tablez": "^1.0.0",
     "framer-motion": "^12.23.12",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-router-dom": "^6.4.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^14.0.0",
+    "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.0.0",
     "@types/node": "^18.0.0",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.21",
     "jsdom": "^22.1.0",

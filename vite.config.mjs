@@ -39,18 +39,12 @@ export default defineConfig({
 
     rollupOptions: {
       output: {
-        // Split the two large, independently-cacheable vendor groups so a
-        // React upgrade doesn't invalidate the animation bundle and vice versa.
-        manualChunks: (id) => {
-          if (!id.includes('node_modules')) return undefined
-          if (id.includes('framer-motion') || id.includes('motion-dom') || id.includes('motion-utils')) {
-            return 'motion'
-          }
-          if (id.includes('react-router') || id.includes('/react-dom/') || id.includes('/react/')) {
-            return 'react'
-          }
-          return 'vendor'
-        },
+        // No hand-rolled manualChunks. Splitting React away from packages that
+        // depend on it (tablez, framer-motion) let a vendor chunk evaluate
+        // before React existed — `React.memo` was undefined and the page went
+        // blank in production while working in dev. Rollup's default grouping
+        // keeps dependents with their dependencies; route-level code splitting
+        // still comes from the dynamic imports in App.tsx.
 
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',

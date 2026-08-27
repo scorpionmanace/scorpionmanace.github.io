@@ -56,6 +56,24 @@ Rather than each page inventing its own chrome, three templates cover everything
   (breadcrumbs, title block, actions, working surface).
 - `components/layout/SiteHeader` / `SiteFooter` — global chrome.
 
+## Open source section
+
+`/open-source` lists the libraries in `src/data/openSource.ts`. `tablez` has a
+full guide at `/open-source/tablez` that doubles as its living documentation:
+
+- `src/data/tablez/examples.ts` — the playground examples. Each renders the
+  real published package against editable JSON config.
+- `src/data/tablez/api.ts` — the prop reference tables.
+- `src/components/tablez/TablezPlayground.tsx` — live preview, JSON editors,
+  and a generated code snippet.
+
+Examples marked `editable` must be pure JSON, because the editor round-trips
+them through `JSON.parse`. A test enforces that, along with column keys
+existing on the data and virtualized examples declaring a row height.
+
+`src/types/tablez.d.ts` is a stopgap: the published package ships no usable
+type declarations. Delete it once upstream fixes that.
+
 ## Adding a tool
 
 1. Add an entry to `src/data/tools.ts` — this is the single source of truth for

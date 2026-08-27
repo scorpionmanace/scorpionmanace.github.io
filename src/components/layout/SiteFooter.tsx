@@ -45,6 +45,7 @@ export const SiteFooter: React.FC = () => {
             <ul className="mt-5 flex flex-col gap-3">
               {[
                 { label: 'Work', to: '/' },
+                { label: 'Open source', to: '/open-source' },
                 { label: 'Tools', to: '/tools' },
                 { label: 'About', to: '/about' },
               ].map((item) => (

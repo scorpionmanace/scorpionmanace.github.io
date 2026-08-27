@@ -20,6 +20,8 @@ const dist = join(root, 'dist');
 const ROUTES = [
   'about',
   'tools',
+  'open-source',
+  'open-source/tablez',
   'json-parser',
   'color-picker',
   'data-converter',

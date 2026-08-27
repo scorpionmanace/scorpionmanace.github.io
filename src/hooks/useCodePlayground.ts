@@ -15,7 +15,7 @@ interface CodePlaygroundActions {
   runCode: () => void;
   resetCode: () => void;
   loadExample: (example: string) => void;
-  iframeRef: React.RefObject<HTMLIFrameElement>;
+  iframeRef: React.RefObject<HTMLIFrameElement | null>;
 }
 
 export const useCodePlayground = (): CodePlaygroundState & CodePlaygroundActions => {

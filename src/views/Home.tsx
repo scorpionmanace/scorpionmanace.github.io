@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTools } from '../hooks/useTools';
 import resumeData from '../data/resume.json';
 import { Section } from '../components/ui/Section';
 import { Button } from '../components/ui/Button';
 import { ToolCard } from '../components/ui/ToolCard';
+import { OPEN_SOURCE } from '../data/openSource';
 import { Reveal, RevealGroup, RevealItem } from '../components/ui/Reveal';
 import { Spotlight } from '../components/Spotlight';
 import { staggerParent, riseItem, ease } from '../design/motion';
@@ -154,7 +156,7 @@ const Home: React.FC = () => {
 
       {/* Tools */}
       <Section
-        tone="surface"
+        tone="canvas"
         divider
         eyebrow="Built to be used"
         title="A working set of developer tools"
@@ -172,6 +174,64 @@ const Home: React.FC = () => {
         >
           {featured.map((tool) => (
             <ToolCard key={tool.id} tool={tool} />
+          ))}
+        </RevealGroup>
+      </Section>
+
+      {/* Open source */}
+      <Section
+        tone="surface"
+        divider
+        eyebrow="In the open"
+        title="Open source"
+        lede="Libraries I maintain publicly, each with a guide and a live playground on this site."
+        action={
+          <Button to="/open-source" variant="secondary">
+            All projects
+            <span aria-hidden="true">→</span>
+          </Button>
+        }
+      >
+        <RevealGroup as="ul" className="grid gap-5 md:grid-cols-2" stagger={0.08}>
+          {OPEN_SOURCE.map((project) => (
+            <RevealItem as="li" key={project.id}>
+              <Link
+                to={project.route ?? '/open-source'}
+                className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-line-strong md:p-7"
+              >
+                <div className="flex items-center gap-3">
+                  <h3 className="font-display text-2xl tracking-[-0.01em] text-ink">
+                    {project.name}
+                  </h3>
+                  {project.version && (
+                    <span className="font-mono text-xs text-faint">v{project.version}</span>
+                  )}
+                </div>
+                <p className="mt-1.5 font-mono text-[0.75rem] text-accent">{project.pkg}</p>
+                <p className="mt-4 flex-1 text-sm leading-relaxed text-muted">{project.tagline}</p>
+
+                <ul className="mt-5 flex flex-wrap gap-1.5">
+                  {project.highlights.slice(0, 4).map((item) => (
+                    <li
+                      key={item}
+                      className="rounded-md bg-sunken px-2 py-1 font-mono text-[0.6875rem] text-muted"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink transition-colors group-hover:text-accent">
+                  Read the guide
+                  <span
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                </span>
+              </Link>
+            </RevealItem>
           ))}
         </RevealGroup>
       </Section>

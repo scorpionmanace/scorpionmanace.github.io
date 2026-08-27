@@ -5,6 +5,8 @@ Allow: /
 Allow: /
 Allow: /about
 Allow: /tools
+Allow: /open-source
+Allow: /open-source/tablez
 Allow: /json-parser
 Allow: /color-picker
 Allow: /code-formatter

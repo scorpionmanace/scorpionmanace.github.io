@@ -7,6 +7,7 @@ import { cn } from '../ui/cn';
 
 const NAV = [
   { label: 'Work', to: '/' },
+  { label: 'Open source', to: '/open-source' },
   { label: 'Tools', to: '/tools' },
   { label: 'About', to: '/about' },
 ];
