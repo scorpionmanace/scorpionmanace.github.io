@@ -48,8 +48,21 @@ const showUpdateNotification = (onAccept: () => void) => {
   document.body.appendChild(toast);
 };
 
+/** localhost, 127.0.0.1, and ::1 — where `vite preview` runs. */
+const isLocalHost = (): boolean =>
+  ['localhost', '127.0.0.1', '[::1]', '::1'].includes(window.location.hostname);
+
 export const registerServiceWorker = async (): Promise<void> => {
   if (!import.meta.env.PROD || !('serviceWorker' in navigator)) return;
+
+  // `vite preview` serves a production build on localhost, which would register
+  // this worker against localhost and then serve assets stale-while-revalidate.
+  // That makes a rebuilt CSS bundle appear not to apply until a hard reload —
+  // so keep the worker off local hosts entirely.
+  if (isLocalHost()) {
+    await unregisterServiceWorker();
+    return;
+  }
 
   try {
     const basePath = import.meta.env.BASE_URL || '/';
@@ -83,8 +96,9 @@ export const registerServiceWorker = async (): Promise<void> => {
 
 export const unregisterServiceWorker = async (): Promise<void> => {
   if (!('serviceWorker' in navigator)) return;
-  const registration = await navigator.serviceWorker.ready;
-  await registration.unregister();
+  // Not `.ready`, which never resolves when nothing is registered.
+  const registrations = await navigator.serviceWorker.getRegistrations();
+  await Promise.all(registrations.map((registration) => registration.unregister()));
 };
 
 export default { registerServiceWorker, unregisterServiceWorker };

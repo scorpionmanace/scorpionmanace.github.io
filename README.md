@@ -32,6 +32,26 @@ npm run typecheck  # tsc --noEmit
 npm test           # vitest run
 ```
 
+## Troubleshooting
+
+**Styles look missing locally.** Tailwind is configured CSS-first in
+`src/index.css`; there is no `tailwind.config.js`. Two things have caused a
+seemingly unstyled page before:
+
+- A `"postcss"` key in `package.json`. `postcss-load-config` prefers it over
+  `postcss.config.js`, which silently disables the Tailwind plugin so
+  `@tailwind` directives ship verbatim. Do not reintroduce it.
+- A stale Vite cache after dependency changes — `rm -rf node_modules/.vite`.
+
+To confirm the pipeline is healthy, build and grep the output for a utility:
+
+```bash
+npm run build && grep -c 'mx-auto' dist/assets/*.css   # expect 1, not 0
+```
+
+The service worker no longer registers on localhost, so `npm run preview` can
+no longer serve you a stale cached bundle.
+
 ## Design system
 
 Theming is token-driven. Raw values live on `:root` / `.dark` in `src/index.css`
