@@ -139,17 +139,20 @@ export const useColorPicker = () => {
     }
     if (!palette) return;
 
+    // Bind to a const so the narrowing survives into the closure below.
+    const resolved = palette;
+
     const csvContent = [
       'Color Name,Hex,RGB,HSL,Temperature',
-      ...palette.colors.map((color, index) =>
-        `${palette.name} ${index + 1},${color.hex},rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}),hsl(${color.hsl.h}, ${color.hsl.s}%, ${color.hsl.l}%),${color.temperature}`
+      ...resolved.colors.map((color, index) =>
+        `${resolved.name} ${index + 1},${color.hex},rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}),hsl(${color.hsl.h}, ${color.hsl.s}%, ${color.hsl.l}%),${color.temperature}`
       )
     ].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `${palette.name.toLowerCase().replace(' ', '-')}-palette.csv`;
+    link.download = `${resolved.name.toLowerCase().replace(' ', '-')}-palette.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

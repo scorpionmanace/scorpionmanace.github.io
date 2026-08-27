@@ -11,7 +11,7 @@ Allow: /code-formatter
 Allow: /code-playground
 Allow: /data-converter
 Allow: /api-tester
-Allow: /chakra-ui
+Allow: /component-lab
 
 # Block admin/cache/private areas and build/directories
 Disallow: /admin/

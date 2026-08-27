@@ -1,157 +1,117 @@
 import React, { Suspense, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Header from './components/Header';
-import SubHeader from './components/SubHeader';
-import Breadcrumbs from './components/Breadcrumbs';
-import Footer from './components/Footer';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import SiteHeader from './components/layout/SiteHeader';
+import SiteFooter from './components/layout/SiteFooter';
+import ScrollProgress from './components/layout/ScrollProgress';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { registerServiceWorker } from './registerServiceWorker';
+import { pageVariants } from './design/motion';
 
-// Advanced service worker registration with cache busting
-const registerServiceWorker = async () => {
-  if ('serviceWorker' in navigator) {
-    try {
-      const registration = await navigator.serviceWorker.register('/service-worker.js', {
-        scope: '/'
-      });
-
-      console.log('[SW] Service worker registered successfully:', registration);
-
-      registration.addEventListener('updatefound', () => {
-        console.log('[SW] New service worker found, installing...');
-        const newWorker = registration.installing!;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed') {
-            if (navigator.serviceWorker.controller) {
-              console.log('[SW] New version available! Refresh page to activate.');
-              // Optional: Show user notification about update
-              showUpdateNotification();
-            } else {
-              console.log('[SW] Service worker installed for the first time');
-            }
-          }
-        });
-      });
-
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-          refreshing = true;
-          window.location.reload();
-        }
-      });
-
-    } catch (error) {
-      console.error('[SW] Service worker registration failed:', error);
-    }
-  }
-};
-
-const showUpdateNotification = () => {
-  // Create a simple notification element
-  const notification = document.createElement('div');
-  notification.style.cssText = `
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background: #2ecc71;
-    color: white;
-    padding: 12px 16px;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    z-index: 10000;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-  `;
-  notification.innerHTML = '⚡ App updated! Click to refresh';
-
-  notification.onclick = () => {
-    navigator.serviceWorker.controller?.postMessage({ type: 'SKIP_WAITING' });
-    notification.style.opacity = '0';
-    setTimeout(() => notification.remove(), 300);
-  };
-
-  // Auto-remove after 10 seconds
-  setTimeout(() => {
-    if (notification.parentNode) {
-      notification.style.opacity = '0';
-      setTimeout(() => notification.remove(), 300);
-    }
-  }, 10000);
-
-  document.body.appendChild(notification);
-};
-
-// Lazy load components for better code splitting
 const Home = React.lazy(() => import('./views/Home'));
 const About = React.lazy(() => import('./pages/About'));
+const Tools = React.lazy(() => import('./views/Tools'));
 const JSONParserView = React.lazy(() => import('./tools/json-parser/components/JSONParserView'));
 const ColorPickerView = React.lazy(() => import('./views/ColorPickerView'));
-const DataConverterView = React.lazy(() => import('./tools/data-converter/components/DataConverterView'));
-const Tools = React.lazy(() => import('./views/Tools'));
-const ChakraUIView = React.lazy(() => import('./views/ChakraUIView'));
+const DataConverterView = React.lazy(
+  () => import('./tools/data-converter/components/DataConverterView'),
+);
+const APITesterView = React.lazy(() => import('./tools/api-tester/components/APITesterView'));
 const CodeFormatter = React.lazy(() => import('./components/CodeFormatter'));
 const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
-const APITesterView = React.lazy(() => import('./tools/api-tester/components/APITesterView'));
+const ComponentLabView = React.lazy(() => import('./views/ComponentLabView'));
+const NotFound = React.lazy(() => import('./views/NotFound'));
+
+/** Skeleton shown while a route chunk downloads. */
+const RouteFallback: React.FC = () => (
+  <div
+    className="flex flex-1 items-center justify-center px-5 py-32"
+    role="status"
+    aria-live="polite"
+  >
+    <div className="flex flex-col items-center gap-4">
+      <motion.span
+        className="h-8 w-8 rounded-full border-2 border-line border-t-accent"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 0.9, ease: 'linear', repeat: Infinity }}
+        aria-hidden="true"
+      />
+      <span className="eyebrow">Loading</span>
+    </div>
+  </div>
+);
+
+/** Resets scroll position on every navigation. */
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [pathname]);
+
+  return null;
+};
+
+const AnimatedRoutes: React.FC = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location.pathname}
+        variants={pageVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        className="flex flex-1 flex-col"
+      >
+        <Suspense fallback={<RouteFallback />}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/json-parser" element={<JSONParserView />} />
+            <Route path="/color-picker" element={<ColorPickerView />} />
+            <Route path="/data-converter" element={<DataConverterView />} />
+            <Route path="/api-tester" element={<APITesterView />} />
+            <Route path="/code-formatter" element={<CodeFormatter />} />
+            <Route path="/code-playground" element={<CodePlayground />} />
+            <Route path="/component-lab" element={<ComponentLabView />} />
+            {/* Former route, kept so existing links and search results resolve. */}
+            <Route path="/chakra-ui" element={<Navigate to="/component-lab" replace />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
 
 const App: React.FC = () => {
-  // Register service worker for advanced cache busting
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      registerServiceWorker();
-    }
+    registerServiceWorker();
   }, []);
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors flex flex-col">
-        <header role="banner">
-          <Header />
-        </header>
+      <ScrollProgress />
+      <ScrollToTop />
 
-        <nav aria-label="Secondary navigation" role="navigation">
-          <SubHeader />
-        </nav>
-
-        <nav aria-label="Breadcrumb navigation" role="navigation">
-          <Breadcrumbs />
-        </nav>
-
-        <main
-          id="main-content"
-          className="flex-1 flex flex-col"
-          role="main"
+      <div className="flex min-h-screen flex-col bg-canvas text-ink">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-canvas"
         >
-          <Suspense fallback={
-            <div
-              className="flex-1 flex items-center justify-center min-h-[400px] dark:bg-gray-900"
-              aria-live="polite"
-              aria-label="Loading application content"
-            >
-              <div className="p-8 bg-white dark:bg-gray-800 border rounded-lg shadow-lg text-center transition-colors" role="status">
-                <div className="sr-only">Loading Karan Khare's development portfolio and tools...</div>
-                <span aria-hidden="true">Loading...</span>
-              </div>
-            </div>
-          }>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/json-parser" element={<JSONParserView />} />
-              <Route path="/color-picker" element={<ColorPickerView />} />
-              <Route path="/data-converter" element={<DataConverterView />} />
-              <Route path="/api-tester" element={<APITesterView />} />
-              <Route path="/code-formatter" element={<CodeFormatter />} />
-              <Route path="/code-playground" element={<CodePlayground />} />
-              <Route path="/tools" element={<Tools />} />
-              <Route path="/chakra-ui" element={<ChakraUIView />} />
-            </Routes>
-          </Suspense>
+          Skip to content
+        </a>
+
+        <SiteHeader />
+
+        <main id="main-content" className="flex flex-1 flex-col">
+          <AnimatedRoutes />
         </main>
 
-        <footer role="contentinfo">
-          <Footer />
-        </footer>
+        <SiteFooter />
       </div>
     </ThemeProvider>
   );

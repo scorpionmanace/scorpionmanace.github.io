@@ -1,147 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO Meta Tags -->
-    <title>Karan Khare - Developer Portfolio & Web Tools Hub | Full-Stack Developer</title>
-    <meta name="description" content="Discover Karan Khare's web development portfolio featuring innovative tools, modern applications, dark mode, and development utilities. Explore JSON parsing, code formatting, color picker, and data conversion tools.">
-    <meta name="keywords" content="web developer, portfolio, javascript, react, typescript, json parser, code formatter, color picker, data converter, web tools, developer portfolio, full-stack developer">
+    <!-- SEO -->
+    <title>Karan Khare — Engineering Leader & Front-End Architect</title>
+    <meta name="description" content="Karan Khare is an engineering leader with 12+ years across storage, fintech, autonomous driving, and generative AI. Portfolio, résumé, and a set of free browser-based developer tools.">
+    <meta name="keywords" content="Karan Khare, engineering leader, front-end architect, React, TypeScript, developer tools, JSON parser, API tester, code formatter, color picker, data converter">
     <meta name="author" content="Karan Khare">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-
-    <!-- Canonical URL -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
     <link rel="canonical" href="https://scorpionmanace.github.io/">
 
-    <!-- Performance Optimization -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <!-- Set the theme before first paint so dark mode never flashes white. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme') || 'system';
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = stored === 'dark' || (stored === 'system' && prefersDark);
+          document.documentElement.classList.toggle('dark', isDark);
+        } catch (e) {
+          /* Private mode can block storage; fall back to the light default. */
+        }
+      })();
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Favicons -->
+    <!-- Icons & PWA -->
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="apple-touch-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0b0b0d" media="(prefers-color-scheme: dark)">
+    <meta name="application-name" content="Karan Khare">
+    <meta name="apple-mobile-web-app-title" content="Karan Khare">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Karan Khare - Developer Portfolio & Web Tools Hub">
-    <meta property="og:description" content="Explore innovative web tools, modern applications with dark mode support, and full-stack development portfolio">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Karan Khare — Engineering Leader & Front-End Architect">
+    <meta property="og:description" content="Portfolio, résumé, and a set of free browser-based developer tools.">
     <meta property="og:image" content="https://scorpionmanace.github.io/og-image.png">
     <meta property="og:url" content="https://scorpionmanace.github.io/">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Double K's Hub">
+    <meta property="og:site_name" content="Karan Khare">
     <meta property="og:locale" content="en_US">
 
-    <!-- Twitter Card Meta Tags -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Karan Khare - Developer Portfolio & Web Tools Hub">
-    <meta name="twitter:description" content="Discover innovative web tools, modern applications with dark mode, and development utilities">
-    <meta name="twitter:image" content="https://scorpionmanace.github.io/twitter-card.png">
-    <meta name="twitter:creator" content="@yourtwitterhandle">
-    <meta name="twitter:site" content="@yourtwitterhandle">
+    <meta name="twitter:title" content="Karan Khare — Engineering Leader & Front-End Architect">
+    <meta name="twitter:description" content="Portfolio, résumé, and a set of free browser-based developer tools.">
+    <meta name="twitter:image" content="https://scorpionmanace.github.io/og-image.png">
 
-    <!-- Additional SEO and Performance Meta Tags -->
-    <meta name="theme-color" content="#667eea">
-    <meta name="msapplication-TileColor" content="#667eea">
-    <meta name="application-name" content="Double K's Hub">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Karan Khare Portfolio">
-
-    <!-- Security and Cache Headers -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Language" content="en">
-    <meta http-equiv="Cache-Control" content="max-age=31536000, immutable">
-
-    <!-- Structured Data (JSON-LD) -->
+    <!-- Structured data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Karan Khare",
-      "jobTitle": "Full-Stack Developer",
+      "jobTitle": "Senior Front-End Engineer",
       "url": "https://scorpionmanace.github.io/",
       "sameAs": [
-        "https://github.com/scorpionmanace"
+        "https://github.com/scorpionmanace",
+        "https://www.linkedin.com/in/karankhare/"
       ],
       "knowsAbout": [
-        "Web Development",
-        "JavaScript",
+        "Front-End Architecture",
+        "Design Systems",
         "React",
         "TypeScript",
         "Node.js",
-        "Web Tools",
-        "JSON Parser",
-        "Code Formatting"
-      ],
-      "hasOccupation": {
-        "@type": "Occupation",
-        "name": "Full-Stack Developer",
-        "occupationLocation": {
-          "@type": "Country",
-          "name": "India"
-        }
-      }
+        "AWS",
+        "Engineering Leadership"
+      ]
     }
     </script>
 
-    <!-- Web Tool Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Double K's Hub",
-      "description": "Web development tools and portfolio by Karan Khare",
-      "url": "https://scorpionmanace.github.io/",
+      "name": "Karan Khare — Developer Tools",
+      "description": "Browser-based developer tools: JSON parser, API tester, data converter, color picker, code formatter, and a code playground.",
+      "url": "https://scorpionmanace.github.io/#/tools",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "featureList": [
         "JSON Parser",
-        "Code Formatter",
-        "Color Picker",
+        "API Tester",
         "Data Converter",
-        "Dark Mode Support"
+        "Color Picker",
+        "Code Formatter",
+        "Code Playground"
       ],
-      "author": {
-        "@type": "Person",
-        "name": "Karan Khare",
-        "url": "https://github.com/scorpionmanace"
-      },
-      "datePublished": "2024-01-01"
+      "author": { "@type": "Person", "name": "Karan Khare" }
     }
     </script>
-
-    <!-- Font Loading Optimization -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   </head>
+
   <body>
     <div id="root"></div>
+    <noscript>This site requires JavaScript to run its browser-based developer tools.</noscript>
     <script type="module" src="./src/index.tsx"></script>
-
-    <!-- Performance Monitoring (Optional) -->
-    <script>
-      // Minimal performance tracking
-      window.addEventListener('load', () => {
-        if ('performance' in window && 'getEntriesByType' in window.performance) {
-          const navigation = performance.getEntriesByType('navigation')[0];
-          if (navigation && window.gtag) {
-            window.gtag('event', 'page_load_time', {
-              event_category: 'performance',
-              event_label: 'LCP',
-              value: Math.round(navigation.loadEventEnd - navigation.loadEventStart)
-            });
-          }
-        }
-      });
-    </script>
   </body>
 </html>

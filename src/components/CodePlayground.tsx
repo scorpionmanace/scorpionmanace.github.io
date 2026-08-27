@@ -1,443 +1,145 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import ToolLayout from './layout/ToolLayout';
+import { Button } from './ui/Button';
+import { ErrorBanner } from './ui/Field';
 import { useCodePlayground } from '../hooks/useCodePlayground';
-import { usePxToRem } from '../hooks/usePxToRem';
-import { useKeyboardShortcuts, useCodeFormatting, StatusMessage, ShortcutTooltip } from '../tools/code-playground';
+import { cn } from './ui/cn';
 
-interface Language {
-  key: string;
-  name: string;
-  extension: string;
-  sample: string;
-  formatter: string;
-}
+type PaneKey = 'html' | 'css' | 'js';
+
+const PANES: Array<{ key: PaneKey; label: string }> = [
+  { key: 'html', label: 'HTML' },
+  { key: 'css', label: 'CSS' },
+  { key: 'js', label: 'JavaScript' },
+];
+
+const EXAMPLES = [
+  { key: 'interactive-button', label: 'Interactive button' },
+  { key: 'canvas-drawing', label: 'Canvas drawing' },
+  { key: 'local-storage', label: 'Local storage' },
+];
 
 const CodePlayground: React.FC = () => {
-  const {
-    html,
-    css,
-    js,
-    isRunning,
-    error,
-    setHtml,
-    setCss,
-    setJs,
-    runCode,
-    resetCode,
-    loadExample,
-    iframeRef
-  } = useCodePlayground();
+  const { html, css, js, error, setHtml, setCss, setJs, runCode, resetCode, loadExample, iframeRef } =
+    useCodePlayground();
 
-  const { pxToRem } = usePxToRem();
-  const [activeTab, setActiveTab] = useState<'html' | 'css' | 'javascript'>('html');
-  const [showShortcutsTooltip, setShowShortcutsTooltip] = useState(false);
+  const [pane, setPane] = useState<PaneKey>('html');
 
-  // Custom hooks for keyboard shortcuts and formatting
-  const { modifierKey, createKeyboardHandler } = useKeyboardShortcuts();
-  const { isFormatting, formatStatus, formatCurrentTab } = useCodeFormatting();
+  const value = { html, css, js }[pane];
+  const setValue = { html: setHtml, css: setCss, js: setJs }[pane];
 
-  // Code setters for formatting
-  const codeSetters = {
-    html: setHtml,
-    css: setCss,
-    javascript: setJs
-  };
+  // Render once on mount so the preview is never an empty frame.
+  useEffect(() => {
+    runCode();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // Current code based on active tab
-  const getCurrentCode = () => {
-    switch (activeTab) {
-      case 'html': return html;
-      case 'css': return css;
-      case 'javascript': return js;
-    }
-  };
+  // Cmd/Ctrl+Enter runs the code, matching editor conventions.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+        event.preventDefault();
+        runCode();
+      }
+    };
 
-  // Handle format action with new hook
-  const handleFormat = async () => {
-    const currentCode = getCurrentCode();
-    await formatCurrentTab(currentCode, activeTab, codeSetters);
-  };
-
-  // Create keyboard handler with new hook
-  const handleKeyDown = createKeyboardHandler(handleFormat, runCode);
-
-
-
-  const containerStyle: React.CSSProperties = {
-    padding: `${pxToRem(24)} ${pxToRem(24)}`,
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    minHeight: '100vh',
-    width: '100%'
-  };
-
-  const cardStyle: React.CSSProperties = {
-    maxWidth: pxToRem(1200),
-    margin: '0 auto',
-    background: 'white',
-    borderRadius: pxToRem(16),
-    padding: pxToRem(24),
-    boxShadow: '0 24px 48px rgba(0,0,0,0.15)'
-  };
-
-  const headerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    marginBottom: pxToRem(32)
-  };
-
-  const titleStyle: React.CSSProperties = {
-    fontSize: pxToRem(32),
-    fontWeight: 'bold',
-    color: '#2d3748',
-    marginBottom: pxToRem(8)
-  };
-
-  const subtitleStyle: React.CSSProperties = {
-    fontSize: pxToRem(18),
-    color: '#718096',
-    marginBottom: pxToRem(16)
-  };
-
-  const editorContainerStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: pxToRem(24),
-    marginTop: pxToRem(24)
-  };
-
-  const editorPanelStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    border: '1px solid #e2e8f0',
-    borderRadius: pxToRem(8),
-    overflow: 'hidden'
-  };
-
-  const tabBarStyle: React.CSSProperties = {
-    display: 'flex',
-    backgroundColor: '#f7fafc',
-    borderBottom: '1px solid #e2e8f0'
-  };
-
-  const tabStyle = (isActive: boolean): React.CSSProperties => ({
-    flex: 1,
-    padding: `${pxToRem(12)} ${pxToRem(16)}`,
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: pxToRem(14),
-    fontWeight: isActive ? '600' : '400',
-    color: isActive ? '#3182ce' : '#4a5568',
-    borderBottom: isActive ? '2px solid #3182ce' : 'none',
-    transition: 'all 0.2s ease',
-    borderRadius: 0
-  });
-
-  const textareaStyle: React.CSSProperties = {
-    width: '100%',
-    height: '60vh', // Full height
-    padding: pxToRem(16),
-    border: 'none',
-    outline: 'none',
-    fontFamily: 'Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace',
-    fontSize: pxToRem(13),
-    lineHeight: 1.5,
-    resize: 'vertical',
-    backgroundColor: '#f8fafc',
-    boxSizing: 'border-box'
-  };
-
-  const buttonContainerStyle: React.CSSProperties = {
-    display: 'flex',
-    gap: pxToRem(12),
-    marginBottom: pxToRem(16)
-  };
-
-  const buttonStyle: React.CSSProperties = {
-    padding: `${pxToRem(12)} ${pxToRem(20)}`,
-    borderRadius: pxToRem(8),
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: pxToRem(14),
-    fontWeight: '600',
-    transition: 'all 0.2s ease',
-    display: 'flex',
-    alignItems: 'center',
-    gap: pxToRem(8)
-  };
-
-  const runButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    backgroundColor: '#10b981',
-    color: 'white'
-  };
-
-  const secondaryButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    backgroundColor: '#f3f4f6',
-    color: '#374151'
-  };
-
-  const dangerButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    backgroundColor: '#ef4444',
-    color: 'white'
-  };
-
-  const outputContainerStyle: React.CSSProperties = {
-    border: '1px solid #e2e8f0',
-    borderRadius: pxToRem(8),
-    overflow: 'hidden',
-    backgroundColor: '#f8fafc'
-  };
-
-  const outputHeaderStyle: React.CSSProperties = {
-    backgroundColor: '#f1f5f9',
-    padding: pxToRem(12),
-    borderBottom: '1px solid #e2e8f0',
-    fontSize: pxToRem(14),
-    fontWeight: '600',
-    color: '#2d3748'
-  };
-
-  const exampleButtonStyle: React.CSSProperties = {
-    padding: `${pxToRem(8)} ${pxToRem(16)}`,
-    backgroundColor: '#f3f4f6',
-    color: '#374151',
-    border: 'none',
-    borderRadius: pxToRem(6),
-    cursor: 'pointer',
-    fontSize: pxToRem(12),
-    transition: 'all 0.2s ease'
-  };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [runCode]);
 
   return (
-    <div style={containerStyle}>
-      <div style={cardStyle}>
-        {/* Header */}
-        <div style={headerStyle}>
-          <div style={{
-            background: 'linear-gradient(135deg, #667eea, #764ba2)',
-            height: pxToRem(6),
-            width: pxToRem(120),
-            margin: '0 auto',
-            borderRadius: pxToRem(3),
-            marginBottom: pxToRem(24)
-          }}></div>
-          <h1 style={titleStyle}>🎮 Code Playground</h1>
-          <p style={subtitleStyle}>
-            Write HTML, CSS, and JavaScript code and see the results in real-time
-          </p>
+    <ToolLayout
+      title="Code Playground"
+      description="Write HTML, CSS, and JavaScript side by side and render the result live in a sandboxed frame."
+      icon="▶"
+      category="Development"
+      actions={
+        <>
+          <Button variant="secondary" onClick={resetCode}>
+            Reset
+          </Button>
+          <Button onClick={runCode}>
+            Run
+            <kbd className="ml-1 font-mono text-[0.6875rem] opacity-70">⌘↵</kbd>
+          </Button>
+        </>
+      }
+    >
+      <div className="flex flex-col gap-5 p-5 md:p-7">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="eyebrow mr-1">Examples</span>
+          {EXAMPLES.map((example) => (
+            <button
+              key={example.key}
+              type="button"
+              onClick={() => loadExample(example.key)}
+              className="rounded-full border border-line px-3 py-1.5 text-[0.8125rem] text-muted transition-colors hover:border-line-strong hover:text-ink"
+            >
+              {example.label}
+            </button>
+          ))}
         </div>
 
+        <ErrorBanner message={error} />
 
+        <div className="grid gap-5 lg:grid-cols-2">
+          {/* Editor */}
+          <div className="flex flex-col overflow-hidden rounded-2xl border border-line">
+            <div className="flex border-b border-line bg-sunken" role="tablist" aria-label="Editor panes">
+              {PANES.map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={pane === item.key}
+                  onClick={() => setPane(item.key)}
+                  className={cn(
+                    'relative px-4 py-2.5 font-mono text-xs tracking-wide transition-colors',
+                    pane === item.key ? 'text-ink' : 'text-muted hover:text-ink',
+                  )}
+                >
+                  {item.label}
+                  {pane === item.key && (
+                    <motion.span
+                      layoutId="playground-tab"
+                      className="absolute inset-x-0 -bottom-px h-0.5 bg-accent"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
 
-        {/* Action Buttons */}
-        <div style={buttonContainerStyle}>
-          <button
-            onClick={runCode}
-            disabled={isRunning}
-            style={{
-              ...runButtonStyle,
-              opacity: isRunning ? 0.7 : 1,
-              transform: isRunning ? 'scale(0.98)' : 'scale(1)'
-            }}
-          >
-            <span>{isRunning ? '⏳' : '▶'}</span>
-            {isRunning ? 'Running...' : 'Run Code'}
-          </button>
-
-          <div style={{ position: 'relative' }}>
-            <button
-              onClick={handleFormat}
-              disabled={isFormatting}
-              style={{
-                ...secondaryButtonStyle,
-                backgroundColor: '#8b5cf6',
-                color: 'white'
-              }}
-            >
-              <span>{isFormatting ? '⏳' : '✨'}</span>
-              {isFormatting ? 'Formatting...' : 'Format'}
-            </button>
-
-            {/* Help Icon for Keyboard Shortcuts */}
-            <button
-              onClick={() => setShowShortcutsTooltip(!showShortcutsTooltip)}
-              style={{
-                position: 'absolute',
-                top: pxToRem(-8),
-                right: pxToRem(-8),
-                width: pxToRem(20),
-                height: pxToRem(20),
-                borderRadius: '50%',
-                border: '2px solid #8b5cf6',
-                backgroundColor: 'white',
-                color: '#8b5cf6',
-                cursor: 'pointer',
-                fontSize: pxToRem(12),
-                fontWeight: 'bold',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                zIndex: 10
-              }}
-              title="Click to see keyboard shortcuts"
-            >
-              ?
-            </button>
-
-            {/* Shortcuts Tooltip */}
-            <ShortcutTooltip
-              onClose={() => setShowShortcutsTooltip(false)}
+            <textarea
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+              spellCheck={false}
+              aria-label={`${pane.toUpperCase()} source`}
+              className="h-[28rem] w-full resize-none bg-canvas p-4 font-mono text-[0.8125rem] leading-relaxed text-ink focus:outline-none"
             />
           </div>
 
-          <button onClick={resetCode} style={secondaryButtonStyle}>
-            <span>🔄</span>
-            Reset
-          </button>
-
-          {/* Example Buttons */}
-          <button
-            onClick={() => loadExample('interactive-button')}
-            style={exampleButtonStyle}
-            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#e5e7eb'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#f3f4f6'; }}
-          >
-            Click Counter
-          </button>
-          <button
-            onClick={() => loadExample('canvas-drawing')}
-            style={exampleButtonStyle}
-            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#e5e7eb'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#f3f4f6'; }}
-          >
-            Canvas Drawing
-          </button>
-          <button
-            onClick={() => loadExample('local-storage')}
-            style={exampleButtonStyle}
-            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#e5e7eb'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#f3f4f6'; }}
-          >
-            Local Storage
-          </button>
-        </div>
-
-        {/* Error Display */}
-        {error && (
-          <div style={{
-            padding: pxToRem(16),
-            backgroundColor: '#fef2f2',
-            border: '1px solid #fecaca',
-            borderRadius: pxToRem(8),
-            color: '#dc2626',
-            marginBottom: pxToRem(16),
-            fontSize: pxToRem(14)
-          }}>
-            <strong>Error:</strong> {error}
-          </div>
-        )}
-
-        {/* Formatting Status Display */}
-        <StatusMessage message={formatStatus} />
-
-        {/* Editors and Output Container */}
-        <div style={editorContainerStyle}>
-          {/* Code Editors */}
-          <div style={editorPanelStyle}>
-            <div style={tabBarStyle}>
-              <button
-                onClick={() => setActiveTab('html')}
-                style={tabStyle(activeTab === 'html')}
-              >
-                HTML
-              </button>
-              <button
-                onClick={() => setActiveTab('css')}
-                style={tabStyle(activeTab === 'css')}
-              >
-                CSS
-              </button>
-              <button
-                onClick={() => setActiveTab('javascript')}
-                style={tabStyle(activeTab === 'javascript')}
-              >
-                JavaScript
-              </button>
+          {/* Preview */}
+          <div className="flex flex-col overflow-hidden rounded-2xl border border-line">
+            <div className="flex items-center gap-2 border-b border-line bg-sunken px-4 py-2.5">
+              <span className="flex gap-1.5" aria-hidden="true">
+                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
+                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
+                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
+              </span>
+              <span className="eyebrow ml-1">Preview</span>
             </div>
-            {activeTab === 'html' && (
-              <textarea
-                value={html}
-                onChange={(e) => setHtml(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Enter your HTML here..."
-                style={{...textareaStyle, margin: 0}}
-              />
-            )}
 
-            {activeTab === 'css' && (
-              <textarea
-                value={css}
-                onChange={(e) => setCss(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Enter your CSS here..."
-                style={{...textareaStyle, margin: 0}}
-              />
-            )}
-
-            {activeTab === 'javascript' && (
-              <textarea
-                value={js}
-                onChange={(e) => setJs(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Enter your JavaScript here..."
-                style={{...textareaStyle, margin: 0}}
-              />
-            )}
-          </div>
-
-          {/* Output */}
-          <div style={editorPanelStyle}>
-            <div style={outputHeaderStyle}>📺 Output</div>
             <iframe
               ref={iframeRef}
-              title="Code Playground Output"
-              style={{
-                flex: 1,
-                border: 'none',
-                width: '100%',
-                height: '400px'
-              }}
-              sandbox="allow-scripts allow-modals allow-forms allow-downloads"
+              title="Code preview"
+              sandbox="allow-scripts allow-modals"
+              className="h-[28rem] w-full border-0 bg-white"
             />
-          </div>
-        </div>
-
-        {/* Footer Info */}
-        <div style={{
-          marginTop: pxToRem(24),
-          padding: pxToRem(16),
-          backgroundColor: '#f8fafc',
-          borderRadius: pxToRem(8),
-          fontSize: pxToRem(12),
-          color: '#64748b',
-          textAlign: 'center'
-        }}>
-          <div>
-            💡 Tip: Your code runs in a sandboxed environment for security.
-            Try the examples or write your own HTML/CSS/JavaScript!
-          </div>
-          <div style={{
-            marginTop: pxToRem(8),
-            fontSize: pxToRem(11),
-            color: '#6b7280'
-          }}>
-            ⌨️ <strong>{modifierKey}+Enter</strong> Format current tab | <strong>{modifierKey}+Shift+Enter</strong> Run code
           </div>
         </div>
       </div>
-    </div>
+    </ToolLayout>
   );
 };
 

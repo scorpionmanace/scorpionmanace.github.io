@@ -1,6 +1,7 @@
 {
-  "name": "scorpionmanace.github.io",
-  "short_name": "scorpionmanace.github.io",
+  "name": "Karan Khare \u2014 Portfolio & Developer Tools",
+  "short_name": "Karan Khare",
+  "description": "Portfolio, resume, and browser-based developer tools by Karan Khare.",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -13,8 +14,9 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  "background_color": "#faf9f7",
+  "theme_color": "#faf9f7"
 }

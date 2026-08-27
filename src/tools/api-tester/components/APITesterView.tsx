@@ -1,278 +1,246 @@
-"use client"
-
 import React, { useState } from 'react';
-import { Box, Button, Heading, Text, VStack, HStack, Input, Textarea } from '@chakra-ui/react';
-import { useTheme } from '../../../contexts/ThemeContext';
-import { usePxToRem } from '../../../core/hooks/usePxToRem';
-import { useApiTester } from '../hooks/useApiTester';
+import { AnimatePresence, motion } from 'framer-motion';
+import ToolLayout from '../../../components/layout/ToolLayout';
+import { Button } from '../../../components/ui/Button';
+import { ErrorBanner, Field, Input, Select, TextArea } from '../../../components/ui/Field';
+import { ease } from '../../../design/motion';
+import { cn } from '../../../components/ui/cn';
+import { useApiTester } from '../hooks';
+
+const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'];
+
+const statusTone = (status: number) => {
+  if (status >= 200 && status < 300) return 'text-emerald-600 dark:text-emerald-400';
+  if (status >= 300 && status < 400) return 'text-sky-600 dark:text-sky-400';
+  if (status >= 400 && status < 500) return 'text-amber-600 dark:text-amber-400';
+  return 'text-red-600 dark:text-red-400';
+};
+
+/** Pretty-print JSON bodies; leave anything else untouched. */
+const formatBody = (body: string) => {
+  try {
+    return JSON.stringify(JSON.parse(body), null, 2);
+  } catch {
+    return body;
+  }
+};
 
 const APITesterView: React.FC = () => {
-  const {
-    request,
-    response,
-    isLoading,
-    error,
-    updateRequest,
-    addHeader,
-    removeHeader,
-    sendRequest
-  } = useApiTester();
+  const { request, response, isLoading, error, updateRequest, addHeader, removeHeader, sendRequest } =
+    useApiTester();
 
-  const [newHeaderKey, setNewHeaderKey] = useState('');
-  const [newHeaderValue, setNewHeaderValue] = useState('');
-  const [authType, setAuthType] = useState('none');
-  const [authValue, setAuthValue] = useState('');
+  const [headerKey, setHeaderKey] = useState('');
+  const [headerValue, setHeaderValue] = useState('');
+  const [tab, setTab] = useState<'body' | 'headers'>('body');
 
-  const { currentTheme } = useTheme();
-  const { pxToRem } = usePxToRem();
+  const headerEntries = Object.entries(request.headers);
+  const bodyAllowed = request.method !== 'GET' && request.method !== 'HEAD';
 
-  const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'];
-
-  const handleAddHeader = () => {
-    if (newHeaderKey && newHeaderValue) {
-      addHeader(newHeaderKey, newHeaderValue);
-      setNewHeaderKey('');
-      setNewHeaderValue('');
-    }
-  };
-
-  const handleApplyAuth = () => {
-    if (authValue) {
-      const headerValue =
-        authType === 'bearer' ? `Bearer ${authValue}` :
-        authType === 'basic' ? `Basic ${btoa(authValue)}` : '';
-      addHeader('Authorization', headerValue);
-      setAuthValue('');
-    }
-  };
-
-  const getStatusColor = (status: number) => {
-    if (status >= 200 && status < 300) return currentTheme === 'dark' ? 'green.400' : 'green.500';
-    if (status >= 400) return currentTheme === 'dark' ? 'red.400' : 'red.500';
-    return currentTheme === 'dark' ? 'yellow.400' : 'yellow.500';
-  };
-
-  const getStatusBg = (status: number) => {
-    if (status >= 200 && status < 300) return currentTheme === 'dark' ? 'green.900' : 'green.100';
-    if (status >= 400) return currentTheme === 'dark' ? 'red.900' : 'red.100';
-    return currentTheme === 'dark' ? 'yellow.900' : 'yellow.100';
+  const commitHeader = () => {
+    const key = headerKey.trim();
+    if (!key) return;
+    addHeader(key, headerValue.trim());
+    setHeaderKey('');
+    setHeaderValue('');
   };
 
   return (
-    <Box maxW="75rem" mx="auto" px={{ base: 4, md: 8 }} py="2rem">
-      <VStack gap="2rem">
-        {/* Header */}
-        <Box textAlign="center">
-          <Heading size="2xl" mb={3} className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            HTTP API Tester
-          </Heading>
-          <Text fontSize="lg" color={currentTheme === 'dark' ? "gray.400" : "gray.600"}>
-            Test REST API endpoints with comprehensive request/response handling
-          </Text>
-        </Box>
+    <ToolLayout
+      title="API Tester"
+      description="Send REST requests with custom methods, headers, and bodies, then inspect the status, headers, and payload that come back."
+      icon="⇄"
+      category="Web"
+    >
+      <div className="flex flex-col gap-6 p-5 md:p-7">
+        {/* Request line */}
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            sendRequest();
+          }}
+          className="flex flex-col gap-3 sm:flex-row"
+        >
+          <Select
+            value={request.method}
+            onChange={(event) => updateRequest('method', event.target.value)}
+            aria-label="HTTP method"
+            className="sm:w-36"
+          >
+            {METHODS.map((method) => (
+              <option key={method} value={method}>
+                {method}
+              </option>
+            ))}
+          </Select>
 
-        {/* Error Display */}
-        {error && (
-          <Box bg={currentTheme === 'dark' ? "red.900" : "red.100"} color={currentTheme === 'dark' ? "red.200" : "red.800"} p={4} borderRadius="lg" w="full">
-            <Text fontWeight="bold">Error:</Text>
-            <Text>{error}</Text>
-          </Box>
-        )}
+          <Input
+            type="url"
+            value={request.url}
+            onChange={(event) => updateRequest('url', event.target.value)}
+            placeholder="https://api.example.com/v1/resource"
+            aria-label="Request URL"
+            className="flex-1 font-mono text-[0.8125rem]"
+          />
 
-        {/* Main Grid Layout */}
-        <HStack gap="2rem" align="flex-start" w="full" flexWrap="wrap">
-          {/* Request Section */}
-          <Box flex="1" minW="25rem" bg={currentTheme === 'dark' ? "gray.800" : "white"} p="1.5rem" rounded="xl" shadow="lg">
-            <Text fontSize="xl" fontWeight="bold" mb="1.5rem">Request Configuration</Text>
+          <Button type="submit" disabled={isLoading || !request.url}>
+            {isLoading ? 'Sending…' : 'Send'}
+            <span aria-hidden="true">→</span>
+          </Button>
+        </form>
 
-            {/* Method and URL */}
-            <Box mb="1.5rem">
-              <HStack mb="1rem">
-                <select
-                  value={request.method}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateRequest('method', e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg bg-white dark:bg-gray-700 dark:border-gray-600"
-                >
-                  {methods.map((method: string) => (
-                    <option
-                      key={method}
-                      value={method}
-                      className="text-gray-900 dark:text-white"
-                    >
-                      {method}
-                    </option>
-                  ))}
-                </select>
-                <Input
-                  type="url"
-                  placeholder="https://api.example.com/endpoint"
-                  value={request.url}
-                  onChange={(e) => updateRequest('url', e.target.value)}
-                  className="flex-1"
-                />
-              </HStack>
-            </Box>
+        <ErrorBanner message={error} />
 
-            {/* Headers */}
-            <Box mb="1.5rem">
-              <Text fontWeight="bold" mb="0.75rem">Headers</Text>
-              <HStack mb={3}>
-                <Input
-                  placeholder="Header Key"
-                  value={newHeaderKey}
-                  onChange={(e) => setNewHeaderKey(e.target.value)}
-                  flex={1}
-                />
-                <Input
-                  placeholder="Header Value"
-                  value={newHeaderValue}
-                  onChange={(e) => setNewHeaderValue(e.target.value)}
-                  flex={1}
-                />
-                <Button colorScheme="blue" onClick={handleAddHeader} size="sm">Add</Button>
-              </HStack>
-
-              <Box maxH="12.5rem" overflowY="auto">
-                {Object.entries(request.headers).map(([key, value], idx) => (
-                  <Box key={idx} display="flex" alignItems="center" justifyContent="space-between" py={2} px={3} bg={currentTheme === 'dark' ? "gray.700" : "gray.100"} rounded="md" mb={2}>
-                    <Text fontFamily="mono" fontSize="sm">
-                      <span className="font-bold">{key}:</span> {value}
-                    </Text>
-                    <Button
-                      size="xs"
-                      colorScheme="red"
-                      variant="ghost"
-                      onClick={() => removeHeader(key)}
-                    >
-                      ×
-                    </Button>
-                  </Box>
-                ))}
-                {Object.keys(request.headers).length === 0 && (
-                  <Text color={currentTheme === 'dark' ? "gray.400" : "gray.500"} fontSize="sm" textAlign="center" py="1rem">No headers added</Text>
+        {/* Request tabs */}
+        <div>
+          <div className="flex gap-1 border-b border-line" role="tablist" aria-label="Request details">
+            {(['body', 'headers'] as const).map((item) => (
+              <button
+                key={item}
+                type="button"
+                role="tab"
+                aria-selected={tab === item}
+                onClick={() => setTab(item)}
+                className={cn(
+                  'relative px-4 py-2.5 text-sm capitalize transition-colors',
+                  tab === item ? 'text-ink' : 'text-muted hover:text-ink',
                 )}
-              </Box>
-            </Box>
-
-            {/* Authentication */}
-            <Box mb="1.5rem">
-              <Text fontWeight="bold" mb="0.75rem">Authentication</Text>
-              <Box mb="0.75rem">
-                <select
-                  value={authType}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAuthType(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg bg-white dark:bg-gray-700 dark:border-gray-600"
-                >
-                  <option value="none" className="text-gray-900 dark:text-white">None</option>
-                  <option value="bearer" className="text-gray-900 dark:text-white">Bearer Token</option>
-                  <option value="basic" className="text-gray-900 dark:text-white">Basic Auth</option>
-                </select>
-                {authType !== 'none' && (
-                  <Box>
-                    <Input
-                      type={authType === 'basic' ? 'text' : 'password'}
-                      placeholder={authType === 'bearer' ? 'Enter bearer token' : 'username:password'}
-                      value={authValue}
-                      onChange={(e) => setAuthValue(e.target.value)}
-                      mb="0.5rem"
-                    />
-                    <Button colorScheme="purple" onClick={handleApplyAuth} size="sm" mb={2}>Apply Auth</Button>
-                  </Box>
-                )}
-              </Box>
-            </Box>
-
-            {/* Request Body */}
-            {['POST', 'PUT', 'PATCH'].includes(request.method) && (
-              <Box mb="1.5rem">
-                <Text fontWeight="bold" mb="0.75rem">Request Body</Text>
-                <Textarea
-                  placeholder="Enter JSON, XML, or other body content"
-                  value={request.body}
-                  onChange={(e) => updateRequest('body', e.target.value)}
-                  rows={8}
-                  className="font-mono text-sm"
-                />
-              </Box>
-            )}
-
-            {/* Send Button */}
-            <Box textAlign="right" mb={4}>
-              <Button
-                colorScheme="green"
-                onClick={sendRequest}
-                disabled={isLoading || !request.url}
-                size="lg"
               >
-                {isLoading ? 'Sending...' : 'Send Request'}
-              </Button>
-            </Box>
-          </Box>
+                {item}
+                {item === 'headers' && headerEntries.length > 0 && (
+                  <span className="ml-1.5 font-mono text-xs text-faint">{headerEntries.length}</span>
+                )}
+                {tab === item && (
+                  <motion.span
+                    layoutId="api-tab-underline"
+                    className="absolute inset-x-0 -bottom-px h-0.5 bg-accent"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
 
-          {/* Response Section */}
-          <Box flex="1" minW="25rem" bg={currentTheme === 'dark' ? "gray.800" : "white"} p="1.5rem" rounded="xl" shadow="lg">
-            <Text fontSize="xl" fontWeight="bold" mb="1.5rem">Response</Text>
-
-            {response ? (
-              <VStack gap="1.5rem" align="stretch">
-                {/* Status */}
-                <Box textAlign="center">
-                  <Text
-                    fontSize="lg"
-                    fontWeight="bold"
-                    color={getStatusColor(response.status)}
-                    className={`px-4 py-2 rounded-lg inline-block text-center`}
-                    bg={getStatusBg(response.status)}
-                  >
-                    {response.status} {response.statusText}
-                  </Text>
-                </Box>
-
-                {/* Headers */}
-                <Box>
-                  <Text fontWeight="bold" mb="0.75rem">Response Headers</Text>
-                  <Box
-                    maxH="12.5rem"
-                    overflowY="auto"
-                    bg={currentTheme === 'dark' ? "gray.700" : "gray.100"} p={4} rounded="lg"
-                  >
-                    <pre className="font-mono text-xs">
-                      {Object.entries(response.headers)
-                        .map(([key, value]) => `${key}: ${value}`)
-                        .join('\n')
-                      }
-                    </pre>
-                  </Box>
-                </Box>
-
-                {/* Response Body */}
-                <Box flex={1}>
-                  <Text fontWeight="bold" mb="0.75rem">Response Body</Text>
-                  <Box
-                    bg={currentTheme === 'dark' ? "gray.700" : "gray.100"} p={4} rounded="lg"
-                    maxH="25rem"
-                    overflowY="auto"
-                  >
-                    <pre className="font-mono text-xs whitespace-pre-wrap break-all">
-                      {response.body || 'No response body'}
-                    </pre>
-                  </Box>
-                </Box>
-              </VStack>
+          <div className="pt-5">
+            {tab === 'body' ? (
+              <Field
+                label="Request body"
+                htmlFor="request-body"
+                hint={bodyAllowed ? 'JSON, form data, or plain text.' : `${request.method} requests do not send a body.`}
+              >
+                <TextArea
+                  id="request-body"
+                  value={request.body}
+                  onChange={(event) => updateRequest('body', event.target.value)}
+                  rows={8}
+                  disabled={!bodyAllowed}
+                  placeholder={bodyAllowed ? '{\n  "key": "value"\n}' : ''}
+                />
+              </Field>
             ) : (
-              <Box textAlign="center" py="4rem">
-                <Text color={currentTheme === 'dark' ? "gray.400" : "gray.500"} fontSize="lg">
-                  No response yet
-                </Text>
-                <Text color={currentTheme === 'dark' ? "gray.600" : "gray.400"} fontSize="sm">
-                  Send a request to see the response
-                </Text>
-              </Box>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <Input
+                    value={headerKey}
+                    onChange={(event) => setHeaderKey(event.target.value)}
+                    placeholder="Header name"
+                    aria-label="Header name"
+                    className="sm:flex-1"
+                  />
+                  <Input
+                    value={headerValue}
+                    onChange={(event) => setHeaderValue(event.target.value)}
+                    placeholder="Value"
+                    aria-label="Header value"
+                    className="sm:flex-1"
+                  />
+                  <Button variant="secondary" onClick={commitHeader} disabled={!headerKey.trim()}>
+                    Add
+                  </Button>
+                </div>
+
+                {headerEntries.length > 0 ? (
+                  <ul className="flex flex-col gap-2">
+                    {headerEntries.map(([key, value]) => (
+                      <li
+                        key={key}
+                        className="flex items-center justify-between gap-4 rounded-xl border border-line bg-canvas px-4 py-2.5"
+                      >
+                        <span className="min-w-0 truncate font-mono text-[0.8125rem]">
+                          <span className="text-ink">{key}</span>
+                          <span className="text-faint">: </span>
+                          <span className="text-muted">{value}</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => removeHeader(key)}
+                          aria-label={`Remove header ${key}`}
+                          className="shrink-0 text-muted transition-colors hover:text-red-500"
+                        >
+                          ✕
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-faint">No headers set.</p>
+                )}
+              </div>
             )}
-          </Box>
-        </HStack>
-      </VStack>
-    </Box>
+          </div>
+        </div>
+
+        {/* Response */}
+        <AnimatePresence>
+          {response && (
+            <motion.section
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease }}
+              className="rounded-2xl border border-line bg-canvas"
+              aria-live="polite"
+            >
+              <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line px-5 py-3.5">
+                <span className="eyebrow">Response</span>
+                <span className={cn('font-mono text-sm font-medium', statusTone(response.status))}>
+                  {response.status} {response.statusText}
+                </span>
+                <span className="font-mono text-xs text-faint">
+                  {new Blob([response.body]).size} bytes
+                </span>
+              </header>
+
+              <div className="p-5">
+                <pre className="max-h-96 overflow-auto rounded-xl bg-sunken p-4 font-mono text-[0.8125rem] leading-relaxed text-ink-soft">
+                  {formatBody(response.body)}
+                </pre>
+
+                {Object.keys(response.headers).length > 0 && (
+                  <details className="mt-4">
+                    <summary className="eyebrow cursor-pointer select-none transition-colors hover:text-accent">
+                      Response headers ({Object.keys(response.headers).length})
+                    </summary>
+                    <ul className="mt-3 flex flex-col gap-1.5">
+                      {Object.entries(response.headers).map(([key, value]) => (
+                        <li key={key} className="font-mono text-xs">
+                          <span className="text-ink-soft">{key}</span>
+                          <span className="text-faint">: </span>
+                          <span className="text-muted">{value}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
+
+        <p className="text-xs leading-relaxed text-faint">
+          Requests are sent straight from your browser, so cross-origin endpoints must return
+          permissive CORS headers to be readable here.
+        </p>
+      </div>
+    </ToolLayout>
   );
 };
 

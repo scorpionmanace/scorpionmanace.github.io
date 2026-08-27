@@ -1,23 +1,99 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  Heading,
-  Text,
-  Flex,
-  VStack,
-  HStack,
-  Card,
-  CardBody,
-  CardHeader,
-  Badge,
-  SimpleGrid,
-  Alert,
-} from '@chakra-ui/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useColorPicker, ColorPalette, Color } from '../../hooks/useColorPicker';
-import { useColorPickerStyles } from './hook/useColorPickerStyles';
 import ManualColorPicker from '../ManualColorPicker';
 import ColorCanvas from '../ColorCanvas';
+import { Button } from '../ui/Button';
+import { cn } from '../ui/cn';
+import { ease } from '../../design/motion';
+
+type Pattern = 'linear' | 'radial' | 'mosaic' | 'spiral';
+
+const PATTERNS: Pattern[] = ['linear', 'radial', 'mosaic', 'spiral'];
+
+/** Pick readable text for a swatch from its perceived luminance. */
+const readableOn = (color: Color): string => {
+  const { r, g, b } = color.rgb;
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.6 ? '#14130f' : '#ffffff';
+};
+
+const Swatch: React.FC<{
+  color: Color;
+  isSelected: boolean;
+  onSelect: () => void;
+}> = ({ color, isSelected, onSelect }) => (
+  <motion.button
+    type="button"
+    onClick={onSelect}
+    whileHover={{ y: -3 }}
+    transition={{ duration: 0.2, ease }}
+    aria-label={`Select ${color.hex}`}
+    aria-pressed={isSelected}
+    className={cn(
+      'group relative flex h-20 items-end justify-start overflow-hidden rounded-xl border p-2 transition-shadow',
+      isSelected ? 'border-accent shadow-raised' : 'border-line hover:shadow-card',
+    )}
+    style={{ backgroundColor: color.hex }}
+  >
+    <span
+      className="font-mono text-[0.625rem] tracking-wide opacity-0 transition-opacity group-hover:opacity-100"
+      style={{ color: readableOn(color) }}
+    >
+      {color.hex}
+    </span>
+    {isSelected && (
+      <span
+        className="absolute right-2 top-2 grid h-4 w-4 place-items-center rounded-full text-[0.625rem]"
+        style={{ backgroundColor: readableOn(color), color: color.hex }}
+        aria-hidden="true"
+      >
+        ✓
+      </span>
+    )}
+  </motion.button>
+);
+
+const PaletteBlock: React.FC<{
+  palette: ColorPalette;
+  selectedHex?: string;
+  onSelect: (color: Color) => void;
+  onExportCsv: () => void;
+  onExportFigma: () => void;
+}> = ({ palette, selectedHex, onSelect, onExportCsv, onExportFigma }) => (
+  <div className="rounded-2xl border border-line bg-canvas p-5">
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <h3 className="text-sm font-semibold tracking-tight text-ink">{palette.name}</h3>
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={onExportCsv}
+          className="rounded-full border border-line px-2.5 py-1 font-mono text-[0.6875rem] text-muted transition-colors hover:border-line-strong hover:text-ink"
+        >
+          CSV
+        </button>
+        <button
+          type="button"
+          onClick={onExportFigma}
+          className="rounded-full border border-line px-2.5 py-1 font-mono text-[0.6875rem] text-muted transition-colors hover:border-line-strong hover:text-ink"
+        >
+          Figma
+        </button>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-5 gap-2">
+      {palette.colors.map((color) => (
+        <Swatch
+          key={color.hex}
+          color={color}
+          isSelected={selectedHex === color.hex}
+          onSelect={() => onSelect(color)}
+        />
+      ))}
+    </div>
+  </div>
+);
 
 const ColorPicker: React.FC = () => {
   const {
@@ -27,312 +103,137 @@ const ColorPicker: React.FC = () => {
     exportAsCSV,
     exportAsFigma,
     generatePalette,
-    toggleColorWheel,
     addColorToManualPalette,
     removeColorFromManualPalette,
     createManualPalette,
     toggleCanvasPreview,
   } = useColorPicker();
-  const { colorPickerStyles } = useColorPickerStyles();
-  const [currentPattern, setCurrentPattern] = useState<'linear' | 'radial' | 'mosaic' | 'spiral'>('linear');
 
-  // Color swatch component
-  const ColorSwatch: React.FC<{ color: Color; onClick: () => void; isSelected?: boolean }> = ({
-    color,
-    onClick,
-    isSelected = false,
-  }) => (
-    <Box
-      as="button"
-      onClick={onClick}
-      w="12"
-      h="12"
-      bg={color.hex}
-      borderRadius="md"
-      border={isSelected ? "3px solid" : "2px solid"}
-      borderColor={isSelected ? "blue.500" : "gray.300"}
-      _hover={{ shadow: "lg", transform: "scale(1.05)" }}
-      transition="all 0.2s"
-      title={`${color.hex} - HSL(${color.hsl.h}, ${color.hsl.s}%, ${color.hsl.l}%) - ${color.temperature}`}
-      cursor="pointer"
-      p={0}
-    />
-  );
+  const [pattern, setPattern] = useState<Pattern>('linear');
 
-  // Color wheel component
-  const ColorWheel: React.FC = () => {
-    const { generateColorWheel } = useColorPicker();
-    const wheelColors = generateColorWheel();
-
-    return (
-      <Card.Root mb={8}>
-        <Card.Header>
-          <Heading size="lg">
-            🌀 Color Wheel - Full Spectrum
-          </Heading>
-        </Card.Header>
-        <Card.Body>
-          <SimpleGrid columns={{ base: 6, sm: 8, md: 12, lg: 16 }} gap={3}>
-            {wheelColors.map((color, index) => (
-              <ColorSwatch
-                key={index}
-                color={color}
-                onClick={() => selectColor(color)}
-                isSelected={state.selectedColor?.hex === color.hex}
-              />
-            ))}
-          </SimpleGrid>
-        </Card.Body>
-      </Card.Root>
-    );
-  };
-
-  // Palette display component
-  const PaletteDisplay: React.FC<{ palette: ColorPalette }> = ({ palette }) => (
-    <Card.Root mb={6}>
-      <Card.Header>
-        <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
-          <Heading size="md">
-            🎨 {palette.name}
-          </Heading>
-
-          <HStack gap={3}>
-            <Button
-              onClick={() => exportAsCSV(palette.id)}
-              title={`Download "${palette.name}" palette as CSV file with color details`}
-              colorScheme="green"
-              size="sm"
-            >
-              📄 Export CSV
-            </Button>
-
-            <Button
-              onClick={() => exportAsFigma(palette.id)}
-              title={`Download "${palette.name}" palette as Figma-compatible JSON file`}
-              colorScheme="blue"
-              size="sm"
-            >
-              🎨 Export Figma
-            </Button>
-          </HStack>
-        </Flex>
-      </Card.Header>
-
-      <Card.Body>
-        <Flex wrap="wrap" gap={3} mb={4}>
-          {palette.colors.map((color, index) => (
-            <ColorSwatch
-              key={index}
-              color={color}
-              onClick={() => selectColor(color)}
-              isSelected={state.selectedColor?.hex === color.hex}
-            />
-          ))}
-        </Flex>
-
-        {/* Temperature badges */}
-        <HStack gap={2} wrap="wrap">
-          {['warm', 'cool', 'neutral'].map(temp => {
-            const count = palette.colors.filter(c => c.temperature === temp).length;
-            if (count === 0) return null;
-            return (
-              <Badge
-                key={temp}
-                colorScheme={
-                  temp === 'warm' ? 'red' :
-                  temp === 'cool' ? 'blue' :
-                  'gray'
-                }
-                variant="solid"
-                p={2}
-              >
-                {temp.charAt(0).toUpperCase() + temp.slice(1)}: {count}
-              </Badge>
-            );
-          })}
-        </HStack>
-      </Card.Body>
-    </Card.Root>
-  );
-
-  // Selected color details
-  const ColorDetails: React.FC = () => {
-    if (!state.selectedColor) return null;
-
-    return (
-      <div className={colorPickerStyles.colorDetails}>
-        <h4 className={colorPickerStyles.colorDetailsTitle}>
-          🔥 Selected Color
-        </h4>
-
-        <div 
-          className={colorPickerStyles.colorSwatch}
-          style={{ backgroundColor: state.selectedColor.hex }}
-        />
-
-        <div className={colorPickerStyles.colorInfo}>
-          <p className="m-0">
-            <strong>Hex:</strong> {state.selectedColor.hex}
-          </p>
-          <p className="m-0">
-            <strong>RGB:</strong> rgb({state.selectedColor.rgb.r}, {state.selectedColor.rgb.g}, {state.selectedColor.rgb.b})
-          </p>
-          <p className="m-0">
-            <strong>HSL:</strong> hsl({state.selectedColor.hsl.h}, {state.selectedColor.hsl.s}%, {state.selectedColor.hsl.l}%)
-          </p>
-          <p className="m-0">
-            <strong>Temperature:</strong> {state.selectedColor.temperature.charAt(0).toUpperCase() + state.selectedColor.temperature.slice(1)}
-          </p>
-        </div>
-      </div>
-    );
-  };
+  const allPalettes = [...predefinedPalettes, ...state.palettes];
+  const selected = state.selectedColor;
 
   return (
-    <div className={colorPickerStyles.container}>
-      <ColorDetails />
+    <div className="flex flex-col gap-8">
+      {/* Selected color readout */}
+      <AnimatePresence mode="wait">
+        {selected && (
+          <motion.div
+            key={selected.hex}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease }}
+            className="flex flex-col gap-5 rounded-2xl border border-line bg-canvas p-5 sm:flex-row sm:items-center"
+          >
+            <div
+              className="h-24 w-full shrink-0 rounded-xl border border-line sm:w-32"
+              style={{ backgroundColor: selected.hex }}
+              aria-hidden="true"
+            />
+            <dl className="grid flex-1 grid-cols-2 gap-x-6 gap-y-3 md:grid-cols-4">
+              {[
+                { label: 'Hex', value: selected.hex },
+                {
+                  label: 'RGB',
+                  value: `${selected.rgb.r}, ${selected.rgb.g}, ${selected.rgb.b}`,
+                },
+                {
+                  label: 'HSL',
+                  value: `${selected.hsl.h}°, ${selected.hsl.s}%, ${selected.hsl.l}%`,
+                },
+                { label: 'Temperature', value: selected.temperature },
+              ].map((item) => (
+                <div key={item.label}>
+                  <dt className="eyebrow">{item.label}</dt>
+                  <dd className="mt-1.5 font-mono text-sm capitalize text-ink">{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Header */}
-      <div className={colorPickerStyles.header}>
-        <h1 className={colorPickerStyles.title}>
-          🎨 Color Picker Studio
-        </h1>
-        <p className={colorPickerStyles.subtitle}>
-          Discover, analyze, and export beautiful color palettes
-        </p>
-
-        {/* App Info Message */}
-        <Alert.Root mb={6} status="info">
-          <Alert.Indicator />
-          <Alert.Title>🌟 Welcome to Color Picker Studio</Alert.Title>
-          <Alert.Description>
-            <strong>Get creative with colors!</strong> You can pick custom colors using the hex input and RGB sliders,
-            explore our curated professional color palettes, or generate random color combinations.
-            See real-time canvas previews of your chosen colors in multiple artistic patterns.
-            Export your favorite palettes as CSV files or Figma-compatible JSON for use in your design projects.
-          </Alert.Description>
-        </Alert.Root>
-      </div>
-
-      {/* Controls */}
-      <Flex gap={4} wrap="wrap" justify="center" align="center" p={4}>
-        <Button
-          onClick={generatePalette}
-          title="Generate a new random color palette with 6 unique colors"
-          colorScheme="blue"
-          size="md"
-          flex={{ base: 1, md: "auto" }}
-          minW="200px"
-        >
-          🎲 Generate Random Palette
+      {/* Actions */}
+      <div className="flex flex-wrap items-center gap-2">
+        <Button variant="secondary" onClick={generatePalette}>
+          Generate palette
         </Button>
-
         <Button
-          onClick={toggleColorWheel}
-          title={state.colorWheelVisible
-            ? "Hide the color wheel spectrum"
-            : "Show full color wheel with 36 colors from the spectrum"
-          }
-          variant={state.colorWheelVisible ? "solid" : "outline"}
-          colorScheme={state.colorWheelVisible ? "purple" : "gray"}
-          size="md"
-          flex={{ base: 1, md: "auto" }}
-          minW="200px"
-          _hover={{
-            bg: state.colorWheelVisible ? "purple.600" : "gray.100"
-          }}
-        >
-          {state.colorWheelVisible ? '🙈 Hide' : '🌀 Show'} Color Wheel
-        </Button>
-
-        <Button
+          variant="secondary"
           onClick={toggleCanvasPreview}
-          title={state.canvasPreviewVisible
-            ? "Hide canvas preview of your manual color palette"
-            : "Show visual canvas preview of your manual color palette with different patterns"
-          }
-          variant={state.canvasPreviewVisible ? "solid" : "outline"}
-          colorScheme={state.canvasPreviewVisible ? "teal" : "gray"}
-          size="md"
-          flex={{ base: 1, md: "auto" }}
-          minW="200px"
-          _hover={{
-            bg: state.canvasPreviewVisible ? "teal.600" : "gray.100"
-          }}
+          disabled={state.manualPalette.length === 0}
         >
-          {state.canvasPreviewVisible ? '🎨 Hide' : '🎨 Show'} Canvas Preview
+          {state.canvasPreviewVisible ? 'Hide canvas' : 'Preview on canvas'}
         </Button>
-      </Flex>
-
-      {/* Canvas Preview */}
-      {state.canvasPreviewVisible && state.manualPalette.length > 0 && (
-        <div className={colorPickerStyles.canvasPreview}>
-          <h2 className={colorPickerStyles.canvasTitle}>
-            🖼️ Canvas Preview
-          </h2>
-
-          <Flex gap={2} flexWrap="wrap" justify="center" mt={4}>
-            {[
-              { name: 'linear', desc: 'Simple gradient based on color distance' },
-              { name: 'radial', desc: 'Circular gradient from center outwards' },
-              { name: 'mosaic', desc: 'Grid pattern with color repetition' },
-              { name: 'spiral', desc: 'Spiral gradient pattern' }
-            ].map(pattern => (
-              <Button
-                key={pattern.name}
-                onClick={() => setCurrentPattern(pattern.name as typeof currentPattern)}
-                title={`Switch to ${pattern.desc} patterning algorithm`}
-                colorScheme={currentPattern === pattern.name ? "blue" : "gray"}
-                variant={currentPattern === pattern.name ? "solid" : "outline"}
-                size="sm"
-                flex={{ base: 1, sm: "auto" }}
-                minW="100px"
-              >
-                {pattern.name.charAt(0).toUpperCase() + pattern.name.slice(1)}
-              </Button>
-            ))}
-          </Flex>
-
-          <ColorCanvas colors={state.manualPalette} pattern={currentPattern} />
-        </div>
-      )}
-
-      {/* Manual Color Picker */}
-      <ManualColorPicker
-        colors={state.manualPalette}
-        onAddColor={addColorToManualPalette}
-        onRemoveColor={removeColorFromManualPalette}
-        onCreatePalette={createManualPalette}
-      />
-
-      {/* Color Wheel */}
-      {state.colorWheelVisible && <ColorWheel />}
-
-      {/* Generated Palettes */}
-      {state.palettes.length > 0 && (
-        <div className={colorPickerStyles.paletteSection}>
-          <h2 className={colorPickerStyles.paletteTitle}>
-            ✨ Generated Palettes
-          </h2>
-
-          {state.palettes.map(palette => (
-            <PaletteDisplay key={palette.id} palette={palette} />
-          ))}
-        </div>
-      )}
-
-      {/* Predefined Palettes */}
-      <div className={colorPickerStyles.paletteSection}>
-        <h2 className={colorPickerStyles.paletteTitle}>
-          🌈 Curated Color Palettes
-        </h2>
-
-        <div className={colorPickerStyles.paletteContainer}>
-          {predefinedPalettes.map(palette => (
-            <PaletteDisplay key={palette.id} palette={palette} />
-          ))}
-        </div>
       </div>
+
+      {/* Manual palette builder */}
+      <section>
+        <h2 className="eyebrow mb-4">Build a palette</h2>
+        <div className="rounded-2xl border border-line bg-canvas p-5">
+          <ManualColorPicker
+            colors={state.manualPalette}
+            onAddColor={addColorToManualPalette}
+            onRemoveColor={removeColorFromManualPalette}
+            onCreatePalette={createManualPalette}
+          />
+        </div>
+      </section>
+
+      {/* Canvas preview */}
+      <AnimatePresence>
+        {state.canvasPreviewVisible && state.manualPalette.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.35, ease }}
+            className="overflow-hidden"
+          >
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <h2 className="eyebrow mr-2">Pattern</h2>
+              {PATTERNS.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setPattern(item)}
+                  className={cn(
+                    'rounded-full border px-3 py-1.5 text-[0.8125rem] capitalize transition-colors',
+                    pattern === item
+                      ? 'border-accent bg-accent-soft text-accent'
+                      : 'border-line text-muted hover:border-line-strong hover:text-ink',
+                  )}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-line bg-canvas p-5">
+              <ColorCanvas colors={state.manualPalette} pattern={pattern} />
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
+
+      {/* Palette library */}
+      <section>
+        <h2 className="eyebrow mb-4">Palette library</h2>
+        <div className="grid gap-5 lg:grid-cols-2">
+          {allPalettes.map((palette) => (
+            <PaletteBlock
+              key={palette.id}
+              palette={palette}
+              selectedHex={selected?.hex}
+              onSelect={selectColor}
+              onExportCsv={() => exportAsCSV(palette.id)}
+              onExportFigma={() => exportAsFigma(palette.id)}
+            />
+          ))}
+        </div>
+      </section>
     </div>
   );
 };

@@ -14,13 +14,21 @@ export interface ColorPalette {
   type: 'manual' | 'generated';
 }
 
+export type ToolStatus = 'live' | 'planned';
+
 export interface Tool {
   id: string;
   name: string;
   description: string;
+  /** Short label for dense card/list layouts. */
+  tagline?: string;
   icon: string;
   route: string;
   category: string;
+  tags?: string[];
+  status?: ToolStatus;
+  /** Surfaced on the home page's featured strip. */
+  featured?: boolean;
 }
 
 export interface ResumeData {

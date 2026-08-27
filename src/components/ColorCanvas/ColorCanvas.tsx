@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { Color } from '../../hooks/useColorPicker';
 import { useColorCanvasStyles } from './hook/useColorCanvasStyles';
-import { useBreakpointValue } from '@chakra-ui/react';
+import { useWindowWidth } from '../../hooks/useWindowWidth';
 
 interface ColorCanvasProps {
   colors: Color[];
@@ -16,10 +16,13 @@ const ColorCanvas: React.FC<ColorCanvasProps> = ({
   height,
   pattern = 'linear'
 }) => {
-  const defaultWidth = useBreakpointValue({ base: 320, md: 640, lg: 800 });
-  const defaultHeight = useBreakpointValue({ base: 240, md: 480, lg: 600 });
-  const canvasWidth = width || defaultWidth || 800;
-  const canvasHeight = height || defaultHeight || 600;
+  // Sized from the viewport rather than Chakra breakpoints so the canvas
+  // no longer pulls the whole Chakra runtime into this chunk.
+  const { width: viewportWidth } = useWindowWidth();
+  const defaultWidth = viewportWidth >= 1024 ? 800 : viewportWidth >= 768 ? 640 : 320;
+  const defaultHeight = viewportWidth >= 1024 ? 600 : viewportWidth >= 768 ? 480 : 240;
+  const canvasWidth = width || defaultWidth;
+  const canvasHeight = height || defaultHeight;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { colorCanvasStyles } = useColorCanvasStyles();
 

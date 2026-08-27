@@ -1,116 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useJSONParser } from '../hooks/useJSONParser';
-import { usePxToRem } from '../../../hooks/usePxToRem';
-import { useWindowWidth } from '../../../hooks/useWindowWidth';
+import { Button } from '../../../components/ui/Button';
+import { ErrorBanner, Field, TextArea } from '../../../components/ui/Field';
 
 const JSONParser: React.FC = () => {
-  const {
-    inputJSON,
-    formattedJSON,
-    error,
-    setInputJSON,
-    parseJSON,
-    isValid,
-  } = useJSONParser();
+  const { inputJSON, formattedJSON, error, setInputJSON, parseJSON, isValid } = useJSONParser();
+  const [copied, setCopied] = useState(false);
 
-  const { isMobile } = useWindowWidth(768);
-
-  const containerStyle: React.CSSProperties = {
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-  };
-
-  const mainContainerStyle: React.CSSProperties = {
-    display: 'flex',
-    gap: '20px',
-    flexWrap: 'wrap',
-  };
-
-  const sectionStyle: React.CSSProperties = {
-    flex: '1',
-    minWidth: '300px',
-  };
-
-  const headerStyle: React.CSSProperties = {
-    marginBottom: '10px',
-    color: '#333',
-  };
-
-  const textareaStyle: React.CSSProperties = {
-    width: '100%',
-    height: '400px',
-    padding: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    fontFamily: '"Courier New", monospace',
-    fontSize: '14px',
-    resize: 'vertical',
-  };
-
-  const readonlyTextareaStyle: React.CSSProperties = {
-    ...textareaStyle,
-    backgroundColor: '#f9f9f9',
-  };
-
-  const buttonStyle: React.CSSProperties = {
-    marginTop: '10px',
-    padding: '10px 20px',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '16px',
-  };
-
-  const errorStyle: React.CSSProperties = {
-    color: '#dc3545',
-    marginBottom: '10px',
-    fontWeight: 'bold',
-  };
-
-  const mobileContainerStyle: React.CSSProperties = {
-    ...mainContainerStyle,
-    flexDirection: 'column',
-  };
-
-  const mobileTextareaStyle: React.CSSProperties = {
-    ...textareaStyle,
-    height: '300px',
+  const handleCopy = async () => {
+    if (!formattedJSON) return;
+    try {
+      await navigator.clipboard.writeText(formattedJSON);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* Clipboard access can be denied; the textarea is still selectable. */
+    }
   };
 
   return (
-    <div style={containerStyle}>
-      <h1>JSON Parser</h1>
-      <div style={isMobile ? mobileContainerStyle : mainContainerStyle}>
-        <div style={sectionStyle}>
-          <h2 style={headerStyle}>JSON Editor</h2>
-          <textarea
-            value={inputJSON}
-            onChange={(e) => setInputJSON(e.target.value)}
-            placeholder="Paste your JSON here (valid JSON or stringified JSON)"
-            style={isMobile ? mobileTextareaStyle : textareaStyle}
-          />
-          <button
-            onClick={parseJSON}
-            style={{ ...buttonStyle, backgroundColor: isValid ? '#007bff' : '#dc3545' }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = isValid ? '#0056b3' : '#b02a37')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = isValid ? '#007bff' : '#dc3545')}
-          >
-            Validate & Parse
-          </button>
-        </div>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-wrap items-center gap-3">
+        <Button onClick={parseJSON} disabled={!inputJSON.trim()}>
+          Validate &amp; format
+          <span aria-hidden="true">→</span>
+        </Button>
+        <Button variant="secondary" onClick={handleCopy} disabled={!formattedJSON}>
+          {copied ? 'Copied' : 'Copy result'}
+        </Button>
+        {inputJSON.trim() !== '' && !error && isValid && formattedJSON && (
+          <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400">
+            ✓ Valid JSON
+          </span>
+        )}
+      </div>
 
-        <div style={sectionStyle}>
-          <h2 style={headerStyle}>Formatted View</h2>
-          {error && <div style={errorStyle}>{error}</div>}
-          <textarea
+      <ErrorBanner message={error} />
+
+      <div className="grid gap-5 lg:grid-cols-2">
+        <Field label="Input" htmlFor="json-input" hint="Accepts JSON or a stringified JSON value.">
+          <TextArea
+            id="json-input"
+            value={inputJSON}
+            onChange={(event) => setInputJSON(event.target.value)}
+            rows={18}
+            placeholder='{ "hello": "world" }'
+            aria-invalid={!isValid}
+          />
+        </Field>
+
+        <Field label="Formatted" htmlFor="json-output">
+          <TextArea
+            id="json-output"
             value={formattedJSON}
             readOnly
-            placeholder="Formatted JSON will appear here..."
-            style={isMobile ? { ...mobileTextareaStyle, backgroundColor: '#f9f9f9' } : readonlyTextareaStyle}
+            rows={18}
+            placeholder="Beautified JSON appears here."
+            className="bg-sunken"
           />
-        </div>
+        </Field>
       </div>
     </div>
   );

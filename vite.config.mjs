@@ -1,115 +1,84 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [
-    react({
-      // Enable faster refresh and optimize for production
-      fastRefresh: true
-    })
-  ],
-  base: '/', // Changed for GitHub Pages deployment
+  plugins: [react()],
 
-  // Add aliasing for consistent module resolution and cleaner imports
+  // Served from the domain root (scorpionmanace.github.io).
+  base: '/',
+
   resolve: {
     alias: {
-      // React ecosystem aliases
-      'react': path.resolve(__dirname, './node_modules/react'),
-      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
-      'react-is': path.resolve(__dirname, './node_modules/react-is'),
-      'hoist-non-react-statics': path.resolve(__dirname, './node_modules/hoist-non-react-statics'),
-
-      // Project structure aliases for cleaner imports
       '@': path.resolve(__dirname, './src'),
-      '@pages': path.resolve(__dirname, './src/pages'),
       '@components': path.resolve(__dirname, './src/components'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@core': path.resolve(__dirname, './src/core'),
       '@constants': path.resolve(__dirname, './src/constants'),
-      '@types': path.resolve(__dirname, './src/types'),
       '@data': path.resolve(__dirname, './src/data'),
-      '@styles': path.resolve(__dirname, './src/styles'),
-      '@assets': path.resolve(__dirname, './src/assets')
-    }
+      '@design': path.resolve(__dirname, './src/design'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+    },
   },
 
-  // Optimize dependencies for better tree shaking
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', '@chakra-ui/react', 'react-is', 'hoist-non-react-statics'],
-    exclude: ['@chakra-ui/test-utils']
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
   },
 
   build: {
-    // Disable sourcemaps for production to prevent sourcemap resolution errors
-    // Source maps are generated for debugging but cause warnings in production
-    sourcemap: false,
     outDir: 'dist',
+    sourcemap: false,
 
-    // Try without minification to isolate the issue
-    minify: false,
+    // Minification was previously disabled, which shipped ~2x the necessary
+    // JavaScript to every visitor.
+    minify: 'esbuild',
+    cssMinify: true,
+    cssCodeSplit: true,
+    assetsInlineLimit: 4096,
+    chunkSizeWarningLimit: 600,
 
     rollupOptions: {
-      // Tree shake unused exports
-      treeshake: true,
       output: {
-        // Simplified chunking to avoid loading order issues
+        // Split the two large, independently-cacheable vendor groups so a
+        // React upgrade doesn't invalidate the animation bundle and vice versa.
         manualChunks: (id) => {
-          // Bundle all React-related dependencies together
-          if (id.includes('node_modules/react') ||
-              id.includes('node_modules/react-dom') ||
-              id.includes('node_modules/react-is') ||
-              id.includes('node_modules/hoist-non-react-statics') ||
-              id.includes('@chakra-ui') ||
-              id.includes('@emotion') ||
-              id.includes('react-router')) {
-            return 'vendor'
+          if (!id.includes('node_modules')) return undefined
+          if (id.includes('framer-motion') || id.includes('motion-dom') || id.includes('motion-utils')) {
+            return 'motion'
           }
+          if (id.includes('react-router') || id.includes('/react-dom/') || id.includes('/react/')) {
+            return 'react'
+          }
+          return 'vendor'
         },
 
-        // Optimize chunk naming for better caching
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       },
 
-      // Preload important modules
       onwarn(warning, warn) {
-        // Suppress certain warnings that are not relevant
         if (warning.code === 'CIRCULAR_DEPENDENCY') return
         warn(warning)
-      }
+      },
     },
-
-    // Improve CSS optimization
-    cssCodeSplit: true,
-    cssMinify: true,
-
-    // Increase chunk size warning limit
-    chunkSizeWarningLimit: 1000, // 1MB
-
-    // Enable assets inlining for small assets
-    assetsInlineLimit: 4096, // 4KB
-
-    // Optimize bundle reporting - uncomment to analyze bundle size
-    // plugins: [visualizer({ filename: 'dist/report.html', open: true })]
   },
 
-  // Configure server for development
   server: {
     port: 5175,
     host: true,
     open: true,
-    fs: {
-      // Allow serving files from any directory for development
-      strict: false
-    }
   },
 
-  // Optimize preview server for production-like experience
   preview: {
     port: 4173,
-    host: true
-  }
+    host: true,
+  },
+
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/setupTests.ts'],
+    css: false,
+  },
 })

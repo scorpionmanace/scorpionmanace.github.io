@@ -1,27 +1,21 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import ToolLayout from '../../../components/layout/ToolLayout';
 
+const JSONParser = React.lazy(() => import('./JSONParser'));
 
-const JSONParserView: React.FC = () => {
-  return (
-    <div style={{
-      padding: '1.25rem',
-      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-      minHeight: '100vh'
-    }}>
-      <div style={{
-        maxWidth: '75rem',
-        margin: '0 auto',
-        background: 'white',
-        borderRadius: '1rem',
-        padding: '1.875rem',
-        boxShadow: '0 0.625rem 1.875rem rgba(0, 0, 0, 0.1)'
-      }}>
+const JSONParserView: React.FC = () => (
+  <ToolLayout
+    title="JSON Parser"
+    description="Parse, validate, and beautify JSON with inline error reporting and a collapsible tree view."
+    icon="{ }"
+    category="Data"
+  >
+    <div className="p-5 md:p-7">
+      <Suspense fallback={<p className="eyebrow">Loading parser…</p>}>
         <JSONParser />
-      </div>
+      </Suspense>
     </div>
-  );
-};
-
-const JSONParser = React.lazy(() => import('../components/JSONParser'));
+  </ToolLayout>
+);
 
 export default JSONParserView;
