@@ -1,17 +1,19 @@
 /**
- * Ambient types for @scorpionmanace/tablez@1.0.0.
+ * Ambient types for @scorpionmanace/tablez.
  *
- * STOPGAP. The published package advertises TypeScript support but ships no
- * usable declarations — `dist/main.d.ts` and `dist/native.d.ts` are both
- * literally `export {}`, and `exports["."].types` points at a
- * `dist/index.d.ts` that is not in the tarball. Its `main` and
- * `exports["."].require` also point at a `tablez.umd.js` that does not exist
- * (the built CJS file is `tablez.cjs.js`), so `require()` of this package
- * fails. Only the ESM entry resolves, which is why the Vite build works.
+ * STOPGAP — delete this file once the site installs tablez >= 1.0.1.
+ *
+ * The published 1.0.0 ships no usable declarations: `dist/main.d.ts` and
+ * `dist/native.d.ts` are both literally `export {}`, and `exports["."].types`
+ * points at a `dist/index.d.ts` that is not in the tarball.
+ *
+ * Fixed upstream in tablez 1.0.1 (committed, pending an npm release). Once
+ * that is on npm: bump the dependency, delete this file, and `npm run
+ * typecheck` should still pass — verified against a local tarball build of the
+ * fix.
  *
  * These declarations mirror the library's own `src/lib/types.ts` and cover the
- * surface this site uses. Delete this file once the package publishes real
- * declarations.
+ * surface this site uses.
  */
 declare module '@scorpionmanace/tablez' {
   import type { ComponentType, CSSProperties, ReactElement, ReactNode } from 'react';

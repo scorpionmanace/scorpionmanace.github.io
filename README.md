@@ -71,8 +71,9 @@ Examples marked `editable` must be pure JSON, because the editor round-trips
 them through `JSON.parse`. A test enforces that, along with column keys
 existing on the data and virtualized examples declaring a row height.
 
-`src/types/tablez.d.ts` is a stopgap: the published package ships no usable
-type declarations. Delete it once upstream fixes that.
+`src/types/tablez.d.ts` is a stopgap: tablez 1.0.0 ships no usable type
+declarations. Fixed upstream in 1.0.1 — once that is published to npm, bump the
+dependency and delete the file.
 
 ## Adding a tool
 
