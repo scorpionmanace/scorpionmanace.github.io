@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTools } from '../hooks/useTools';
 import { TOOL_CATEGORIES } from '../data/tools';
-import { ToolCard } from '../components/ui/ToolCard';
-import Breadcrumbs from '../components/layout/Breadcrumbs';
-import { ease, springSoft, staggerParent } from '../design/motion';
+import { PageHead } from '../components/notebook/PageHead';
+import { Icon } from '../components/ui/Icon';
+import { ease, springSoft } from '../design/motion';
 import { cn } from '../components/ui/cn';
 
 const Tools: React.FC = () => {
@@ -30,35 +31,20 @@ const Tools: React.FC = () => {
 
   return (
     <div className="flex flex-1 flex-col bg-canvas">
-      {/* Page header */}
-      <div className="relative overflow-hidden border-b border-line bg-surface">
-        <div className="grid-bg fade-edges pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="relative mx-auto w-full max-w-content px-5 py-12 sm:px-8 md:py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease }}
-          >
-            <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Tools' }]} />
+      <PageHead
+        crumbs={[{ label: 'Home', to: '/' }, { label: 'Tools' }]}
+        folio="Contents"
+        note="kept because I kept needing them"
+        title="The tool drawer"
+        lede="Everything here runs in your browser. Nothing you paste is uploaded, stored, or sent anywhere — open it, do the job, close the tab."
+      />
 
-            <h1 className="mt-6 max-w-3xl font-display text-4xl leading-[1.08] tracking-[-0.02em] text-ink md:text-6xl">
-              Developer tools, built for the browser
-            </h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
-              Everything here runs client-side. Nothing you paste is uploaded, stored, or sent
-              anywhere — open a tab, do the job, close it.
-            </p>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Filter bar */}
-      <div className="sticky top-16 z-30 border-b border-line bg-canvas/90 backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-content flex-col gap-4 px-5 py-4 sm:px-8 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap items-center gap-1.5" role="tablist" aria-label="Filter tools by category">
+      {/* Section tabs + search, pinned under the header */}
+      <div className="sticky top-[4.5rem] z-30 border-y border-line bg-canvas/95 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-content flex-col gap-3 px-5 py-3 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:pl-[calc(11.5rem+5rem)] lg:pr-[5rem] xl:pr-[7rem]">
+          <div className="-mx-1 flex flex-wrap items-center" role="tablist" aria-label="Filter tools by section">
             {TOOL_CATEGORIES.map((item) => {
               const isActive = category === item;
-
               return (
                 <button
                   key={item}
@@ -66,94 +52,147 @@ const Tools: React.FC = () => {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setCategory(item)}
-                  className="relative rounded-full px-3.5 py-1.5 text-[0.8125rem] transition-colors"
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="tool-filter-pill"
-                      className="absolute inset-0 rounded-full bg-ink"
-                      transition={springSoft}
-                    />
+                  className={cn(
+                    'relative px-3 py-2 text-[1.0625rem] transition-colors',
+                    isActive ? 'font-semibold text-ink' : 'text-muted hover:text-ink',
                   )}
-                  <span
-                    className={cn(
-                      'relative transition-colors',
-                      isActive ? 'font-medium text-canvas' : 'text-muted hover:text-ink',
-                    )}
-                  >
-                    {item}
-                  </span>
+                >
+                  {item}
+                  {isActive && (
+                    <motion.svg
+                      layoutId="tool-tab-ink"
+                      transition={springSoft}
+                      viewBox="0 0 100 10"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                      className="absolute inset-x-2 bottom-0 h-2 text-accent"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                    >
+                      <path d="M2 6 C 22 3, 44 8, 64 5 S 90 3, 98 6" />
+                    </motion.svg>
+                  )}
                 </button>
               );
             })}
           </div>
 
-          <div className="relative lg:w-72">
-            <span
-              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-faint"
-              aria-hidden="true"
-            >
-              ⌕
-            </span>
+          <label className="flex items-center gap-2 border-b-[1.5px] border-ink/40 pb-1 focus-within:border-accent lg:w-72">
+            <Icon name="search" className="h-4 w-4 text-muted" />
+            <span className="sr-only">Search tools</span>
             <input
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search tools…"
-              aria-label="Search tools"
-              className="h-10 w-full rounded-full border border-line bg-surface pl-9 pr-4 text-sm text-ink placeholder:text-faint transition-colors focus:border-accent focus:outline-none"
+              placeholder="Find a tool…"
+              className="w-full bg-transparent py-1.5 text-[1.0625rem] text-ink placeholder:text-faint focus:outline-none"
             />
-          </div>
+          </label>
         </div>
       </div>
 
-      {/* Results */}
-      <div className="mx-auto w-full max-w-content flex-1 px-5 py-12 sm:px-8 md:py-16">
-        <p className="eyebrow mb-8" aria-live="polite">
-          {filtered.length} {filtered.length === 1 ? 'tool' : 'tools'}
-          {category !== 'All' && ` in ${category}`}
-        </p>
+      {/* Contents */}
+      <div className="grid-bg paper flex-1 px-5 py-12 sm:px-8 md:py-16">
+        <div className="relative mx-auto w-full max-w-content">
+          <span
+            aria-hidden="true"
+            className="margin-rule pointer-events-none absolute -bottom-16 -top-16 left-0 hidden w-[11.5rem] lg:block"
+          />
+          <div className="lg:grid lg:grid-cols-[11.5rem_1fr] lg:gap-x-12 lg:pr-12 xl:pr-20">
+            <p className="hand hidden pr-6 pt-1 text-right text-lg text-muted lg:block" aria-live="polite">
+              {filtered.length} {filtered.length === 1 ? 'entry' : 'entries'}
+            </p>
 
-        <AnimatePresence mode="wait">
-          {filtered.length > 0 ? (
-            <motion.div
-              key={`${category}-${query}`}
-              className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-              initial="hidden"
-              animate="visible"
-              exit={{ opacity: 0, transition: { duration: 0.15 } }}
-              variants={staggerParent(0.05)}
-            >
-              {filtered.map((tool, index) => (
-                <ToolCard key={tool.id} tool={tool} index={index} />
-              ))}
-            </motion.div>
-          ) : (
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease }}
-              className="rounded-2xl border border-dashed border-line-strong px-6 py-20 text-center"
-            >
-              <p className="font-display text-2xl text-ink">Nothing matches that</p>
-              <p className="mx-auto mt-3 max-w-sm text-sm text-muted">
-                Try a different search term, or clear the filters to see the full catalogue.
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setQuery('');
-                  setCategory('All');
-                }}
-                className="mt-7 inline-flex h-10 items-center rounded-full border border-line-strong px-5 text-sm text-ink transition-colors hover:border-ink/40 hover:bg-surface"
-              >
-                Reset filters
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            <AnimatePresence mode="wait">
+              {filtered.length > 0 ? (
+                <motion.ol
+                  key={`${category}-${query}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.18 }}
+                  className="flex flex-col"
+                >
+                  {filtered.map((tool) => {
+                    const live = tool.route !== '#' && tool.status !== 'planned';
+                    const row = (
+                      <>
+                        <div className="flex items-baseline gap-3">
+                          <span
+                            className={cn(
+                              'font-display text-[2rem] font-[760] leading-none transition-colors md:text-[2.4rem]',
+                              live ? 'text-ink group-hover:text-accent' : 'text-faint line-through decoration-1',
+                            )}
+                          >
+                            {tool.name}
+                          </span>
+                          <span aria-hidden="true" className="mb-1.5 flex-1 border-b-2 border-dotted border-line-strong" />
+                          <span className="shrink-0 font-display text-[0.9rem] font-[720] uppercase tracking-[0.1em] text-muted">
+                            {tool.category}
+                          </span>
+                        </div>
+                        <p className="mt-3 max-w-[62ch] text-[1.0625rem] leading-relaxed text-ink-soft">
+                          {tool.description}
+                        </p>
+                        <p className="mt-2 flex items-center gap-2 text-[0.95rem] text-faint">
+                          {live ? (
+                            <>
+                              {tool.tags?.join(' · ')}
+                              <Icon
+                                name="arrowRight"
+                                className="ml-auto h-5 w-5 text-accent opacity-0 transition-opacity group-hover:opacity-100"
+                              />
+                            </>
+                          ) : (
+                            <span className="hand text-[1.1rem] text-muted">still on the list — not built yet</span>
+                          )}
+                        </p>
+                      </>
+                    );
+
+                    return (
+                      <li key={tool.id} className="border-b border-line">
+                        {live ? (
+                          <Link to={tool.route} className="group block py-7">
+                            {row}
+                          </Link>
+                        ) : (
+                          <div className="py-7">{row}</div>
+                        )}
+                      </li>
+                    );
+                  })}
+                </motion.ol>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, ease }}
+                  className="py-12"
+                >
+                  <p className="hand text-[1.8rem] text-ink">Nothing in the drawer by that name.</p>
+                  <p className="mt-3 max-w-md text-[1.0625rem] text-muted">
+                    Try another word, or clear the filter to see every tool.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setQuery('');
+                      setCategory('All');
+                    }}
+                    className="mt-6 font-semibold text-accent underline decoration-accent/30 underline-offset-[0.28em] hover:decoration-accent"
+                  >
+                    Clear the filter
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
       return (
         <div
           role="alert"
-          className="rounded-xl border border-red-500/30 bg-red-500/8 p-5 text-sm text-red-600 dark:text-red-400"
+          className="rounded-[3px] border border-witness/40 bg-witness/8 p-5 text-sm text-witness"
         >
           <p className="font-medium">{this.props.label ?? 'Something failed to render'}</p>
           <pre className="mt-2 overflow-x-auto whitespace-pre-wrap font-mono text-xs opacity-80">

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from './cn';
 
-type Variant = 'primary' | 'secondary' | 'ghost';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'paper';
 type Size = 'sm' | 'md' | 'lg';
 
 interface BaseProps {
@@ -21,25 +21,27 @@ interface BaseProps {
   'aria-label'?: string;
 }
 
+/*
+ * Inked rectangles with the pad's condensed header lettering. `paper` is the
+ * primary action when it sits on bookcloth.
+ */
 const variants: Record<Variant, string> = {
   primary:
-    'bg-accent text-accent-ink border border-transparent hover:bg-accent-hover shadow-card',
+    'bg-ink text-canvas border-[1.5px] border-ink hover:bg-accent hover:border-accent dark:text-canvas',
   secondary:
-    'bg-surface text-ink border border-line-strong hover:border-ink/40 hover:bg-raised shadow-card',
+    'bg-transparent text-ink border-[1.5px] border-ink/70 hover:border-ink hover:bg-ink/[0.04]',
   ghost:
-    'bg-transparent text-ink-soft border border-transparent hover:bg-sunken hover:text-ink',
+    'bg-transparent text-ink border-[1.5px] border-transparent underline decoration-ink/30 decoration-1 underline-offset-4 hover:decoration-ink',
+  paper:
+    'bg-cloth-ink text-cloth border-[1.5px] border-cloth-ink hover:bg-transparent hover:text-cloth-ink',
 };
 
 const sizes: Record<Size, string> = {
-  sm: 'h-9 px-3.5 text-[0.8125rem] gap-1.5',
-  md: 'h-11 px-5 text-sm gap-2',
-  lg: 'h-13 px-7 text-[0.9375rem] gap-2.5',
+  sm: 'h-9 px-3.5 text-[0.95rem] gap-1.5',
+  md: 'h-11 px-5 text-[1.0625rem] gap-2',
+  lg: 'h-[3.25rem] px-6 text-[1.1875rem] gap-2.5',
 };
 
-/**
- * One button surface for the whole site. Renders as a router `Link`, an
- * external anchor, or a `<button>` depending on which prop is supplied.
- */
 export const Button: React.FC<BaseProps> = ({
   children,
   variant = 'primary',
@@ -53,17 +55,18 @@ export const Button: React.FC<BaseProps> = ({
   ...rest
 }) => {
   const classes = cn(
-    'inline-flex items-center justify-center rounded-full font-medium',
+    'inline-flex items-center justify-center rounded-[4px] font-display font-[720] uppercase tracking-[0.04em]',
     'transition-colors duration-200 select-none',
-    'disabled:cursor-not-allowed disabled:opacity-50',
+    'disabled:cursor-not-allowed disabled:opacity-45',
     variants[variant],
     sizes[size],
     className,
   );
 
+  // A pressed key, not a floating card: it sinks on press rather than lifting.
   const motionProps = disabled
     ? {}
-    : { whileHover: { y: -2 }, whileTap: { y: 0, scale: 0.98 }, transition: { duration: 0.18 } };
+    : { whileTap: { y: 1.5, scale: 0.99 }, transition: { type: 'spring' as const, stiffness: 700, damping: 30 } };
 
   if (to) {
     return (

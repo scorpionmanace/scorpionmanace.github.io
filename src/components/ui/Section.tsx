@@ -1,17 +1,18 @@
 import React from 'react';
-import { Reveal } from './Reveal';
 import { cn } from './cn';
 
-type Tone = 'canvas' | 'surface' | 'sunken';
+type Tone = 'canvas' | 'surface' | 'sunken' | 'cloth';
 
 interface SectionProps {
   children: React.ReactNode;
-  /** Small mono label above the heading — the section's index marker. */
+  /**
+   * A short handwritten note for the page margin. It sits beside the
+   * heading in the gutter, never above it.
+   */
   eyebrow?: string;
   title?: React.ReactNode;
-  /** Supporting sentence under the title. */
   lede?: React.ReactNode;
-  /** Right-aligned slot beside the heading (a link, filter, button…). */
+  /** Right-aligned slot beside the heading. */
   action?: React.ReactNode;
   tone?: Tone;
   /** Draw a hairline across the top of the band. */
@@ -21,18 +22,21 @@ interface SectionProps {
   contentClassName?: string;
   /** Narrow the inner column for long-form reading. */
   prose?: boolean;
+  /** Let the body span the margin column too (wide tables, spreads). */
+  bleed?: boolean;
 }
 
 const toneClass: Record<Tone, string> = {
-  canvas: 'bg-canvas',
-  surface: 'bg-surface',
-  sunken: 'bg-sunken',
+  canvas: 'bg-canvas grid-bg',
+  surface: 'bg-surface paper',
+  sunken: 'bg-sunken paper',
+  cloth: 'cloth',
 };
 
 /**
- * The standard "area" template. Every major block on the site — hero aside —
- * is a Section, so headings, rhythm, and max-widths stay identical across
- * Home, Tools, About, and each tool page.
+ * One page of the notebook. Every major block on the site is a Section, so
+ * the margin, ruling, and rhythm stay continuous from page to page: the red
+ * margin rule runs unbroken down the left of every paper section.
  */
 export const Section: React.FC<SectionProps> = ({
   children,
@@ -46,43 +50,82 @@ export const Section: React.FC<SectionProps> = ({
   className,
   contentClassName,
   prose = false,
+  bleed = false,
 }) => {
-  const hasHeading = Boolean(eyebrow || title || lede || action);
+  const onCloth = tone === 'cloth';
+  const hasHeading = Boolean(title || lede || action);
 
   return (
     <section
       id={id}
       className={cn(
-        'px-5 py-16 sm:px-8 md:py-24',
+        'relative px-5 py-16 sm:px-8 md:py-24',
         toneClass[tone],
-        divider && 'border-t border-line',
+        divider && !onCloth && 'border-t border-line',
         className,
       )}
     >
-      <div className={cn('mx-auto w-full', prose ? 'max-w-prose' : 'max-w-content')}>
-        {hasHeading && (
-          <Reveal className="mb-10 md:mb-14">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <div className="max-w-2xl">
-                {eyebrow && (
-                  <span className="eyebrow flex items-center gap-3">
-                    <span className="h-px w-6 bg-line-strong" aria-hidden="true" />
-                    {eyebrow}
-                  </span>
-                )}
-                {title && (
-                  <h2 className="mt-4 font-display text-3xl leading-[1.12] tracking-[-0.01em] text-ink md:text-[2.75rem]">
-                    {title}
-                  </h2>
-                )}
-                {lede && <p className="mt-4 text-base leading-relaxed text-muted md:text-lg">{lede}</p>}
-              </div>
-              {action && <div className="shrink-0">{action}</div>}
-            </div>
-          </Reveal>
+      <div className="relative mx-auto w-full max-w-content">
+        {/* Margin rule — only on paper, and only where there is a margin. */}
+        {!onCloth && (
+          <span
+            aria-hidden="true"
+            className="margin-rule pointer-events-none absolute -top-16 -bottom-16 left-0 hidden w-[11.5rem] md:-top-24 md:-bottom-24 lg:block"
+          />
         )}
 
-        <div className={contentClassName}>{children}</div>
+        <div className={cn('lg:grid lg:grid-cols-[11.5rem_1fr] lg:gap-x-12 lg:pr-12 xl:pr-20')}>
+          {/* Margin */}
+          <div className="hidden lg:block">
+            {eyebrow && (
+              <p
+                className={cn(
+                  'hand mt-3 -rotate-3 pr-6 text-right text-lg leading-snug',
+                  onCloth ? 'text-cloth-muted' : 'text-muted',
+                )}
+              >
+                {eyebrow}
+              </p>
+            )}
+          </div>
+
+          <div className={cn('min-w-0', prose && 'max-w-prose', bleed && 'lg:col-span-2')}>
+            {hasHeading && (
+              <div
+                className={cn(
+                  'mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between md:mb-14',
+                  bleed && 'lg:ml-[calc(11.5rem+3rem)]',
+                )}
+              >
+                <div className="max-w-2xl">
+                  {title && (
+                    <h2
+                      className={cn(
+                        'font-display text-[2.6rem] font-[760] leading-[0.95] tracking-[-0.005em] md:text-[3.5rem]',
+                        onCloth ? 'text-cloth-ink' : 'text-ink',
+                      )}
+                    >
+                      {title}
+                    </h2>
+                  )}
+                  {lede && (
+                    <p
+                      className={cn(
+                        'mt-5 max-w-[62ch] text-lg leading-relaxed',
+                        onCloth ? 'text-cloth-muted' : 'text-muted',
+                      )}
+                    >
+                      {lede}
+                    </p>
+                  )}
+                </div>
+                {action && <div className="shrink-0">{action}</div>}
+              </div>
+            )}
+
+            <div className={contentClassName}>{children}</div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -6,6 +6,7 @@ import { ErrorBanner, Field, Input, Select, TextArea } from '../../../components
 import { ease } from '../../../design/motion';
 import { cn } from '../../../components/ui/cn';
 import { useApiTester } from '../hooks';
+import { Icon } from '../../../components/ui/Icon';
 
 const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'];
 
@@ -48,7 +49,6 @@ const APITesterView: React.FC = () => {
     <ToolLayout
       title="API Tester"
       description="Send REST requests with custom methods, headers, and bodies, then inspect the status, headers, and payload that come back."
-      icon="⇄"
       category="Web"
     >
       <div className="flex flex-col gap-6 p-5 md:p-7">
@@ -84,7 +84,7 @@ const APITesterView: React.FC = () => {
 
           <Button type="submit" disabled={isLoading || !request.url}>
             {isLoading ? 'Sending…' : 'Send'}
-            <span aria-hidden="true">→</span>
+            <Icon name="arrowRight" />
           </Button>
         </form>
 
@@ -162,7 +162,7 @@ const APITesterView: React.FC = () => {
                     {headerEntries.map(([key, value]) => (
                       <li
                         key={key}
-                        className="flex items-center justify-between gap-4 rounded-xl border border-line bg-canvas px-4 py-2.5"
+                        className="flex items-center justify-between gap-4 rounded-[3px] border border-line bg-canvas px-4 py-2.5"
                       >
                         <span className="min-w-0 truncate font-mono text-[0.8125rem]">
                           <span className="text-ink">{key}</span>
@@ -175,7 +175,7 @@ const APITesterView: React.FC = () => {
                           aria-label={`Remove header ${key}`}
                           className="shrink-0 text-muted transition-colors hover:text-red-500"
                         >
-                          ✕
+                          <Icon name="close" />
                         </button>
                       </li>
                     ))}
@@ -196,7 +196,7 @@ const APITesterView: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35, ease }}
-              className="rounded-2xl border border-line bg-canvas"
+              className="rounded-[4px] border border-line bg-canvas"
               aria-live="polite"
             >
               <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line px-5 py-3.5">
@@ -210,7 +210,7 @@ const APITesterView: React.FC = () => {
               </header>
 
               <div className="p-5">
-                <pre className="max-h-96 overflow-auto rounded-xl bg-sunken p-4 font-mono text-[0.8125rem] leading-relaxed text-ink-soft">
+                <pre className="max-h-96 overflow-auto rounded-[3px] bg-sunken p-4 font-mono text-[0.8125rem] leading-relaxed text-ink-soft">
                   {formatBody(response.body)}
                 </pre>
 

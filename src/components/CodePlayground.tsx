@@ -52,7 +52,6 @@ const CodePlayground: React.FC = () => {
     <ToolLayout
       title="Code Playground"
       description="Write HTML, CSS, and JavaScript side by side and render the result live in a sandboxed frame."
-      icon="▶"
       category="Development"
       actions={
         <>
@@ -61,7 +60,7 @@ const CodePlayground: React.FC = () => {
           </Button>
           <Button onClick={runCode}>
             Run
-            <kbd className="ml-1 font-mono text-[0.6875rem] opacity-70">⌘↵</kbd>
+            <kbd className="ml-1 font-display text-[0.875rem] font-[700] uppercase tracking-[0.06em] opacity-70">⌘↵</kbd>
           </Button>
         </>
       }
@@ -74,7 +73,7 @@ const CodePlayground: React.FC = () => {
               key={example.key}
               type="button"
               onClick={() => loadExample(example.key)}
-              className="rounded-full border border-line px-3 py-1.5 text-[0.8125rem] text-muted transition-colors hover:border-line-strong hover:text-ink"
+              className="rounded-[3px] border border-line px-3 py-1.5 text-[0.8125rem] text-muted transition-colors hover:border-line-strong hover:text-ink"
             >
               {example.label}
             </button>
@@ -85,7 +84,7 @@ const CodePlayground: React.FC = () => {
 
         <div className="grid gap-5 lg:grid-cols-2">
           {/* Editor */}
-          <div className="flex flex-col overflow-hidden rounded-2xl border border-line">
+          <div className="flex flex-col overflow-hidden rounded-[4px] border border-line">
             <div className="flex border-b border-line bg-sunken" role="tablist" aria-label="Editor panes">
               {PANES.map((item) => (
                 <button
@@ -120,14 +119,9 @@ const CodePlayground: React.FC = () => {
           </div>
 
           {/* Preview */}
-          <div className="flex flex-col overflow-hidden rounded-2xl border border-line">
+          <div className="flex flex-col overflow-hidden rounded-[4px] border border-line">
             <div className="flex items-center gap-2 border-b border-line bg-sunken px-4 py-2.5">
-              <span className="flex gap-1.5" aria-hidden="true">
-                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-              </span>
-              <span className="eyebrow ml-1">Preview</span>
+              <span className="eyebrow">Preview</span>
             </div>
 
             <iframe

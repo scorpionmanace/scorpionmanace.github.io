@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from './Button';
+import { Icon } from './Icon';
 
 /**
  * Hands the résumé to the browser's own print pipeline.
@@ -16,7 +17,7 @@ export const PrintResumeButton: React.FC = () => (
     className="no-print"
     aria-label="Print or save this résumé as a PDF"
   >
-    <span aria-hidden="true">↓</span>
+    <Icon name="download" />
     Save as PDF
   </Button>
 );

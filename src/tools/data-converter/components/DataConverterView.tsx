@@ -3,6 +3,7 @@ import ToolLayout from '../../../components/layout/ToolLayout';
 import { Button } from '../../../components/ui/Button';
 import { ErrorBanner, Field, Select, TextArea } from '../../../components/ui/Field';
 import { useDataConverter } from '../hooks';
+import { Icon } from '../../../components/ui/Icon';
 
 const CONVERSIONS = [
   { value: 'json-to-csv', label: 'JSON → CSV' },
@@ -30,17 +31,16 @@ const DataConverterView: React.FC = () => {
     <ToolLayout
       title="Data Converter"
       description="Convert between JSON, CSV, and XML. Upload a file or paste directly — everything is processed in your browser."
-      icon="⇋"
       category="Data"
       actions={
         <>
           <Button variant="secondary" onClick={() => fileInputRef.current?.click()}>
-            <span aria-hidden="true">↑</span>
+            <Icon name="upload" />
             Upload file
           </Button>
           {output && (
             <Button variant="secondary" onClick={handleDownload}>
-              <span aria-hidden="true">↓</span>
+              <Icon name="download" />
               Download
             </Button>
           )}
@@ -74,7 +74,7 @@ const DataConverterView: React.FC = () => {
 
           <Button onClick={handleConvert} disabled={isLoading || !input.trim()}>
             {isLoading ? 'Converting…' : 'Convert'}
-            <span aria-hidden="true">→</span>
+            <Icon name="arrowRight" />
           </Button>
         </div>
 

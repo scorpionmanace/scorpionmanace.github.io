@@ -1,8 +1,9 @@
 import React from 'react';
 import { cn } from './cn';
+import { Icon } from './Icon';
 
 const controlBase =
-  'w-full rounded-xl border border-line bg-canvas text-ink placeholder:text-faint ' +
+  'w-full rounded-[3px] border border-line bg-canvas text-ink placeholder:text-faint ' +
   'transition-colors focus:border-accent focus:outline-none disabled:opacity-50';
 
 export const Label: React.FC<{
@@ -61,9 +62,9 @@ export const ErrorBanner: React.FC<{ message?: string | null }> = ({ message }) 
   message ? (
     <div
       role="alert"
-      className="flex items-start gap-3 rounded-xl border border-red-500/30 bg-red-500/8 px-4 py-3 text-sm text-red-600 dark:text-red-400"
+      className="flex items-start gap-3 rounded-[3px] border border-witness/40 bg-witness/8 px-4 py-3 text-sm text-witness"
     >
-      <span aria-hidden="true">⚠</span>
+      <Icon name="alert" className="mt-0.5" />
       <span className="min-w-0 break-words">{message}</span>
     </div>
   ) : null;

@@ -145,7 +145,7 @@ export function Example({ data }) {
   return (
     <div className="flex flex-col gap-5">
       {/* Preview */}
-      <div className="overflow-hidden rounded-2xl border border-line bg-surface">
+      <div className="overflow-hidden rounded-[4px] border border-line bg-surface">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-4 py-2.5">
           <span className="eyebrow">Live preview</span>
 
@@ -158,7 +158,7 @@ export function Example({ data }) {
                 aria-pressed={themeChoice === choice}
                 disabled={exampleDefinesTheme}
                 className={cn(
-                  'rounded-md px-2.5 py-1 font-mono text-[0.6875rem] capitalize transition-colors disabled:cursor-not-allowed disabled:opacity-40',
+                  'rounded-[3px] px-2.5 py-1 font-display text-[0.875rem] font-[700] uppercase tracking-[0.06em] capitalize transition-colors disabled:cursor-not-allowed disabled:opacity-40',
                   themeChoice === choice
                     ? 'bg-ink text-canvas'
                     : 'text-muted hover:bg-sunken hover:text-ink',
@@ -174,7 +174,7 @@ export function Example({ data }) {
           {parsed.error ? (
             <div
               role="alert"
-              className="rounded-xl border border-red-500/30 bg-red-500/8 p-4 text-sm text-red-600 dark:text-red-400"
+              className="rounded-[3px] border border-witness/40 bg-witness/8 p-4 text-sm text-witness"
             >
               <p className="font-medium">Invalid JSON</p>
               <p className="mt-1 font-mono text-xs opacity-80">{parsed.error}</p>
@@ -204,7 +204,7 @@ export function Example({ data }) {
       </div>
 
       {/* Editor */}
-      <div className="overflow-hidden rounded-2xl border border-line bg-surface">
+      <div className="overflow-hidden rounded-[4px] border border-line bg-surface">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line px-2 py-1.5">
           <div className="flex" role="tablist" aria-label="Configuration">
             {TABS.map((item) => (
@@ -215,7 +215,7 @@ export function Example({ data }) {
                 aria-selected={tab === item.key}
                 onClick={() => setTab(item.key)}
                 className={cn(
-                  'rounded-lg px-3.5 py-2 text-[0.8125rem] transition-colors',
+                  'rounded-[3px] px-3.5 py-2 text-[0.8125rem] transition-colors',
                   tab === item.key ? 'bg-sunken font-medium text-ink' : 'text-muted hover:text-ink',
                 )}
               >
@@ -227,7 +227,7 @@ export function Example({ data }) {
           <button
             type="button"
             onClick={reset}
-            className="mr-2 rounded-md px-2.5 py-1 font-mono text-[0.6875rem] text-muted transition-colors hover:bg-sunken hover:text-ink"
+            className="mr-2 rounded-[3px] px-2.5 py-1 font-display text-[0.875rem] font-[700] uppercase tracking-[0.06em] text-muted transition-colors hover:bg-sunken hover:text-ink"
           >
             Reset
           </button>
@@ -252,7 +252,7 @@ export function Example({ data }) {
               onChange={(event) => setEditorValue(event.target.value)}
               spellCheck={false}
               rows={16}
-              className="w-full resize-y rounded-xl border border-line bg-canvas p-3.5 font-mono text-[0.8125rem] leading-relaxed text-ink transition-colors focus:border-accent focus:outline-none"
+              className="w-full resize-y rounded-[3px] border border-line bg-canvas p-3.5 font-mono text-[0.8125rem] leading-relaxed text-ink transition-colors focus:border-accent focus:outline-none"
             />
             <p className="mt-2 text-xs text-faint">
               Edits apply as you type. JSON cannot express functions, so callback props like{' '}

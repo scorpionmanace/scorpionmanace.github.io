@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import SiteHeader from './components/layout/SiteHeader';
 import SiteFooter from './components/layout/SiteFooter';
 import ScrollProgress from './components/layout/ScrollProgress';
@@ -27,19 +27,18 @@ const NotFound = React.lazy(() => import('./views/NotFound'));
 /** Skeleton shown while a route chunk downloads. */
 const RouteFallback: React.FC = () => (
   <div
-    className="flex flex-1 items-center justify-center px-5 py-32"
+    className="grid-bg flex flex-1 items-center justify-center px-5 py-32"
     role="status"
     aria-live="polite"
   >
-    <div className="flex flex-col items-center gap-4">
-      <motion.span
-        className="h-8 w-8 rounded-full border-2 border-line border-t-accent"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 0.9, ease: 'linear', repeat: Infinity }}
-        aria-hidden="true"
-      />
-      <span className="eyebrow">Loading</span>
-    </div>
+    <motion.p
+      className="hand text-2xl text-muted"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0.35, 1, 0.35] }}
+      transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+    >
+      Turning the page…
+    </motion.p>
   </div>
 );
 
@@ -98,13 +97,16 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider>
+      {/* Every framer animation — parallax planes included — honours the
+          visitor's reduced-motion setting. */}
+      <MotionConfig reducedMotion="user">
       <ScrollProgress />
       <ScrollToTop />
 
-      <div className="flex min-h-screen flex-col bg-canvas text-ink">
+      <div className="flex min-h-screen flex-col bg-canvas text-ink-soft">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-canvas"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[70] focus:rounded-[4px] focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-canvas"
         >
           Skip to content
         </a>
@@ -117,6 +119,7 @@ const App: React.FC = () => {
 
         <SiteFooter />
       </div>
+      </MotionConfig>
     </ThemeProvider>
   );
 };

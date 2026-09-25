@@ -4,6 +4,7 @@ import { Button } from './ui/Button';
 import { ErrorBanner, Field, Select, TextArea } from './ui/Field';
 import { useCodeFormatter } from '../hooks/useCodeFormatter';
 import { cn } from './ui/cn';
+import { Icon } from './ui/Icon';
 
 const CodeFormatter: React.FC = () => {
   const {
@@ -36,7 +37,6 @@ const CodeFormatter: React.FC = () => {
     <ToolLayout
       title="Code Formatter"
       description="Format and indent source across a range of languages. Pick a language, paste your code, and clean it up."
-      icon="⌘"
       category="Development"
       actions={
         <Button variant="secondary" onClick={handleCopy} disabled={!canCopy}>
@@ -65,7 +65,7 @@ const CodeFormatter: React.FC = () => {
 
           <Button onClick={formatCode} disabled={!canFormat || isFormatting}>
             {isFormatting ? 'Formatting…' : 'Format code'}
-            <span aria-hidden="true">→</span>
+            <Icon name="arrowRight" />
           </Button>
         </div>
 
@@ -78,7 +78,7 @@ const CodeFormatter: React.FC = () => {
               type="button"
               onClick={() => loadSample(language)}
               className={cn(
-                'rounded-full border px-3 py-1.5 text-[0.8125rem] transition-colors',
+                'rounded-[3px] border px-3 py-1.5 text-[0.8125rem] transition-colors',
                 selectedLanguage?.key === language.key
                   ? 'border-accent bg-accent-soft text-accent'
                   : 'border-line text-muted hover:border-line-strong hover:text-ink',

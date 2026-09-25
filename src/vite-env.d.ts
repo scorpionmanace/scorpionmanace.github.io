@@ -19,3 +19,6 @@ declare module "*.jpeg" {
   const content: string;
   export default content;
 }
+
+/** Build date, stamped in vite.config.mjs — the notebook's last entry. */
+declare const __LAST_ENTRY__: string;

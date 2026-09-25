@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useJSONParser } from '../hooks/useJSONParser';
 import { Button } from '../../../components/ui/Button';
 import { ErrorBanner, Field, TextArea } from '../../../components/ui/Field';
+import { Icon } from '../../../components/ui/Icon';
 
 const JSONParser: React.FC = () => {
   const { inputJSON, formattedJSON, error, setInputJSON, parseJSON, isValid } = useJSONParser();
@@ -23,14 +24,14 @@ const JSONParser: React.FC = () => {
       <div className="flex flex-wrap items-center gap-3">
         <Button onClick={parseJSON} disabled={!inputJSON.trim()}>
           Validate &amp; format
-          <span aria-hidden="true">→</span>
+          <Icon name="arrowRight" />
         </Button>
         <Button variant="secondary" onClick={handleCopy} disabled={!formattedJSON}>
           {copied ? 'Copied' : 'Copy result'}
         </Button>
         {inputJSON.trim() !== '' && !error && isValid && formattedJSON && (
-          <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400">
-            ✓ Valid JSON
+          <span className="font-mono text-xs text-accent">
+            <Icon name="check" /> Valid JSON
           </span>
         )}
       </div>

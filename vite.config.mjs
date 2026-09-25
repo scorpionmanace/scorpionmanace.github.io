@@ -5,6 +5,13 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
 
+  define: {
+    // The footer's "Last entry" date: when the site was built, not viewed.
+    __LAST_ENTRY__: JSON.stringify(
+      new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
+    ),
+  },
+
   // Served from the domain root (scorpionmanace.github.io).
   base: '/',
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Color } from '../../hooks/useColorPicker';
 import { Button } from '../ui/Button';
 import { Field, Input } from '../ui/Field';
+import { Icon } from '../ui/Icon';
 
 interface ManualColorPickerProps {
   colors: Color[];
@@ -120,7 +121,7 @@ const ManualColorPicker: React.FC<ManualColorPickerProps> = ({
       {/* Editor */}
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end">
         <div
-          className="h-24 w-full shrink-0 rounded-xl border border-line lg:h-[4.5rem] lg:w-24"
+          className="h-24 w-full shrink-0 rounded-[3px] border border-line lg:h-[4.5rem] lg:w-24"
           style={{ backgroundColor: isValidHex ? hexInput : 'transparent' }}
           aria-hidden="true"
         />
@@ -153,7 +154,7 @@ const ManualColorPicker: React.FC<ManualColorPickerProps> = ({
                 max={255}
                 value={rgb[channel.key]}
                 onChange={(event) => handleChannelChange(channel.key, Number(event.target.value))}
-                className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-line-strong accent-accent"
+                className="h-1 flex-1 cursor-pointer appearance-none rounded-[2px] bg-line-strong accent-accent"
               />
               <span className="w-8 text-right font-mono text-xs text-ink-soft">
                 {rgb[channel.key]}
@@ -174,7 +175,7 @@ const ManualColorPicker: React.FC<ManualColorPickerProps> = ({
         </p>
 
         {colors.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-line-strong px-4 py-8 text-center text-sm text-faint">
+          <p className="rounded-[3px] border border-dashed border-line-strong px-4 py-8 text-center text-sm text-faint">
             Add colors to start building a palette.
           </p>
         ) : (
@@ -188,7 +189,7 @@ const ManualColorPicker: React.FC<ManualColorPickerProps> = ({
                 className="group relative"
               >
                 <div
-                  className="h-16 w-16 rounded-xl border border-line"
+                  className="h-16 w-16 rounded-[3px] border border-line"
                   style={{ backgroundColor: color.hex }}
                   title={`${color.hex} · ${color.temperature}`}
                 />
@@ -198,7 +199,7 @@ const ManualColorPicker: React.FC<ManualColorPickerProps> = ({
                   aria-label={`Remove ${color.hex}`}
                   className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full border border-line bg-surface text-xs text-muted opacity-0 transition-opacity hover:text-red-500 group-hover:opacity-100 focus-visible:opacity-100"
                 >
-                  ✕
+                  <Icon name="close" />
                 </button>
               </motion.li>
             ))}

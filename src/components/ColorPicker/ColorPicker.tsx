@@ -6,6 +6,7 @@ import ColorCanvas from '../ColorCanvas';
 import { Button } from '../ui/Button';
 import { cn } from '../ui/cn';
 import { ease } from '../../design/motion';
+import { Icon } from '../ui/Icon';
 
 type Pattern = 'linear' | 'radial' | 'mosaic' | 'spiral';
 
@@ -31,7 +32,7 @@ const Swatch: React.FC<{
     aria-label={`Select ${color.hex}`}
     aria-pressed={isSelected}
     className={cn(
-      'group relative flex h-20 items-end justify-start overflow-hidden rounded-xl border p-2 transition-shadow',
+      'group relative flex h-20 items-end justify-start overflow-hidden rounded-[3px] border p-2 transition-shadow',
       isSelected ? 'border-accent shadow-raised' : 'border-line hover:shadow-card',
     )}
     style={{ backgroundColor: color.hex }}
@@ -44,11 +45,11 @@ const Swatch: React.FC<{
     </span>
     {isSelected && (
       <span
-        className="absolute right-2 top-2 grid h-4 w-4 place-items-center rounded-full text-[0.625rem]"
+        className="absolute right-2 top-2 grid h-4 w-4 place-items-center rounded-[3px] text-[0.625rem]"
         style={{ backgroundColor: readableOn(color), color: color.hex }}
         aria-hidden="true"
       >
-        ✓
+        <Icon name="check" className="h-3 w-3" />
       </span>
     )}
   </motion.button>
@@ -61,21 +62,21 @@ const PaletteBlock: React.FC<{
   onExportCsv: () => void;
   onExportFigma: () => void;
 }> = ({ palette, selectedHex, onSelect, onExportCsv, onExportFigma }) => (
-  <div className="rounded-2xl border border-line bg-canvas p-5">
+  <div className="rounded-[4px] border border-line bg-canvas p-5">
     <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
       <h3 className="text-sm font-semibold tracking-tight text-ink">{palette.name}</h3>
       <div className="flex gap-2">
         <button
           type="button"
           onClick={onExportCsv}
-          className="rounded-full border border-line px-2.5 py-1 font-mono text-[0.6875rem] text-muted transition-colors hover:border-line-strong hover:text-ink"
+          className="rounded-[3px] border border-line px-2.5 py-1 font-display text-[0.875rem] font-[700] uppercase tracking-[0.06em] text-muted transition-colors hover:border-line-strong hover:text-ink"
         >
           CSV
         </button>
         <button
           type="button"
           onClick={onExportFigma}
-          className="rounded-full border border-line px-2.5 py-1 font-mono text-[0.6875rem] text-muted transition-colors hover:border-line-strong hover:text-ink"
+          className="rounded-[3px] border border-line px-2.5 py-1 font-display text-[0.875rem] font-[700] uppercase tracking-[0.06em] text-muted transition-colors hover:border-line-strong hover:text-ink"
         >
           Figma
         </button>
@@ -125,10 +126,10 @@ const ColorPicker: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease }}
-            className="flex flex-col gap-5 rounded-2xl border border-line bg-canvas p-5 sm:flex-row sm:items-center"
+            className="flex flex-col gap-5 rounded-[4px] border border-line bg-canvas p-5 sm:flex-row sm:items-center"
           >
             <div
-              className="h-24 w-full shrink-0 rounded-xl border border-line sm:w-32"
+              className="h-24 w-full shrink-0 rounded-[3px] border border-line sm:w-32"
               style={{ backgroundColor: selected.hex }}
               aria-hidden="true"
             />
@@ -171,8 +172,8 @@ const ColorPicker: React.FC = () => {
 
       {/* Manual palette builder */}
       <section>
-        <h2 className="eyebrow mb-4">Build a palette</h2>
-        <div className="rounded-2xl border border-line bg-canvas p-5">
+        <h2 className="mb-4 font-display text-[1.6rem] font-[760] leading-none text-ink">Build a palette</h2>
+        <div className="rounded-[4px] border border-line bg-canvas p-5">
           <ManualColorPicker
             colors={state.manualPalette}
             onAddColor={addColorToManualPalette}
@@ -193,14 +194,14 @@ const ColorPicker: React.FC = () => {
             className="overflow-hidden"
           >
             <div className="mb-4 flex flex-wrap items-center gap-2">
-              <h2 className="eyebrow mr-2">Pattern</h2>
+              <span className="eyebrow mr-2">Pattern</span>
               {PATTERNS.map((item) => (
                 <button
                   key={item}
                   type="button"
                   onClick={() => setPattern(item)}
                   className={cn(
-                    'rounded-full border px-3 py-1.5 text-[0.8125rem] capitalize transition-colors',
+                    'rounded-[3px] border px-3 py-1.5 text-[0.8125rem] capitalize transition-colors',
                     pattern === item
                       ? 'border-accent bg-accent-soft text-accent'
                       : 'border-line text-muted hover:border-line-strong hover:text-ink',
@@ -211,7 +212,7 @@ const ColorPicker: React.FC = () => {
               ))}
             </div>
 
-            <div className="overflow-x-auto rounded-2xl border border-line bg-canvas p-5">
+            <div className="overflow-x-auto rounded-[4px] border border-line bg-canvas p-5">
               <ColorCanvas colors={state.manualPalette} pattern={pattern} />
             </div>
           </motion.section>
@@ -220,7 +221,7 @@ const ColorPicker: React.FC = () => {
 
       {/* Palette library */}
       <section>
-        <h2 className="eyebrow mb-4">Palette library</h2>
+        <h2 className="mb-4 font-display text-[1.6rem] font-[760] leading-none text-ink">Palette library</h2>
         <div className="grid gap-5 lg:grid-cols-2">
           {allPalettes.map((palette) => (
             <PaletteBlock

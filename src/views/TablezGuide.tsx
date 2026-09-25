@@ -7,7 +7,8 @@ import { Section } from '../components/ui/Section';
 import { Button } from '../components/ui/Button';
 import { CodeBlock } from '../components/ui/CodeBlock';
 import { Reveal } from '../components/ui/Reveal';
-import Breadcrumbs from '../components/layout/Breadcrumbs';
+import { PageHead } from '../components/notebook/PageHead';
+import { Icon } from '../components/ui/Icon';
 import { TablezPlayground } from '../components/tablez/TablezPlayground';
 import { InlineCode } from '../components/tablez/InlineCode';
 import { ease, springSoft } from '../design/motion';
@@ -95,7 +96,7 @@ import {
 } from '@scorpionmanace/tablez';`;
 
 const ApiTable: React.FC<{ rows: typeof API_SECTIONS[number]['rows'] }> = ({ rows }) => (
-  <div className="overflow-x-auto rounded-xl border border-line">
+  <div className="overflow-x-auto rounded-[3px] border border-line">
     <table className="w-full min-w-[44rem] border-collapse text-left">
       <thead>
         <tr className="border-b border-line bg-sunken">
@@ -137,58 +138,48 @@ const TablezGuide: React.FC = () => {
 
   return (
     <div className="flex flex-1 flex-col bg-canvas">
-      {/* Header */}
-      <div className="relative overflow-hidden border-b border-line bg-surface">
-        <div className="grid-bg fade-edges pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="relative mx-auto w-full max-w-content px-5 py-12 sm:px-8 md:py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease }}
-          >
-            <Breadcrumbs
-              items={[
-                { label: 'Home', to: '/' },
-                { label: 'Open source', to: '/open-source' },
-                { label: 'tablez' },
-              ]}
-            />
+      <PageHead
+        crumbs={[
+          { label: 'Home', to: '/' },
+          { label: 'Open source', to: '/open-source' },
+          { label: 'tablez' },
+        ]}
+        folio={`v${project.version} · ${project.license}`}
+        note="a data table, built by hand"
+        title="tablez"
+        lede={project.description}
+        aside={
+          <p className="mt-5 text-[1rem] text-muted">
+            <code className="font-mono text-[0.9rem] text-accent">{project.pkg}</code>
+            <span className="mx-2 text-faint">·</span>0 runtime dependencies
+            <span className="mx-2 text-faint">·</span>React 19 peer
+          </p>
+        }
+        actions={
+          <>
+            <Button href={project.repo}>
+              GitHub
+              <Icon name="external" />
+            </Button>
+            <Button href={project.npm!} variant="secondary">
+              npm
+              <Icon name="external" />
+            </Button>
+          </>
+        }
+      />
 
-            <h1 className="mt-6 font-display text-4xl leading-[1.06] tracking-[-0.02em] text-ink md:text-6xl">
-              tablez
-            </h1>
-            <p className="mt-3 font-mono text-sm text-accent">{project.pkg}</p>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
-              {project.description}
-            </p>
-
-            <div className="mt-7 flex flex-wrap items-center gap-2">
-              <Button href={project.repo}>GitHub</Button>
-              <Button href={project.npm!} variant="secondary">
-                npm
-              </Button>
-              <span className="ml-1 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-faint">
-                <span>v{project.version}</span>
-                <span>{project.license}</span>
-                <span>0 runtime deps</span>
-                <span>React 19 peer</span>
-              </span>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Contents */}
+      {/* On this page — the section tabs */}
       <nav
         aria-label="On this page"
-        className="sticky top-16 z-30 border-b border-line bg-canvas/90 backdrop-blur-xl"
+        className="sticky top-[4.5rem] z-30 border-y border-line bg-canvas/95 backdrop-blur-md"
       >
-        <div className="mx-auto flex w-full max-w-content gap-1 overflow-x-auto px-5 py-3 sm:px-8">
+        <div className="mx-auto flex w-full max-w-content gap-1 overflow-x-auto px-5 py-2 sm:px-8 lg:pl-[calc(11.5rem+5rem)] lg:pr-[5rem] xl:pr-[7rem]">
           {CONTENTS.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
-              className="shrink-0 rounded-full px-3.5 py-1.5 text-[0.8125rem] text-muted transition-colors hover:bg-sunken hover:text-ink"
+              className="shrink-0 px-3 py-2 text-[1rem] text-muted underline decoration-transparent underline-offset-[0.35em] transition-colors hover:text-ink hover:decoration-accent"
             >
               {item.label}
             </a>
@@ -197,7 +188,7 @@ const TablezGuide: React.FC = () => {
       </nav>
 
       {/* Install */}
-      <Section id="install" tone="canvas" eyebrow="Install" title="Getting started">
+      <Section id="install" tone="canvas" title="Getting started">
         <div className="grid gap-6 lg:grid-cols-2">
           <div>
             <CodeBlock code={INSTALL} language="bash" />
@@ -207,8 +198,8 @@ const TablezGuide: React.FC = () => {
               dependencies at version 19, so install those alongside it.
             </p>
           </div>
-          <div className="rounded-xl border border-line bg-surface p-5">
-            <p className="eyebrow">No stylesheet to import</p>
+          <div className="rounded-[3px] border border-line bg-surface p-5">
+            <h3 className="font-display text-[1.6rem] font-[760] leading-tight text-ink">No stylesheet to import</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
               Styles are applied inline from the active theme, so there is no CSS file to load and
               nothing to configure in your bundler. Restyle the table through{' '}
@@ -223,7 +214,7 @@ const TablezGuide: React.FC = () => {
         id="quick-start"
         tone="surface"
         divider
-        eyebrow="Quick start"
+       
         title="A table in twenty lines"
         lede="Pass rows and column definitions. Everything else is optional."
       >
@@ -235,7 +226,7 @@ const TablezGuide: React.FC = () => {
         id="playground"
         tone="canvas"
         divider
-        eyebrow="Playground"
+       
         title="Try every feature"
         lede="These render the published package against editable configuration. Change the JSON and the table updates as you type."
       >
@@ -251,19 +242,28 @@ const TablezGuide: React.FC = () => {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActiveExample(example)}
-                className="relative rounded-full px-3.5 py-1.5 text-[0.8125rem] transition-colors"
+                className="relative px-3 py-2 text-[1.0625rem] transition-colors"
               >
                 {isActive && (
-                  <motion.span
-                    layoutId="tablez-example-pill"
-                    className="absolute inset-0 rounded-full bg-ink"
+                  <motion.svg
+                    layoutId="tablez-example-ink"
                     transition={springSoft}
-                  />
+                    viewBox="0 0 100 10"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                    className="absolute inset-x-2 bottom-0 h-2 text-accent"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                  >
+                    <path d="M2 6 C 22 3, 44 8, 64 5 S 90 3, 98 6" />
+                  </motion.svg>
                 )}
                 <span
                   className={cn(
                     'relative transition-colors',
-                    isActive ? 'font-medium text-canvas' : 'text-muted hover:text-ink',
+                    isActive ? 'font-semibold text-ink' : 'text-muted hover:text-ink',
                   )}
                 >
                   {example.title}
@@ -273,13 +273,12 @@ const TablezGuide: React.FC = () => {
           })}
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_20rem] lg:items-start">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
           <TablezPlayground example={activeExample} />
 
           {/* Notes */}
-          <aside className="rounded-2xl border border-line bg-surface p-6 lg:sticky lg:top-32">
-            <p className="eyebrow">{activeExample.group}</p>
-            <h3 className="mt-3 text-lg font-semibold tracking-tight text-ink">
+          <aside className="rounded-[4px] border border-line bg-surface p-6 lg:sticky lg:top-32">
+            <h3 className="font-display text-[1.7rem] font-[780] leading-tight text-ink">
               {activeExample.title}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-muted">{activeExample.summary}</p>
@@ -294,7 +293,7 @@ const TablezGuide: React.FC = () => {
 
             {activeExample.tryIt && (
               <div className="mt-6 border-t border-line pt-5">
-                <p className="eyebrow">Try it</p>
+                <h4 className="text-[1.0625rem] font-semibold text-ink">Try it</h4>
                 <ul className="mt-3 flex flex-col gap-2.5">
                   {activeExample.tryIt.map((hint) => (
                     <li key={hint} className="flex gap-2.5 text-sm leading-relaxed text-muted">
@@ -314,17 +313,14 @@ const TablezGuide: React.FC = () => {
         id="concepts"
         tone="surface"
         divider
-        eyebrow="Concepts"
+       
         title="Six things worth knowing"
         lede="The rules that explain most of the surprises people hit on first use."
       >
         <div className="grid gap-5 md:grid-cols-2">
-          {CONCEPTS.map((concept, index) => (
-            <div key={concept.title} className="rounded-2xl border border-line bg-canvas p-6">
-              <span className="font-mono text-xs text-faint">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <h3 className="mt-3 text-base font-semibold tracking-tight text-ink">
+          {CONCEPTS.map((concept) => (
+            <div key={concept.title} className="border-t border-line-strong/70 pt-5">
+              <h3 className="font-display text-[1.6rem] font-[760] leading-tight text-ink">
                 {concept.title}
               </h3>
               <p className="mt-2.5 text-sm leading-relaxed text-muted">
@@ -340,7 +336,7 @@ const TablezGuide: React.FC = () => {
         id="formulas"
         tone="canvas"
         divider
-        eyebrow="Formulas"
+       
         title="Excel-like expressions"
         lede="Set column.formula to an expression starting with = and reference other columns as {key}. Formula columns are computed on read and never written back to your data."
       >
@@ -357,7 +353,7 @@ const TablezGuide: React.FC = () => {
   formula: "=IMG('/u/' + {user}, {user}, 40, 40)" }`}
           />
 
-          <div className="overflow-x-auto rounded-xl border border-line">
+          <div className="overflow-x-auto rounded-[3px] border border-line">
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="border-b border-line bg-sunken">
@@ -385,7 +381,7 @@ const TablezGuide: React.FC = () => {
         id="theming"
         tone="surface"
         divider
-        eyebrow="Theming"
+       
         title="Tokens first, overrides when you need them"
         lede="Most restyling is a dozen token values. Drop to per-slot CSS only for the details tokens cannot reach."
       >
@@ -422,7 +418,7 @@ settings={{
             </p>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-line">
+          <div className="overflow-x-auto rounded-[3px] border border-line">
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="border-b border-line bg-sunken">
@@ -452,14 +448,14 @@ settings={{
         id="headless"
         tone="canvas"
         divider
-        eyebrow="Headless"
+       
         title="Beyond React"
         lede="The sorting, grouping, tree-flattening, and virtualization maths are exported as plain functions, and there is a framework-agnostic engine on top of them."
       >
         <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
           <CodeBlock code={HEADLESS} language="ts" />
-          <div className="rounded-xl border border-line bg-surface p-5">
-            <p className="eyebrow">React Native</p>
+          <div className="rounded-[3px] border border-line bg-surface p-5">
+            <h3 className="font-display text-[1.6rem] font-[760] leading-tight text-ink">React Native</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
               A native table is published under the <InlineCode>/native</InlineCode> subpath. It
               declares <InlineCode>react-native</InlineCode> as a peer dependency, so web-only
@@ -480,7 +476,7 @@ settings={{
         id="api"
         tone="surface"
         divider
-        eyebrow="API reference"
+       
         title="Every prop, in one place"
       >
         <div className="flex flex-col gap-12">
@@ -502,7 +498,7 @@ settings={{
 
       {/* Footer CTA */}
       <Section tone="canvas" divider>
-        <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-line bg-surface p-7 md:flex-row md:items-center md:p-9">
+        <div className="flex flex-col items-start justify-between gap-6 rounded-[4px] border border-line bg-surface p-7 md:flex-row md:items-center md:p-9">
           <div className="max-w-xl">
             <h2 className="font-display text-2xl tracking-[-0.01em] text-ink md:text-3xl">
               Found a bug, or want a feature?

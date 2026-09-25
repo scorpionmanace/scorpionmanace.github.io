@@ -31,16 +31,16 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   };
 
   return (
-    <div className={cn('group relative overflow-hidden rounded-xl border border-line bg-sunken', className)}>
+    <div className={cn('group relative overflow-hidden rounded-[3px] border border-line bg-sunken', className)}>
       <div className="flex items-center justify-between border-b border-line px-4 py-2">
-        <span className="font-mono text-[0.6875rem] uppercase tracking-wider text-faint">
+        <span className="font-display text-[0.875rem] font-[700] uppercase tracking-[0.06em] text-faint">
           {language}
         </span>
         {copyable && (
           <button
             type="button"
             onClick={handleCopy}
-            className="rounded-md px-2 py-1 font-mono text-[0.6875rem] text-muted transition-colors hover:bg-surface hover:text-ink"
+            className="rounded-[3px] px-2 py-1 font-display text-[0.875rem] font-[700] uppercase tracking-[0.06em] text-muted transition-colors hover:bg-surface hover:text-ink"
           >
             {copied ? 'Copied' : 'Copy'}
           </button>

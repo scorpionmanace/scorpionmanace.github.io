@@ -19,3 +19,8 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Design review captures (large, regenerated per review)
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/questions/

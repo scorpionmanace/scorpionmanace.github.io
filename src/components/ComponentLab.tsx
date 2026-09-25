@@ -10,7 +10,9 @@ const SWATCHES = [
   { token: 'muted', className: 'bg-muted' },
   { token: 'ink', className: 'bg-ink' },
   { token: 'accent', className: 'bg-accent' },
-  { token: 'accent-soft', className: 'bg-accent-soft' },
+  { token: 'cloth', className: 'bg-cloth' },
+  { token: 'highlight', className: 'bg-highlight' },
+  { token: 'witness', className: 'bg-witness' },
 ];
 
 const Block: React.FC<{ title: string; hint?: string; children: React.ReactNode }> = ({
@@ -41,24 +43,25 @@ const ComponentLab: React.FC = () => {
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {SWATCHES.map((swatch) => (
             <li key={swatch.token}>
-              <div className={`h-16 rounded-xl border border-line ${swatch.className}`} />
+              <div className={`h-16 rounded-[3px] border border-line ${swatch.className}`} />
               <p className="mt-2 font-mono text-xs text-muted">{swatch.token}</p>
             </li>
           ))}
         </ul>
       </Block>
 
-      <Block title="Typography" hint="A serif display face for headings, Inter for prose, and a mono for labels and code.">
+      <Block title="Typography" hint="Sofia Sans for everything you read, its Extra Condensed cut as the pre-printed pad header, Kalam only in the margins, and a mono only for code.">
         <div className="flex flex-col gap-4">
-          <p className="font-display text-4xl leading-tight tracking-[-0.02em] text-ink">
-            Display — Instrument Serif
+          <p className="font-display text-5xl font-[820] uppercase leading-none text-ink">
+            Display — Sofia Sans Extra Condensed
           </p>
           <p className="text-base leading-relaxed text-ink-soft">
-            Body — Inter. Used for everything you actually read: descriptions, résumé bullets,
+            Body — Sofia Sans. Used for everything you actually read: descriptions, résumé bullets,
             and supporting copy throughout the site.
           </p>
-          <p className="font-mono text-sm text-muted">Mono — JetBrains Mono, for labels and code.</p>
-          <p className="eyebrow">Eyebrow — section markers</p>
+          <p className="hand text-2xl text-ink">Margin — Kalam, for notes in the hand.</p>
+          <p className="font-mono text-sm text-muted">Code — JetBrains Mono, only for code and data.</p>
+          <p className="eyebrow">Label — pre-printed form and field labels</p>
         </div>
       </Block>
 

@@ -1,0 +1,693 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-25T17:38:44+00:00",
+  "title": "Design System: Karan Khare",
+  "extensions": {
+    "colorMeta": {
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Graph Paper",
+        "canonical": "oklch(97.2% 0.007 132.4)",
+        "dark": "#111a16",
+        "cssVar": "--ui-canvas",
+        "tonalRamp": [
+          "oklch(15.0% 0.007 132.4)",
+          "oklch(26.0% 0.007 132.4)",
+          "oklch(37.0% 0.007 132.4)",
+          "oklch(48.0% 0.007 132.4)",
+          "oklch(59.0% 0.007 132.4)",
+          "oklch(70.0% 0.007 132.4)",
+          "oklch(82.0% 0.007 132.4)",
+          "oklch(95.0% 0.007 132.4)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Clean Sheet",
+        "canonical": "oklch(99.0% 0.003 128.5)",
+        "dark": "#17231e",
+        "cssVar": "--ui-surface",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 128.5)",
+          "oklch(26.0% 0.003 128.5)",
+          "oklch(37.0% 0.003 128.5)",
+          "oklch(48.0% 0.003 128.5)",
+          "oklch(59.0% 0.003 128.5)",
+          "oklch(70.0% 0.003 128.5)",
+          "oklch(82.0% 0.003 128.5)",
+          "oklch(95.0% 0.003 128.5)"
+        ]
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Raised Card",
+        "canonical": "oklch(100.0% 0.0 89.9)",
+        "dark": "#1c2a24",
+        "cssVar": "--ui-surface-raised",
+        "tonalRamp": [
+          "oklch(15.0% 0.0 89.9)",
+          "oklch(26.0% 0.0 89.9)",
+          "oklch(37.0% 0.0 89.9)",
+          "oklch(48.0% 0.0 89.9)",
+          "oklch(59.0% 0.0 89.9)",
+          "oklch(70.0% 0.0 89.9)",
+          "oklch(82.0% 0.0 89.9)",
+          "oklch(95.0% 0.0 89.9)"
+        ]
+      },
+      "sunken": {
+        "role": "neutral",
+        "displayName": "Sunken Well",
+        "canonical": "oklch(94.0% 0.018 134.9)",
+        "dark": "#0d1512",
+        "cssVar": "--ui-surface-sunken",
+        "tonalRamp": [
+          "oklch(15.0% 0.018 134.9)",
+          "oklch(26.0% 0.018 134.9)",
+          "oklch(37.0% 0.018 134.9)",
+          "oklch(48.0% 0.018 134.9)",
+          "oklch(59.0% 0.018 134.9)",
+          "oklch(70.0% 0.018 134.9)",
+          "oklch(82.0% 0.018 134.9)",
+          "oklch(95.0% 0.018 134.9)"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Blue-Black Ink",
+        "canonical": "oklch(27.2% 0.086 272.9)",
+        "dark": "#e8edff",
+        "cssVar": "--ui-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.049 272.9)",
+          "oklch(26.0% 0.064 272.9)",
+          "oklch(37.0% 0.08 272.9)",
+          "oklch(48.0% 0.086 272.9)",
+          "oklch(59.0% 0.086 272.9)",
+          "oklch(70.0% 0.084 272.9)",
+          "oklch(82.0% 0.067 272.9)",
+          "oklch(95.0% 0.049 272.9)"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "oklch(32.2% 0.024 268.5)",
+        "dark": "#d1d8d2",
+        "cssVar": "--ui-ink-soft",
+        "tonalRamp": [
+          "oklch(15.0% 0.024 268.5)",
+          "oklch(26.0% 0.024 268.5)",
+          "oklch(37.0% 0.024 268.5)",
+          "oklch(48.0% 0.024 268.5)",
+          "oklch(59.0% 0.024 268.5)",
+          "oklch(70.0% 0.024 268.5)",
+          "oklch(82.0% 0.024 268.5)",
+          "oklch(95.0% 0.024 268.5)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Pencil",
+        "canonical": "oklch(45.7% 0.019 139.4)",
+        "dark": "#a3afa7",
+        "cssVar": "--ui-muted",
+        "tonalRamp": [
+          "oklch(15.0% 0.019 139.4)",
+          "oklch(26.0% 0.019 139.4)",
+          "oklch(37.0% 0.019 139.4)",
+          "oklch(48.0% 0.019 139.4)",
+          "oklch(59.0% 0.019 139.4)",
+          "oklch(70.0% 0.019 139.4)",
+          "oklch(82.0% 0.019 139.4)",
+          "oklch(95.0% 0.019 139.4)"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint Pencil",
+        "canonical": "oklch(55.9% 0.019 137.1)",
+        "dark": "#86938a",
+        "cssVar": "--ui-faint",
+        "tonalRamp": [
+          "oklch(15.0% 0.019 137.1)",
+          "oklch(26.0% 0.019 137.1)",
+          "oklch(37.0% 0.019 137.1)",
+          "oklch(48.0% 0.019 137.1)",
+          "oklch(59.0% 0.019 137.1)",
+          "oklch(70.0% 0.019 137.1)",
+          "oklch(82.0% 0.019 137.1)",
+          "oklch(95.0% 0.019 137.1)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Rule Green",
+        "canonical": "oklch(89.4% 0.025 135.7)",
+        "dark": "#26352e",
+        "cssVar": "--ui-line",
+        "tonalRamp": [
+          "oklch(15.0% 0.025 135.7)",
+          "oklch(26.0% 0.025 135.7)",
+          "oklch(37.0% 0.025 135.7)",
+          "oklch(48.0% 0.025 135.7)",
+          "oklch(59.0% 0.025 135.7)",
+          "oklch(70.0% 0.025 135.7)",
+          "oklch(82.0% 0.025 135.7)",
+          "oklch(95.0% 0.025 135.7)"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Rule Green Strong",
+        "canonical": "oklch(80.2% 0.036 136.0)",
+        "dark": "#36493f",
+        "cssVar": "--ui-line-strong",
+        "tonalRamp": [
+          "oklch(15.0% 0.032 136.0)",
+          "oklch(26.0% 0.036 136.0)",
+          "oklch(37.0% 0.036 136.0)",
+          "oklch(48.0% 0.036 136.0)",
+          "oklch(59.0% 0.036 136.0)",
+          "oklch(70.0% 0.036 136.0)",
+          "oklch(82.0% 0.036 136.0)",
+          "oklch(95.0% 0.032 136.0)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Fountain Ink Blue",
+        "canonical": "oklch(40.4% 0.177 268.6)",
+        "dark": "#a6b6ff",
+        "cssVar": "--ui-accent",
+        "tonalRamp": [
+          "oklch(15.0% 0.079 268.6)",
+          "oklch(26.0% 0.111 268.6)",
+          "oklch(37.0% 0.144 268.6)",
+          "oklch(48.0% 0.176 268.6)",
+          "oklch(59.0% 0.177 268.6)",
+          "oklch(70.0% 0.153 268.6)",
+          "oklch(82.0% 0.117 268.6)",
+          "oklch(95.0% 0.079 268.6)"
+        ]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "Fountain Ink Deep",
+        "canonical": "oklch(34.0% 0.153 267.9)",
+        "dark": "#c4cfff",
+        "cssVar": "--ui-accent-hover",
+        "tonalRamp": [
+          "oklch(15.0% 0.071 267.9)",
+          "oklch(26.0% 0.099 267.9)",
+          "oklch(37.0% 0.127 267.9)",
+          "oklch(48.0% 0.153 267.9)",
+          "oklch(59.0% 0.153 267.9)",
+          "oklch(70.0% 0.135 267.9)",
+          "oklch(82.0% 0.104 267.9)",
+          "oklch(95.0% 0.071 267.9)"
+        ]
+      },
+      "accent-soft": {
+        "role": "primary",
+        "displayName": "Ink Wash",
+        "canonical": "oklch(93.6% 0.025 273.5)",
+        "dark": "#1c2444",
+        "cssVar": "--ui-accent-soft",
+        "tonalRamp": [
+          "oklch(15.0% 0.025 273.5)",
+          "oklch(26.0% 0.025 273.5)",
+          "oklch(37.0% 0.025 273.5)",
+          "oklch(48.0% 0.025 273.5)",
+          "oklch(59.0% 0.025 273.5)",
+          "oklch(70.0% 0.025 273.5)",
+          "oklch(82.0% 0.025 273.5)",
+          "oklch(95.0% 0.025 273.5)"
+        ]
+      },
+      "accent-ink": {
+        "role": "primary",
+        "displayName": "On Ink",
+        "canonical": "oklch(100.0% 0.0 89.9)",
+        "dark": "#0d1512",
+        "cssVar": "--ui-accent-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.0 89.9)",
+          "oklch(26.0% 0.0 89.9)",
+          "oklch(37.0% 0.0 89.9)",
+          "oklch(48.0% 0.0 89.9)",
+          "oklch(59.0% 0.0 89.9)",
+          "oklch(70.0% 0.0 89.9)",
+          "oklch(82.0% 0.0 89.9)",
+          "oklch(95.0% 0.0 89.9)"
+        ]
+      },
+      "cloth": {
+        "role": "secondary",
+        "displayName": "Bottle-Green Bookcloth",
+        "canonical": "oklch(32.5% 0.042 166.0)",
+        "dark": "#1c3b2e",
+        "cssVar": "--ui-cloth",
+        "tonalRamp": [
+          "oklch(15.0% 0.034 166.0)",
+          "oklch(26.0% 0.042 166.0)",
+          "oklch(37.0% 0.042 166.0)",
+          "oklch(48.0% 0.042 166.0)",
+          "oklch(59.0% 0.042 166.0)",
+          "oklch(70.0% 0.042 166.0)",
+          "oklch(82.0% 0.042 166.0)",
+          "oklch(95.0% 0.034 166.0)"
+        ]
+      },
+      "cloth-deep": {
+        "role": "secondary",
+        "displayName": "Bookcloth Shadow",
+        "canonical": "oklch(27.1% 0.034 166.7)",
+        "dark": "#152e24",
+        "cssVar": "--ui-cloth-deep",
+        "tonalRamp": [
+          "oklch(15.0% 0.031 166.7)",
+          "oklch(26.0% 0.034 166.7)",
+          "oklch(37.0% 0.034 166.7)",
+          "oklch(48.0% 0.034 166.7)",
+          "oklch(59.0% 0.034 166.7)",
+          "oklch(70.0% 0.034 166.7)",
+          "oklch(82.0% 0.034 166.7)",
+          "oklch(95.0% 0.031 166.7)"
+        ]
+      },
+      "cloth-ink": {
+        "role": "secondary",
+        "displayName": "Cloth Ink",
+        "canonical": "oklch(95.0% 0.016 133.8)",
+        "dark": "#e2ebe4",
+        "cssVar": "--ui-cloth-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.016 133.8)",
+          "oklch(26.0% 0.016 133.8)",
+          "oklch(37.0% 0.016 133.8)",
+          "oklch(48.0% 0.016 133.8)",
+          "oklch(59.0% 0.016 133.8)",
+          "oklch(70.0% 0.016 133.8)",
+          "oklch(82.0% 0.016 133.8)",
+          "oklch(95.0% 0.016 133.8)"
+        ]
+      },
+      "cloth-muted": {
+        "role": "secondary",
+        "displayName": "Cloth Sage",
+        "canonical": "oklch(81.3% 0.03 156.5)",
+        "dark": "#9db3a5",
+        "cssVar": "--ui-cloth-muted",
+        "tonalRamp": [
+          "oklch(15.0% 0.03 156.5)",
+          "oklch(26.0% 0.03 156.5)",
+          "oklch(37.0% 0.03 156.5)",
+          "oklch(48.0% 0.03 156.5)",
+          "oklch(59.0% 0.03 156.5)",
+          "oklch(70.0% 0.03 156.5)",
+          "oklch(82.0% 0.03 156.5)",
+          "oklch(95.0% 0.03 156.5)"
+        ]
+      },
+      "highlight": {
+        "role": "tertiary",
+        "displayName": "Chartreuse Highlighter",
+        "canonical": "oklch(89.9% 0.177 114.3)",
+        "dark": "#d2e04a",
+        "cssVar": "--ui-highlight",
+        "tonalRamp": [
+          "oklch(15.0% 0.079 114.3)",
+          "oklch(26.0% 0.111 114.3)",
+          "oklch(37.0% 0.144 114.3)",
+          "oklch(48.0% 0.176 114.3)",
+          "oklch(59.0% 0.177 114.3)",
+          "oklch(70.0% 0.153 114.3)",
+          "oklch(82.0% 0.117 114.3)",
+          "oklch(95.0% 0.079 114.3)"
+        ]
+      },
+      "highlight-ink": {
+        "role": "tertiary",
+        "displayName": "Highlighter Ink",
+        "canonical": "oklch(27.2% 0.086 272.9)",
+        "dark": "#121c18",
+        "cssVar": "--ui-highlight-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.049 272.9)",
+          "oklch(26.0% 0.064 272.9)",
+          "oklch(37.0% 0.08 272.9)",
+          "oklch(48.0% 0.086 272.9)",
+          "oklch(59.0% 0.086 272.9)",
+          "oklch(70.0% 0.084 272.9)",
+          "oklch(82.0% 0.067 272.9)",
+          "oklch(95.0% 0.049 272.9)"
+        ]
+      },
+      "witness": {
+        "role": "tertiary",
+        "displayName": "Witness Red",
+        "canonical": "oklch(50.1% 0.178 28.7)",
+        "dark": "#e0655c",
+        "cssVar": "--ui-witness",
+        "tonalRamp": [
+          "oklch(15.0% 0.079 28.7)",
+          "oklch(26.0% 0.112 28.7)",
+          "oklch(37.0% 0.145 28.7)",
+          "oklch(48.0% 0.178 28.7)",
+          "oklch(59.0% 0.178 28.7)",
+          "oklch(70.0% 0.154 28.7)",
+          "oklch(82.0% 0.118 28.7)",
+          "oklch(95.0% 0.079 28.7)"
+        ]
+      },
+      "print": {
+        "role": "neutral",
+        "displayName": "Print White",
+        "canonical": "oklch(100.0% 0.0 89.9)",
+        "dark": "#e9ede6",
+        "cssVar": "--ui-print",
+        "tonalRamp": [
+          "oklch(15.0% 0.0 89.9)",
+          "oklch(26.0% 0.0 89.9)",
+          "oklch(37.0% 0.0 89.9)",
+          "oklch(48.0% 0.0 89.9)",
+          "oklch(59.0% 0.0 89.9)",
+          "oklch(70.0% 0.0 89.9)",
+          "oklch(82.0% 0.0 89.9)",
+          "oklch(95.0% 0.0 89.9)"
+        ]
+      },
+      "tape": {
+        "role": "tertiary",
+        "displayName": "Masking Tape",
+        "canonical": "rgb(236 224 192 / 0.86)",
+        "dark": "rgb(214 200 164 / 0.42)",
+        "cssVar": "--ui-tape",
+        "tonalRamp": [
+          "oklch(15.0% 0.035 89.9)",
+          "oklch(26.0% 0.043 89.9)",
+          "oklch(37.0% 0.044 89.9)",
+          "oklch(48.0% 0.044 89.9)",
+          "oklch(59.0% 0.044 89.9)",
+          "oklch(70.0% 0.044 89.9)",
+          "oklch(82.0% 0.044 89.9)",
+          "oklch(95.0% 0.035 89.9)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home hero statement only; uppercase condensed ink."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Inner-page titles in PageHead; uppercase."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section headings, sentence case."
+      },
+      "entry-title": {
+        "displayName": "Entry Title",
+        "purpose": "Role titles, card/printout titles, tool names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Typeset entries."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Paragraph under a title, max 60–62ch."
+      },
+      "label": {
+        "displayName": "Pre-printed Label",
+        "purpose": "Field labels, table heads, breadcrumbs. Uppercase. Never above a heading."
+      },
+      "pad-header": {
+        "displayName": "Pad Header",
+        "purpose": "Ruled header row, folios, sign-off captions. Uppercase."
+      },
+      "hand": {
+        "displayName": "Hand (Kalam)",
+        "purpose": "Margin notes, dates, captions, sticky notes, signatures."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Code and data only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card",
+        "value": "0 1px 1px rgb(20 40 30 / 0.06), 0 2px 4px -2px rgb(20 40 30 / 0.12)",
+        "dark": "0 1px 1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.5)",
+        "purpose": "Sticky header once scrolled."
+      },
+      {
+        "name": "raised",
+        "value": "0 2px 3px rgb(20 40 30 / 0.07), 0 12px 24px -12px rgb(20 40 30 / 0.28)",
+        "dark": "0 2px 3px rgb(0 0 0 / 0.45), 0 12px 24px -12px rgb(0 0 0 / 0.75)",
+        "purpose": "Taped cards, printout, sticky note."
+      },
+      {
+        "name": "float",
+        "value": "0 3px 6px rgb(20 40 30 / 0.08), 0 28px 48px -20px rgb(20 40 30 / 0.42)",
+        "dark": "0 3px 6px rgb(0 0 0 / 0.5), 0 28px 48px -20px rgb(0 0 0 / 0.9)",
+        "purpose": "Open spread, spotlight insert, index cards, tool sheet."
+      },
+      {
+        "name": "print",
+        "value": "0 2px 3px rgb(20 30 25 / 0.14), 0 18px 32px -16px rgb(20 30 25 / 0.45)",
+        "purpose": "Photographic prints only."
+      },
+      {
+        "name": "tape",
+        "value": "0 1px 1px rgb(0 0 0 / 0.1), 0 3px 6px -3px rgb(0 0 0 / 0.18)",
+        "purpose": "Masking tape only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Entrances, page transitions, menu."
+      },
+      {
+        "name": "ease-soft",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Hovers, exits, layout shifts."
+      },
+      {
+        "name": "pen",
+        "value": "cubic-bezier(0.65, 0, 0.35, 1), 0.9s",
+        "purpose": "Pen annotations drawing in via pathLength, once, at 60% in view."
+      },
+      {
+        "name": "spring-soft",
+        "value": "spring(stiffness 320, damping 34, mass 0.9)",
+        "purpose": "Nav and tab pen underline travelling between items."
+      },
+      {
+        "name": "spring-key",
+        "value": "spring(stiffness 700, damping 30)",
+        "purpose": "Button press: sinks 1.5px, scale 0.99."
+      },
+      {
+        "name": "spring-settle",
+        "value": "spring(stiffness 110, damping 11, mass 1.1)",
+        "purpose": "Weighted settle of taped items (hero print); sticky note uses 140/13."
+      },
+      {
+        "name": "spring-ribbon",
+        "value": "spring(stiffness 140, damping 22, mass 0.9)",
+        "purpose": "Ribbon bookmark length following scroll."
+      },
+      {
+        "name": "spring-multiplane",
+        "value": "spring(stiffness 120, damping 24, mass 0.6)",
+        "purpose": "Parallax planes (useMultiplane); off below 1024px and under reduced motion."
+      },
+      {
+        "name": "rise",
+        "value": "opacity 0→1, y 18→0, 0.6s ease",
+        "purpose": "Default staggered child entrance (stagger 0.07s)."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Margin column, margin rule, margin notes, parallax switch on."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Inked rectangle; the main action on paper. Hover turns fountain-ink blue; press sinks.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Get in touch</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:4px;border:1.5px solid transparent;font-family:'Sofia Sans Extra Condensed Variable','Sofia Sans Extra Condensed','Sofia Sans Variable',sans-serif;font-weight:720;font-size:1.0625rem;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s,transform .12s} .ds-btn:active{transform:translateY(1.5px) scale(.99)} .ds-btn:focus-visible{outline:2px solid var(--ui-accent,#2438a6);outline-offset:3px} .ds-btn svg{width:1.05em;height:1.05em} .ds-btn-primary{background:var(--ui-ink,#1a2150);color:var(--ui-canvas,#f4f7f2);border-color:var(--ui-ink,#1a2150)} .ds-btn-primary:hover{background:var(--ui-accent,#2438a6);border-color:var(--ui-accent,#2438a6)}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outlined in 70% ink; the second action beside a primary.",
+      "html": "<button class=\"ds-btn ds-btn-secondary\">Read the notebook <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12.2 C 9 11.6, 14 12.4, 19 12 M13.5 6.5 L 19.2 12 L 13.5 17.6\"/></svg></button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:4px;border:1.5px solid transparent;font-family:'Sofia Sans Extra Condensed Variable','Sofia Sans Extra Condensed','Sofia Sans Variable',sans-serif;font-weight:720;font-size:1.0625rem;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s,transform .12s} .ds-btn:active{transform:translateY(1.5px) scale(.99)} .ds-btn:focus-visible{outline:2px solid var(--ui-accent,#2438a6);outline-offset:3px} .ds-btn svg{width:1.05em;height:1.05em} .ds-btn-secondary{background:transparent;color:var(--ui-ink,#1a2150);border-color:color-mix(in srgb,var(--ui-ink,#1a2150) 70%,transparent)} .ds-btn-secondary:hover{border-color:var(--ui-ink,#1a2150);background:color-mix(in srgb,var(--ui-ink,#1a2150) 4%,transparent)}"
+    },
+    {
+      "name": "Paper Button",
+      "kind": "button",
+      "refersTo": "button-paper",
+      "description": "Primary action on bookcloth; hover empties to an outline in cloth ink.",
+      "html": "<div class=\"ds-cloth-demo\"><button class=\"ds-btn ds-btn-paper\">Reach out <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12.2 C 9 11.6, 14 12.4, 19 12 M13.5 6.5 L 19.2 12 L 13.5 17.6\"/></svg></button></div>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:4px;border:1.5px solid transparent;font-family:'Sofia Sans Extra Condensed Variable','Sofia Sans Extra Condensed','Sofia Sans Variable',sans-serif;font-weight:720;font-size:1.0625rem;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s,transform .12s} .ds-btn:active{transform:translateY(1.5px) scale(.99)} .ds-btn:focus-visible{outline:2px solid var(--ui-accent,#2438a6);outline-offset:3px} .ds-btn svg{width:1.05em;height:1.05em} .ds-cloth-demo{background:var(--ui-cloth,#1d3b2f);padding:24px} .ds-btn-paper{height:52px;padding:0 24px;font-size:1.1875rem;background:var(--ui-cloth-ink,#eaf1e6);color:var(--ui-cloth,#1d3b2f);border-color:var(--ui-cloth-ink,#eaf1e6)} .ds-btn-paper:hover{background:transparent;color:var(--ui-cloth-ink,#eaf1e6)}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Pre-printed label over a near-square hairline control; border shifts to fountain ink on focus.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-in\">Request URL</label><input id=\"ds-in\" class=\"ds-input\" placeholder=\"https://api.example.com\"/></div>",
+      "css": ".ds-field{display:flex;flex-direction:column;max-width:320px} .ds-label{font-family:'Sofia Sans Extra Condensed Variable','Sofia Sans Extra Condensed','Sofia Sans Variable',sans-serif;font-size:.8125rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ui-muted,#525a50);margin-bottom:8px} .ds-input{height:44px;padding:0 14px;border:1px solid var(--ui-line,#d5e0d0);border-radius:3px;background:var(--ui-canvas,#f4f7f2);color:var(--ui-ink,#1a2150);font-family:'Sofia Sans Variable','Sofia Sans',system-ui,sans-serif;font-size:.875rem;transition:border-color .2s} .ds-input::placeholder{color:var(--ui-faint,#6f776c)} .ds-input:focus{outline:none;border-color:var(--ui-accent,#2438a6)}"
+    },
+    {
+      "name": "Primary Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Muted links; the active page is ink with a hand-drawn accent pen underline.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link is-active\" href=\"#\">Work<svg viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 6 C 22 3, 44 8, 64 5 S 90 3, 98 6\"/></svg></a><a class=\"ds-nav-link\" href=\"#\">Open source</a><a class=\"ds-nav-link\" href=\"#\">Tools</a><a class=\"ds-nav-link\" href=\"#\">About</a></nav>",
+      "css": ".ds-nav{display:flex;gap:4px} .ds-nav-link{position:relative;padding:8px 12px;font-family:'Sofia Sans Variable','Sofia Sans',system-ui,sans-serif;font-size:1.0625rem;color:var(--ui-muted,#525a50);text-decoration:none;transition:color .2s} .ds-nav-link:hover{color:var(--ui-ink,#1a2150)} .ds-nav-link:focus-visible{outline:2px solid var(--ui-accent,#2438a6);outline-offset:3px;border-radius:3px} .ds-nav-link.is-active{color:var(--ui-ink,#1a2150);font-weight:600} .ds-nav-link svg{position:absolute;left:8px;right:8px;bottom:-2px;height:10px;width:calc(100% - 16px);fill:none;stroke:var(--ui-accent,#2438a6);stroke-width:2;stroke-linecap:round;vector-effect:non-scaling-stroke}"
+    },
+    {
+      "name": "Code Block",
+      "kind": "card",
+      "refersTo": "code-block",
+      "description": "Sunken well with a condensed language tab and copy button; mono only for code.",
+      "html": "<div class=\"ds-code\"><div class=\"ds-code-head\"><span>tsx</span><button>Copy</button></div><pre>npm i @scorpionmanace/tablez</pre></div>",
+      "css": ".ds-code{border:1px solid var(--ui-line,#d5e0d0);border-radius:3px;background:var(--ui-surface-sunken,#e6eee2);overflow:hidden;max-width:420px} .ds-code-head{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;border-bottom:1px solid var(--ui-line,#d5e0d0);font-family:'Sofia Sans Extra Condensed Variable','Sofia Sans Extra Condensed','Sofia Sans Variable',sans-serif;font-size:.875rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ui-faint,#6f776c)} .ds-code-head button{font:inherit;color:var(--ui-muted,#525a50);background:none;border:0;padding:4px 8px;border-radius:3px;cursor:pointer} .ds-code-head button:hover{background:var(--ui-surface,#fbfcfa);color:var(--ui-ink,#1a2150)} .ds-code pre{margin:0;padding:16px;font-family:'JetBrains Mono Variable','JetBrains Mono',ui-monospace,monospace;font-size:.8125rem;line-height:1.625;color:var(--ui-ink-soft,#2e3340)}"
+    },
+    {
+      "name": "Section with Margin Note",
+      "kind": "custom",
+      "refersTo": "section",
+      "description": "A notebook page: 11.5rem margin column with a Kalam note beside the heading and the red double margin rule.",
+      "html": "<section class=\"ds-section\"><div class=\"ds-margin\"><p class=\"ds-note\">scope, tallied</p></div><div><h2 class=\"ds-h2\">Twelve years, in one ledger</h2><p class=\"ds-lede\">Shape the architecture, grow the people, ship.</p></div></section>",
+      "css": ".ds-section{display:grid;grid-template-columns:11.5rem 1fr;column-gap:3rem;padding:48px 24px;background-color:var(--ui-canvas,#f4f7f2);background-image:linear-gradient(to right,rgb(46 110 80/.14) 1px,transparent 1px),linear-gradient(to bottom,rgb(46 110 80/.14) 1px,transparent 1px),linear-gradient(to right,rgb(46 110 80/.07) 1px,transparent 1px),linear-gradient(to bottom,rgb(46 110 80/.07) 1px,transparent 1px);background-size:100px 100px,100px 100px,20px 20px,20px 20px} .ds-margin{border-right:3px double color-mix(in srgb,var(--ui-witness,#b3261e) 55%,transparent)} .ds-note{font-family:'Kalam','Bradley Hand',cursive;font-size:1.125rem;line-height:1.375;color:var(--ui-muted,#525a50);text-align:right;padding-right:24px;margin-top:12px;transform:rotate(-3deg)} .ds-h2{margin:0;font-family:'Sofia Sans Extra Condensed Variable','Sofia Sans Extra Condensed','Sofia Sans Variable',sans-serif;font-weight:760;font-size:2.6rem;line-height:.95;letter-spacing:-.005em;color:var(--ui-ink,#1a2150)} .ds-lede{margin-top:20px;font-family:'Sofia Sans Variable','Sofia Sans',system-ui,sans-serif;font-size:1.125rem;line-height:1.625;color:var(--ui-muted,#525a50);max-width:62ch}"
+    },
+    {
+      "name": "Taped Print",
+      "kind": "custom",
+      "refersTo": "print",
+      "description": "A photograph printed and taped in: white border, print shadow, Kalam caption in fixed dark ink.",
+      "html": "<figure class=\"ds-print\"><span class=\"ds-tape\"></span><div class=\"ds-photo\"></div><figcaption>K. Khare — runs teams, still ships code</figcaption></figure>",
+      "css": ".ds-print{position:relative;width:220px;margin:24px;padding:10.4px;background:var(--ui-print,#fff);box-shadow:0 2px 3px rgb(20 30 25/.14),0 18px 32px -16px rgb(20 30 25/.45);transform:rotate(-2.5deg)} .ds-photo{aspect-ratio:1;background:linear-gradient(135deg,#9fb3a4,#4d6b5a)} .ds-print figcaption{padding-top:12px;text-align:center;font-family:'Kalam','Bradley Hand',cursive;font-size:1.3rem;line-height:1.25;color:#1a2150} .ds-tape{position:absolute;top:-12px;left:50%;width:96px;height:28px;transform:translateX(-50%) rotate(-3deg);background:rgb(236 224 192/.86);box-shadow:0 1px 1px rgb(0 0 0/.1),0 3px 6px -3px rgb(0 0 0/.18);clip-path:polygon(2% 8%,7% 0,12% 9%,18% 2%,24% 7%,31% 0,38% 6%,45% 1%,52% 8%,59% 2%,66% 7%,73% 0,80% 6%,87% 1%,93% 8%,98% 2%,100% 50%,97% 94%,91% 100%,85% 93%,78% 99%,71% 92%,64% 100%,57% 94%,50% 99%,43% 92%,36% 100%,29% 94%,22% 99%,15% 92%,9% 100%,3% 93%,0 50%)}"
+    },
+    {
+      "name": "Current-Work Highlight",
+      "kind": "chip",
+      "refersTo": "highlight",
+      "description": "Chartreuse highlighter stroke, reserved for current work only.",
+      "html": "<p class=\"ds-hl-p\">Today I build agentic AI at AWS as a core contributor to <span class=\"ds-hl\">Amazon Quick</span>.</p>",
+      "css": ".ds-hl-p{font-family:'Sofia Sans Variable','Sofia Sans',system-ui,sans-serif;font-size:1.1875rem;line-height:1.625;color:var(--ui-ink-soft,#2e3340);max-width:34rem} .ds-hl{font-weight:600;color:var(--ui-highlight-ink,#1a2150);background-image:linear-gradient(100deg,transparent .3em,var(--ui-highlight,#dcea4a) .35em,var(--ui-highlight,#dcea4a) calc(100% - .3em),transparent calc(100% - .2em));background-size:100% 78%;background-position:0 70%;background-repeat:no-repeat;padding:0 .15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Bound Lab Notebook",
+    "overview": "**Creative North Star: \"The Bound Lab Notebook\"**\n\nThe site is one engineer's bound lab notebook lying open on a desk: dated, numbered, witnessed entries on cool white graph-ruled pages, bound in bottle-green bookcloth. Every page is a Section with the same ruled left margin, so the notebook reads as one continuous object from home page to résumé to tool. Objects get taped onto the pages: a printed portrait, index cards, a sticky note, a printout. A pen annotates the page: underlines, loops, arrows and ticks ink themselves in as they scroll into view. A red ribbon bookmark hangs from under the header and tracks how far you have read.\n\nThe type is doing the notebook's job, not a portfolio's. Sofia Sans sets the typed entries. Its Extra Condensed cut is the voice of the pre-printed pad (headers, field labels, folios, button lettering), and it carries all headlines as condensed heavy ink. Kalam is the hand that writes on the page: margin notes, dates, captions, signatures. The system deliberately refuses the cream-paper, serif-headline, mono-kicker portfolio template; there is no serif anywhere, and monospace appears only for code and data.\n\nDensity is moderate and editorial: wide bands (64–96px vertical), a fixed 11.5rem margin column on desktop, measure capped at 60–62ch for ledes. Light theme is the notebook by day; dark is the same desk at night: the page dims to green-black, the ink lightens to pale blue, the cloth goes nearly black.",
+    "keyCharacteristics": [
+      "Bottle-green bookcloth bands (hero backdrop, spotlight, closing CTA, footer) alternate with graph-ruled paper bands.",
+      "A red double margin rule down the left of every paper band on desktop.",
+      "Condensed heavy headlines in blue-black ink; handwritten Kalam only for things a hand wrote.",
+      "Physical objects (prints, tape, index cards, sticky notes) with real paper shadows and slight rotations.",
+      "Chartreuse highlighter marks only current work.",
+      "Near-square corners throughout; motion is pen strokes, weighted springs and wide-screen parallax."
+    ],
+    "rules": [
+      {
+        "name": "The Current-Work Highlighter Rule",
+        "body": "Chartreuse marks current work only: Amazon Quick in the hero, the current employer in Entries and on About, the \"Agentic\" card in the spotlight arc, the \"Now\" sticky note. Apart from text selection, it never appears as decoration on older work.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cloth Owns the Band Rule",
+        "body": "Bookcloth fills a full-width band or the hero backdrop. It is never a card, a pill or a button fill.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fixed Ink on Objects Rule",
+        "body": "Text printed or written on a physical object (the portrait caption, index cards) uses fixed dark ink (#1a2150 heading, #2e3340 body, #525a50 hand) whatever the theme, because the object is the same paper in both. Pen marks drawn directly on cloth use the cloth tone (cloth-muted) so they don't vanish.",
+        "section": "colors"
+      },
+      {
+        "name": "The Margin, Not the Kicker Rule",
+        "body": "No label sits above a heading. A short orienting note goes in the 11.5rem left margin column beside the heading, handwritten in Kalam, rotated about -3°, right-aligned, and shown on desktop only (`lg`). On smaller screens it is dropped, not moved on top of the heading.",
+        "section": "typography"
+      },
+      {
+        "name": "The Pre-Printed Label Rule",
+        "body": "Uppercase condensed label lettering is only for things printed on the pad: field labels, table column heads, breadcrumbs, folios, sign-off captions. It never works as a section kicker.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hand Is a Hand Rule",
+        "body": "Kalam is used only for text a person wrote on the page: margin notes, dates in the margin, photo captions, sticky notes, the \"not built yet\" notes, the signature and last-entry date, filled-in form values. It is never used for navigation, buttons or body copy.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono Is Data Rule",
+        "body": "JetBrains Mono appears only for code, package names, identifiers, hex values and machine output. It is never a stylistic label.",
+        "section": "typography"
+      },
+      {
+        "name": "The Objects Lift, Pages Don't Rule",
+        "body": "Shadows belong to things placed on the page (prints, cards, notes, sheets) and to the spread lying on the cloth. A plain band or a list row never gets a shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Multiplane Rule",
+        "body": "Parallax goes through `useMultiplane` only. The hero uses `rest: 'start'` so its planes sit in their composed position at load. Mid-page scenes (spotlight index cards, the tablez printout) use `rest: 'center'`. Depth is negative behind the page, positive in front. Scale is 0 (no movement) below 1024px and under `prefers-reduced-motion`. Planes ride a spring (stiffness 120, damping 24, mass 0.6).",
+        "section": "elevation"
+      },
+      {
+        "name": "The Near-Square Rule",
+        "body": "Corners are 3px (paper) or 4px (controls). Use `rounded-full` only for a genuinely circular mark, never for a pill, a chip or a track.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** build every band as a Section with a tone, so the margin column and red margin rule stay continuous.",
+      "**Do** put orienting notes in the 11.5rem margin column in Kalam, rotated about -3°, desktop only.",
+      "**Do** keep chartreuse for current work: Amazon Quick, the current role and employer, \"Agentic\", \"Now\".",
+      "**Do** use the pre-printed label style only for field labels, table heads, breadcrumbs and folios.",
+      "**Do** set text on prints, index cards and sticky notes in fixed dark ink, and pen marks on cloth with `tone=\"cloth\"`.",
+      "**Do** use 3px corners for paper and wells and 4px for controls, with 1.5px inked strokes on controls.",
+      "**Do** drive parallax only through `useMultiplane`: `'start'` for the hero, `'center'` mid-page, still below 1024px and under reduced motion.",
+      "**Do** draw icons from `Icon.tsx` (or the same 1.75-stroke round-cap spec).",
+      "**Do** keep monospace for code and data only."
+    ],
+    "donts": [
+      "**Don't** place a kicker or eyebrow label above a heading.",
+      "**Don't** use highlighter on past roles, generic emphasis or decoration.",
+      "**Don't** use unicode glyphs (▶ ⌘ → ✓ ×) as icons.",
+      "**Don't** use pills or `rounded-full` on anything that isn't a genuinely circular mark.",
+      "**Don't** introduce a serif, a system display face, or monospace labels. The cream-serif-and-mono-kicker portfolio template is the anti-reference.",
+      "**Don't** make bookcloth into a card or chip; it owns whole bands.",
+      "**Don't** give flat bands or list rows shadows; only objects lying on the page lift.",
+      "**Don't** let parallax run on phones or under reduced motion."
+    ]
+  }
+}

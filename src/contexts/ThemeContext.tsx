@@ -24,50 +24,50 @@ interface ThemeProviderProps {
   children: React.ReactNode;
 }
 
+const readStoredTheme = (): Theme => {
+  try {
+    const stored = localStorage.getItem('theme');
+    return stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+  } catch {
+    return 'system';
+  }
+};
+
+const resolve = (theme: Theme): 'light' | 'dark' =>
+  theme === 'system'
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
+    : theme;
+
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('system');
-  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
-
-  const updateCurrentTheme = (newTheme: Theme) => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    let resolvedTheme: 'light' | 'dark';
-
-    if (newTheme === 'system') {
-      resolvedTheme = prefersDark ? 'dark' : 'light';
-    } else {
-      resolvedTheme = newTheme;
-    }
-
-    setCurrentTheme(resolvedTheme);
-    document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
-    localStorage.setItem('theme', newTheme);
-  };
+  // Read storage synchronously. The previous version started at 'system' and
+  // applied it in an effect on mount, which overwrote the saved choice in
+  // localStorage and flashed the wrong theme before the saved one landed.
+  const [theme, setTheme] = useState<Theme>(readStoredTheme);
+  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>(() => resolve(readStoredTheme()));
+  const isInitialized = true;
 
   useEffect(() => {
-    const savedTheme = (localStorage.getItem('theme') as Theme) || 'system';
-    setTheme(savedTheme);
-
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => {
-      if (savedTheme === 'system') {
-        updateCurrentTheme('system');
-      }
+    const apply = () => {
+      const resolved = resolve(theme);
+      setCurrentTheme(resolved);
+      document.documentElement.classList.toggle('dark', resolved === 'dark');
     };
 
-    mediaQuery.addEventListener('change', handleChange);
+    apply();
+    try {
+      localStorage.setItem('theme', theme);
+    } catch {
+      /* Storage can be unavailable (private mode); the theme still applies. */
+    }
 
-    updateCurrentTheme(savedTheme);
+    if (theme !== 'system') return undefined;
 
-    // Mark as initialized after the first setup
-    setIsInitialized(true);
-
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  useEffect(() => {
-    updateCurrentTheme(theme);
+    // Follow the OS only while the visitor has not chosen explicitly.
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', apply);
+    return () => mediaQuery.removeEventListener('change', apply);
   }, [theme]);
 
   const toggleTheme = () => {
